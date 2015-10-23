@@ -1,0 +1,9 @@
+<h1>New Product Category</h1>
+<form>
+  <fieldset class="form-group">
+    <label for="title">Title</label>
+    <input class="form-control" type="text" id="name" name="name" ng-model="categoryone.name">
+  </fieldset>
+
+  <input type="submit" value="{{isSubmitting ? 'saving...' : 'Save'}}" class="btn btn-default" ng-click="saveCategoryOne(categoryone)" ng-disabled="isSubmitting">
+</form>

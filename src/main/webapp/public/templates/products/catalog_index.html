@@ -1,0 +1,16 @@
+<h1><a class="btn btn-default" href="#/product_catalog/create" ng-show="authority==='ADMIN'">New Product Catalog</a></h1>
+
+<div class="form-group">
+  Search: <input type='text' ng-model="search.input.$">
+</div>
+<!-- <nw-category-selector ng-model="search.category"></nw-category-selector>
+ -->
+<div class="row">
+  <div ng-repeat="categoryone in categoryones" class="col-sm-3">
+    <h2><a title="{{categoryone.name}}" ng-href="#/product_catalog/{{categoryone.id}}">{{categoryone.name}}</a></h2>
+    <p>blabla</p>
+    <p><span class="label label-info">{{categoryone.name}}</span></p>
+  </div>
+</div>
+
+

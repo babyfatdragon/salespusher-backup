@@ -1,0 +1,10 @@
+<h1>Users Information</h1>
+<div>			
+<button type="button" ng-click="getCurrentUser()" class="btn">Get current user!</button>	
+</div>
+
+<ul>
+	<li ng-repeat="user in users">{{user.id}}: {{user.firstname}} {{user.lastname}}</li>
+</ul>
+
+

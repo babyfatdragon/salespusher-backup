@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Hello AngularJS</title>
+		<script src="js/angular-bootstrap.js" type="text/javascript"></script>
+		<link href="css/angular-bootstrap.css" rel="stylesheet">
+		<style type="text/css">
+		[ng\:cloak], [ng-cloak], .ng-cloak {
+			display: none !important;
+		}
+		</style>
+	</head>
+	
+	<body ng-app="salespusher" ng-cloak class="ng-cloak">
+		<div ng-controller="NavigationCtrl as panel" class="container">
+			<ul class="nav nav-pills" role="tablist">
+				<li ng-class="{active: panel.isSelected(1)}"><a href="#/" ng-click="panel.selectTab(1)">home</a></li>
+				<li ng-class="{active: panel.isSelected(2)}"><a href="#/users" ng-click="panel.selectTab(2)" ng-show="authenticated">users</a></li>
+				<li ng-class="{active: panel.isSelected(3)}"><a href="#/product_catalog" ng-click="panel.selectTab(3)" ng-show="authenticated">product catalog</a></li>
+				<li ng-class="{active: panel.isSelected(4)}"><a href="#/login" ng-click="panel.selectTab(4)" ng-hide="authenticated">login</a></li>
+				<li ng-show="authenticated"><a href="" ng-click="logout()">logout</a></li>
+			</ul>
+		</div>
+		<div ng-view class="container">
+		</div>
+		
+		<!-- App -->
+		<script src="js/app.js"></script>
+		<script src="js/routes.js"></script>		
+		
+		<!-- Resources -->
+		<script src="js/resources/main.js"></script>		
+		<script src="js/resources/user-resources.js"></script>
+		<script src="js/resources/product-resources.js"></script>	
+		<script src="js/resources/categoryone-resources.js"></script>		
+		<script src="js/resources/categorytwo-resources.js"></script>
+		<!-- Controllers -->
+		<script src="js/controllers/main.js"></script>
+		<script src="js/controllers/home-controller.js"></script>
+		<script src="js/controllers/navigation-controller.js"></script>
+		<script src="js/controllers/users-controller.js"></script>
+		<script src="js/controllers/catalog-index-controller.js"></script>
+		<script src="js/controllers/catalog-create-controller.js"></script>
+		<script src="js/controllers/categories-index-controller.js"></script>
+		<script src="js/controllers/products-index-controller.js"></script>	
+		
+		<!-- Directives -->
+		<script src="js/directives/main.js"></script>
+		<script src="js/directives/product-card.js"></script>		
+	</body>
+</html>

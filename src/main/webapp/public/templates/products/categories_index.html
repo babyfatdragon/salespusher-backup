@@ -1,0 +1,8 @@
+<h1>{{categoryone.name}}</h1>
+<div class="row">
+  <div ng-repeat="categorytwo in categorytwos" class="col-sm-3">
+    <h2><a title="{{categorytwo.name}}" ng-href="#/product_catalog/{{categoryone.id}}/categories/{{categorytwo.id}}/products">{{categorytwo.name}}</a></h2>
+    <p>blabla</p>
+    <p><span class="label label-info">{{categorytwo.name}}</span></p>
+  </div>
+</div>

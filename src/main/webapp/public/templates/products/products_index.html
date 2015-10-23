@@ -1,0 +1,13 @@
+<h1>{{categorytwo.name}}</h1>
+<div class="row">
+  <div ng-repeat="product in products" class="col-sm-3">
+    <h2><a title="{{product.name}}">{{product.name}}</a></h2>
+    <p><span class="label label-info">{{product.name}}</span></p>
+  </div>
+</div>
+
+<a class="card-products" ng-repeat="product in products"">
+  <product-card header="product.name" 
+  id="product.id"></product-card>
+</a>
+      
