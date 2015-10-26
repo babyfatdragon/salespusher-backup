@@ -30,6 +30,10 @@
 			templateUrl: 'templates/products/products_index.html',
 			controller: 'ProductsIndexCtrl'
 		})
+		.when('/product_catalog/:categoryOneId/categories/:categoryTwoId/products/:id',{
+			templateUrl: 'templates/products/product_show.html',
+			controller: 'ProductShowCtrl'
+		})
 		.otherwise('/');
 		
 		/* disable basic http authentication dialog */

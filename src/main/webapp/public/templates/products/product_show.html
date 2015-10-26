@@ -1,0 +1,21 @@
+<div class="row">
+	<h2>{{product.name}}</h2>
+	<hr />
+  	<div style="height: 305px">
+    	<uib-carousel interval="myInterval" no-wrap="noWrapSlides">
+      		<uib-slide ng-repeat="slide in slides" active="slide.active">
+	        	<img ng-src="{{slide.image}}" style="margin:auto;">
+       	        <div class="carousel-caption">
+          			<h4>Slide {{$index+1}}</h4>
+	          		<p>{{slide.text}}</p>
+	    	    </div>
+      		</uib-slide>
+	    </uib-carousel>
+  	</div>
+	<hr />
+  	<uib-tabset justified="true">
+    	<uib-tab heading="Overview">{{product.overview}}</uib-tab>
+    	<uib-tab heading="Technology">{{product.technology}}</uib-tab>
+    	<uib-tab heading="SPecification">{{product.specification}}</uib-tab>
+  </uib-tabset>
+</div>
