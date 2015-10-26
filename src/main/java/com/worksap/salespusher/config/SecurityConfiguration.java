@@ -27,16 +27,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests().antMatchers("/webjars/**").permitAll();
 		http
-		.httpBasic().and()
+/*		.httpBasic().and()*/
+		.formLogin().and()
 		.authorizeRequests()
 		.antMatchers("/index.html", "/templates/partials/_home.html", "/templates/partials/_login.html", "/templates/partials/_users.html", "/").permitAll().anyRequest()
 		.authenticated().and()
-		
-		.formLogin()
-		.loginPage("/login").failureUrl("/login")
-		.usernameParameter("username").permitAll().and()
-		
+
+
 		.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
 		.csrf().csrfTokenRepository(csrfTokenRepository());
 	}

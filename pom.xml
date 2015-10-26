@@ -21,12 +21,11 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<wro4j.version>1.7.6</wro4j.version>
 		<jquery.version>2.1.4</jquery.version>
 		<bootstrap.version>3.3.4</bootstrap.version>
 		<angularjs.version>1.4.7</angularjs.version>
 		<mysql-connector-java.version>5.1.37</mysql-connector-java.version>
-		<angular-ui-bootstrap.version>0.14.0</angular-ui-bootstrap.version>
+		<angular-ui-bootstrap-bower.version>0.14.3</angular-ui-bootstrap-bower.version>
 	</properties>
 
 	<dependencies>
@@ -58,16 +57,45 @@
 		   <artifactId>mysql-connector-java</artifactId>
 		   <version>${mysql-connector-java.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>jquery</artifactId>
+			<version>${jquery.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>angularjs</artifactId>
+			<version>${angularjs.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-route</artifactId>
+		    <version>${angularjs.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-resource</artifactId>
+		    <version>${angularjs.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-cookies</artifactId>
+		    <version>${angularjs.version}</version>
+		</dependency>
+		<dependency>
+		 	<groupId>org.webjars.bower</groupId>
+		 	<artifactId>bootstrap</artifactId>
+	 		<version>${bootstrap.version}</version>
+		</dependency>
+		<dependency>
+		 	<groupId>org.webjars.bower</groupId>
+		 	<artifactId>angular-ui-bootstrap-bower</artifactId>
+	 		<version>${angular-ui-bootstrap-bower.version}</version>
+		</dependency>
 	</dependencies>
 	
 	<build>
 		<resources>
-			<resource>
-	   			<directory>${project.basedir}/src/main/resources</directory>
-	    	</resource>
-	    	<resource>
-	     		<directory>${project.build.directory}/generated-resources</directory>
-	   		</resource>
 		    <resource>
 			<directory>src/main/resources</directory>
 		    </resource>
@@ -94,71 +122,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-      			<artifactId>maven-resources-plugin</artifactId>
-      			<executions>
-       				<execution>
-          				<!-- Serves *only* to filter the wro.xml so it can get an absolute path for the project -->
-          				<id>copy-resources</id>
-          				<phase>validate</phase>
-          				<goals>
-            				<goal>copy-resources</goal>
-          				</goals>
-          				<configuration>
-            				<outputDirectory>${basedir}/target/wro</outputDirectory>
-           					<resources>
-              					<resource>
-                					<directory>src/main/wro</directory>
-               						<filtering>true</filtering>
-             					</resource>
-            				</resources>
-        				</configuration>
-        			</execution>
-      			</executions>
-   			</plugin>
-    		<plugin>
-    			<groupId>ro.isdc.wro4j</groupId>
-     			<artifactId>wro4j-maven-plugin</artifactId>
-      			<version>${wro4j.version}</version>
-      			<executions>
-        			<execution>
-          				<phase>generate-resources</phase>
-          				<goals>
-            				<goal>run</goal>
-          				</goals>
-       				</execution>
-   				</executions>
-      			<configuration>
-        			<wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
-        			<cssDestinationFolder>${project.build.directory}/generated-resources/static/css</cssDestinationFolder>
-        			<jsDestinationFolder>${project.build.directory}/generated-resources/static/js</jsDestinationFolder>
-   		   			<wroFile>${project.build.directory}/wro/wro.xml</wroFile>
-        			<extraConfigFile>${basedir}/src/main/wro/wro.properties</extraConfigFile>
-        			<contextFolder>${basedir}/src/main/wro</contextFolder>
-      			</configuration>
-      			<dependencies>
-        			<dependency>
-          				<groupId>org.webjars</groupId>
-          				<artifactId>jquery</artifactId>
-          				<version>${jquery.version}</version>
-        			</dependency>
-        			<dependency>
-          				<groupId>org.webjars</groupId>
-          				<artifactId>angularjs</artifactId>
-          				<version>${angularjs.version}</version>
-        			</dependency>
-        			<dependency>
-          				 <groupId>org.webjars</groupId>
-          				 <artifactId>bootstrap</artifactId>
-         				 <version>${bootstrap.version}</version>
-        			</dependency>
-					<dependency>
-						 <groupId>org.webjars</groupId>
-						 <artifactId>angular-ui-bootstrap</artifactId>
-         				 <version>${angular-ui-bootstrap.version}</version>
-        			</dependency>  					
-      			</dependencies>
-    		</plugin>
 		</plugins>
 	</build>
 </project>

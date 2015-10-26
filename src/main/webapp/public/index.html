@@ -2,8 +2,14 @@
 <html>
 	<head>
 		<title>Hello AngularJS</title>
-		<script src="js/angular-bootstrap.js" type="text/javascript"></script>
-		<link href="css/angular-bootstrap.css" rel="stylesheet">
+		<script type="text/javascript" src="webjars/jquery/${jquery.version}/dist/jquery.min.js"></script>
+		<script type="text/javascript" src="webjars/bootstrap/${bootstrap.version}/dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="webjars/angularjs/${angularjs.version}/angular.min.js"></script>
+		<script type="text/javascript" src="webjars/angular-route/${angularjs.version}/angular-route.min.js"></script>
+		<script type="text/javascript" src="webjars/angular-cookies/${angularjs.version}/angular-cookies.min.js"></script>		
+		<script type="text/javascript" src="webjars/angular-resource/${angularjs.version}/angular-resource.min.js"></script>
+		<script type="text/javascript" src="webjars/angular-ui-bootstrap-bower/${angular-ui-bootstrap-bower.version}/ui-bootstrap-tpls.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="webjars/bootstrap/${bootstrap.version}/dist/css/bootstrap.min.css"></link>
 		<style type="text/css">
 		[ng\:cloak], [ng-cloak], .ng-cloak {
 			display: none !important;
@@ -27,7 +33,7 @@
 		<!-- App -->
 		<script src="js/app.js"></script>
 		<script src="js/routes.js"></script>		
-		
+
 		<!-- Resources -->
 		<script src="js/resources/main.js"></script>		
 		<script src="js/resources/user-resources.js"></script>

@@ -11,40 +11,43 @@
 		}
 				
 		/*authentication, login & logut*/
-		var authenticate = function(credentials, callback) {
-			var headers = credentials ? {authorization : "Basic " + btoa(credentials.username + ":" + credentials.password)} : {};
-			$http.get('user', {headers : headers}).success(function(data) {
-			if (data.name) {
-				$rootScope.authenticated = true;
-			} else {
-				$rootScope.authenticated = false;
-			}
-			callback && callback();
-			})
-			.error(function() {
-				$rootScope.authenticated = false;
+		var authenticate = function(callback) {
+			$http.get('user').success(function(data) {
+				if (data.name) {
+					$rootScope.authenticated = true;
+		        	/* set $rootScope authority */
+					$http.get('/user', {}).success(function(data){
+		        		$rootScope.authority = data.authorities[0].authority;
+		        	});
+				} else {
+					$rootScope.authenticated = false;
+				}
 				callback && callback();
-			});
-		}
+		    }).error(function() {
+		    	$rootScope.authenticated = false;
+		    	callback && callback();
+		    });
+		}		
 	    authenticate();
 	    $scope.credentials = {};
 	    $scope.login = function() {
-	    	authenticate($scope.credentials, function() {
-	        if ($rootScope.authenticated) {
-	        	/* set $rootScope authority */
-	        	$http.get('/user', {}).success(function(data){
-	        		$rootScope.authority = data.authorities[0].authority;
+	        $http.post('login', $.param($scope.credentials), {
+	          headers : {"content-type" : "application/x-www-form-urlencoded"}
+	        }).success(function(data) {
+	        	authenticate(function() {
+	        		if ($rootScope.authenticated) {
+	        			$location.path("/");
+	        			$scope.error = false;
+		            } else {
+		            	$location.path("/login");
+		            	$scope.error = true;
+		            }
 	        	});
-
-	        	console.log("login succeeded");
-	        	$location.path("/");
-	        	$scope.error = false;
-	        } else {
-	        	console.log("login failed");
+	        }).error(function(data) {s
 	        	$location.path("/login");
-	        	$scope.error = true;
-	        }
-	    	});
+	          	$scope.error = true;
+	          	$rootScope.authenticated = false;
+	        })
 	    };
 	    $scope.logout = function() {
 	    	$http.post('logout', {}).success(function() {
