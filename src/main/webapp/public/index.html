@@ -9,7 +9,13 @@
 		<script type="text/javascript" src="webjars/angular-cookies/${angularjs.version}/angular-cookies.min.js"></script>		
 		<script type="text/javascript" src="webjars/angular-resource/${angularjs.version}/angular-resource.min.js"></script>
 		<script type="text/javascript" src="webjars/angular-ui-bootstrap-bower/${angular-ui-bootstrap-bower.version}/ui-bootstrap-tpls.min.js"></script>
+		<script type="text/javascript" src="webjars/angular-modal-service/${angular-modal-service.version}/dst/angular-modal-service.min.js"></script>
+		<script type="text/javascript" src="webjars/ng-file-upload/${ng-file-upload.version}/ng-file-upload-all.min.js"></script>		
+		<script type="text/javascript" src="webjars/ng-file-upload/${ng-file-upload.version}/ng-file-upload-shim.min.js"></script>		
+	
 		<link rel="stylesheet" type="text/css" href="webjars/bootstrap/${bootstrap.version}/dist/css/bootstrap.min.css"></link>
+		<link rel="stylesheet" type="text/css" href="css/main.css"></link>
+		
 		<style type="text/css">
 		[ng\:cloak], [ng-cloak], .ng-cloak {
 			display: none !important;
@@ -27,6 +33,7 @@
 				<li ng-show="authenticated"><a href="" ng-click="logout()">logout</a></li>
 			</ul>
 		</div>
+		<hr />
 		<div ng-view class="container">
 		</div>
 		
@@ -48,11 +55,15 @@
 		<script src="js/controllers/catalog-index-controller.js"></script>
 		<script src="js/controllers/catalog-create-controller.js"></script>
 		<script src="js/controllers/categories-index-controller.js"></script>
+		<script src="js/controllers/category-create-controller.js"></script>		
 		<script src="js/controllers/products-index-controller.js"></script>	
-		<script src="js/controllers/product-show-controller.js"></script>	
+		<script src="js/controllers/product-show-controller.js"></script>
+		<script src="js/controllers/product-create-controller.js"></script>				
 		
+		<script src="js/controllers/modal-dialog-controller.js"></script>
+
 		<!-- Directives -->
 		<script src="js/directives/main.js"></script>
-		<script src="js/directives/sp-product-card.js"></script>		
+		<script src="js/directives/sp-product-card.js"></script>
 	</body>
 </html>

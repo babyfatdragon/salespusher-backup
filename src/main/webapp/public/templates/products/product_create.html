@@ -1,0 +1,33 @@
+<h1>New Product</h1>
+<form name="productCreationForm" class="form col-md-6" ng-submit="productCreationForm.$valid && popSaveConfirmationDialog(product)" novalidate>
+   	<fieldset class="form-field">
+   	    <label class="form-label" for="catalog">Catalog</label>
+        <select class="form-control" name='catalog' ng-model='product.categoryOneId' ng-options='categoryone.id as categoryone.name for categoryone in categoryones' required></select>
+  	</fieldset>
+ 	
+ 	<fieldset class="form-field">
+   	    <label class="form-label" for="category">Category</label>
+        <select class="form-control" name='category' ng-model='product.categoryTwoId' ng-options='categorytwo.id as categorytwo.name for categorytwo in categorytwos' required></select>
+  	</fieldset>
+	
+	<fieldset class="form-group">
+    	<label for="title">Name</label>
+	    <input class="form-control" type="text" id="name" name="name" ng-model="product.name" required/>
+  	</fieldset>
+ 	<fieldset class="form-group">
+    	<label for="title">Overview</label>
+	    <textarea class="form-control" type="text" id="overview" name="overview" ng-model="product.overview" required></textarea>
+  	</fieldset>
+  		<fieldset class="form-group">
+    	<label for="title">Technology</label>
+	    <textarea class="form-control" type="text" id="technology" name="technology" ng-model="product.technology" required></textarea>
+  	</fieldset>
+  		<fieldset class="form-group">
+    	<label for="title">Specification</label>
+	    <textarea class="form-control" type="text" id="specification" name="specification" ng-model="product.specification" required></textarea>
+  	</fieldset>
+	<button type="submit" value="Submit" class="btn btn-default btn-md">Save</button>
+</form>
+
+
+

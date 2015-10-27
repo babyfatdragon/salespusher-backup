@@ -1,6 +1,6 @@
 (function(){
 	angular.module("salespusher.resources").factory("Product", function ProductFactory($resource) {  
-		return $resource("/products/:id", {}, {});
+		return $resource("/products/:id", {}, {});	
 	});
 	
 	angular.module("salespusher.resources").factory("CategoryProduct", function CategoryProductFactory($resource){

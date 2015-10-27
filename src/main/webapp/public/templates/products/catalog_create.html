@@ -1,9 +1,11 @@
-<h1>New Product Category</h1>
-<form>
-  <fieldset class="form-group">
-    <label for="title">Title</label>
-    <input class="form-control" type="text" id="name" name="name" ng-model="categoryone.name">
-  </fieldset>
-
-  <input type="submit" value="{{isSubmitting ? 'saving...' : 'Save'}}" class="btn btn-default" ng-click="saveCategoryOne(categoryone)" ng-disabled="isSubmitting">
+<h1>New Catalog</h1>
+<form name="catalogCreationForm" class="form col-md-6" ng-submit="catalogCreationForm.$valid && popSaveConfirmationlDialog(categoryone)" novalidate>
+	<fieldset class="form-group">
+    	<label for="title">Name</label>
+	    <input class="form-control" type="text" id="name" name="name" ng-model="categoryone.name" required/>
+  	</fieldset>
+	<button type="submit" value="Submit" class="btn btn-default btn-md">Save</button>
 </form>
+
+
+

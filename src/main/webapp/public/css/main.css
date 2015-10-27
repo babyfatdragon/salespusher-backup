@@ -1,0 +1,16 @@
+/* remove all round corners */
+* {
+  border-radius: 0 !important;
+}
+/* set all text in form bold */
+form {
+    font-weight: bold;
+}
+
+.ng-invalid.ng-dirty {
+border-color: #FA787E;
+}
+
+.ng-valid.ng-dirty {
+border-color: #78FA89;
+}

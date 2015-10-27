@@ -30,7 +30,7 @@ public class CategoryOneController {
 	
 	@RequestMapping(value = "/categoryones", method = RequestMethod.POST)
 	@PreAuthorize("isAuthenticated()")
-	public CategoryOneEntity create(@RequestBody CategoryOneEntity categoryOne) {
+	public CategoryOneEntity createCategoryOne(@RequestBody CategoryOneEntity categoryOne) {
 	return this.categoryOneRepository.save(categoryOne);
 	}	
 	

@@ -1,6 +1,7 @@
 (function(){
-	angular.module('salespusher.controllers').controller('ProductShowCtrl',['$scope','$http', '$routeParams', 'CategoryTwo','CategoryProduct','Product',function($scope,$http,$routeParams,CategoryTwo,CategoryProduct,Product){	
-		$scope.categorytwo = CategoryTwo.get({id: $routeParams.categoryTwoId});
+	angular.module('salespusher.controllers').controller('ProductShowCtrl',['$scope','$http', '$routeParams','CategoryOne','CategoryTwo','CategoryProduct','Product',function($scope,$http,$routeParams,CategoryOne,CategoryTwo,CategoryProduct,Product){	
+		$scope.categoryone = CategoryOne.get({id:$routeParams.categoryOneId});
+		$scope.categorytwo = CategoryTwo.get({categoryOneId:$routeParams.categoryOneId,id:$routeParams.categoryTwoId});
 		Product.get({id:$routeParams.id}).$promise.then(function(product){
 			$scope.product = product;
 			$scope.product.text = "test";

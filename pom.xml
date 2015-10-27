@@ -26,6 +26,8 @@
 		<angularjs.version>1.4.7</angularjs.version>
 		<mysql-connector-java.version>5.1.37</mysql-connector-java.version>
 		<angular-ui-bootstrap-bower.version>0.14.3</angular-ui-bootstrap-bower.version>
+		<angular-modal-service.version>0.6.9</angular-modal-service.version>
+		<ng-file-upload.version>9.1.1</ng-file-upload.version>
 	</properties>
 
 	<dependencies>
@@ -91,6 +93,16 @@
 		 	<groupId>org.webjars.bower</groupId>
 		 	<artifactId>angular-ui-bootstrap-bower</artifactId>
 	 		<version>${angular-ui-bootstrap-bower.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.npm</groupId>
+		    <artifactId>angular-modal-service</artifactId>
+		    <version>${angular-modal-service.version}</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.webjars.bower</groupId>
+    		<artifactId>ng-file-upload</artifactId>
+    		<version>${ng-file-upload.version}</version>
 		</dependency>
 	</dependencies>
 	

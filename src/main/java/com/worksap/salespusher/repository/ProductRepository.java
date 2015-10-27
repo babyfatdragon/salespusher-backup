@@ -8,6 +8,6 @@ import com.worksap.salespusher.entity.ProductEntity;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     ProductEntity findById(long id);
-	List<ProductEntity> findBySecondCategory(int categoryTwoId);
+	List<ProductEntity> findByCategoryTwoId(int categoryTwoId);
 
 }

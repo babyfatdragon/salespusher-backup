@@ -1,7 +1,7 @@
+<h1>{{categoryone.name}}</h1>
 <h1>{{categorytwo.name}}</h1>
-<div class="row">
+<div class="row row-fluid">
 	<a ng-repeat="product in products" ng-href="#/product_catalog/{{categoryone.id}}/categories/{{categorytwo.id}}/products/{{product.id}}">
-	  <product-card header="product.name" 
-	  id="product.id"></product-card>
+	  <product-card header="product.name" id="product.id"></product-card>
 	</a>
 </div>

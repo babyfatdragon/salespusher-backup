@@ -19,9 +19,20 @@
 			controller: 'CatalogIndexCtrl'
 		})
 		.when('/product_catalog/create',{
+			templateUrl: '/templates/products/create.html',
+		})
+		.when('/product_catalog/create/catalog',{
 			templateUrl: '/templates/products/catalog_create.html',
 			controller: 'CatalogCreateCtrl'
 		})
+		.when('/product_catalog/create/category',{
+			templateUrl: '/templates/products/category_create.html',
+			controller: 'CategoryCreateCtrl'
+		})
+		.when('/product_catalog/create/product',{
+			templateUrl: '/templates/products/product_create.html',
+			controller: 'ProductCreateCtrl'
+		})		
 		.when('/product_catalog/:categoryOneId',{
 			templateUrl: 'templates/products/categories_index.html',
 			controller: 'CategoriesIndexCtrl'
