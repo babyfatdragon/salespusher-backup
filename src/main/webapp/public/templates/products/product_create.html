@@ -29,9 +29,9 @@
   		<button type="submit" value="Submit" class="btn btn-default btn-md" ng-disabled="!productCreationForm.$valid">Save</button>
 </form>	
 
-<sp-file-upload file-type="Image" upload-url="/files/images/upload"></sp-file-upload>
+<sp-file-upload file-type="Image" upload-url="/files/images/upload" product-id="product.id" ng-show="readyForUploading"></sp-file-upload>
 
-<sp-file-upload file-type="Document" upload-url="/files/docs/upload"></sp-file-upload>
+<sp-file-upload file-type="Document" upload-url="/files/docs/upload" product-id="product.id" ng-show="readyForUploading"></sp-file-upload>
 
     
 

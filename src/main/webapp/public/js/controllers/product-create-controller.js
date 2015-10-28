@@ -21,8 +21,12 @@
 				modal.element.modal();
 				modal.close.then(function(result) {
 					if(result){
-						$scope.product.$save().then(function(){
-							$route.reload();
+						$scope.product.$save().then(function(data){
+							console.log("WATCHME:"+JSON.stringify(data,2,null));
+							$scope.productId = data.id;
+							console.log($scope.productId);
+							$scope.readyForUploading = true;
+							//$route.reload();
 						})
 						.finally(function(){});
 					}
