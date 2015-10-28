@@ -1,5 +1,5 @@
 (function(){
-	angular.module('salespusher.controllers').controller('ProductCreateCtrl',['$scope','$http','$route','ModalService','CategoryOne','CategoryTwo','Product', function($scope,$http,$route,ModalService,CategoryOne,CategoryTwo,Product){
+	angular.module('salespusher.controllers').controller('ProductCreateCtrl',['$scope','$http','$route','$cookies','ModalService','CategoryOne','CategoryTwo','Product','FileUploader',function($scope,$http,$route,$cookies,ModalService,CategoryOne,CategoryTwo,Product,FileUploader){
 		$scope.product = new Product();
 		$scope.categoryones = CategoryOne.query();
 		$scope.categorytwos = [];
@@ -8,7 +8,7 @@
 			$scope.categorytwos = CategoryTwo.query({categoryOneId: $scope.product.categoryOneId});
 		});
 		
-		$scope.popSaveConfirmationDialog = function() {		
+		$scope.popSaveConfirmationDialog = function() {
 		    ModalService.showModal({
 		    	templateUrl: "templates/partials/modal-dialog.html",
 		    	controller: "ModalDialogController",

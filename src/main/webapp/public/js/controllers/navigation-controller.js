@@ -36,6 +36,7 @@
 	        }).success(function(data) {
 	        	authenticate(function() {
 	        		if ($rootScope.authenticated) {
+	    	    		console.log("login succeeded");
 	        			$location.path("/");
 	        			$scope.error = false;
 		            } else {

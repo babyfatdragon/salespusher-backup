@@ -1,5 +1,5 @@
 (function(){
-	angular.module('salespusher.controllers').controller('CategoryCreateCtrl', ['$scope','$http','$route','CategoryOne','CategoryTwo','ModalService', function($scope,$http,$route,CategoryOne,CategoryTwo,ModalService){
+	angular.module('salespusher.controllers').controller('CategoryCreateCtrl', ['$scope','$http','$route','CategoryOne','CategoryTwo','ModalService',function($scope,$http,$route,CategoryOne,CategoryTwo,ModalService){
 		$scope.categoryones = CategoryOne.query();
 		$scope.categorytwo = new CategoryTwo();
 		

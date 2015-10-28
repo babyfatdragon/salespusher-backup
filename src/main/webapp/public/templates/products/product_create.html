@@ -26,8 +26,16 @@
     	<label for="title">Specification</label>
 	    <textarea class="form-control" type="text" id="specification" name="specification" ng-model="product.specification" required></textarea>
   	</fieldset>
-	<button type="submit" value="Submit" class="btn btn-default btn-md">Save</button>
-</form>
+  		<button type="submit" value="Submit" class="btn btn-default btn-md" ng-disabled="!productCreationForm.$valid">Save</button>
+</form>	
 
+<sp-file-upload file-type="Image" upload-url="/files/images/upload"></sp-file-upload>
+
+<sp-file-upload file-type="Document" upload-url="/files/docs/upload"></sp-file-upload>
+
+    
+
+
+            
 
 

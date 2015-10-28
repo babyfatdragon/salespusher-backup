@@ -4,7 +4,7 @@
     	<label for="title">Name</label>
 	    <input class="form-control" type="text" id="name" name="name" ng-model="categoryone.name" required/>
   	</fieldset>
-	<button type="submit" value="Submit" class="btn btn-default btn-md">Save</button>
+	<button type="submit" value="Submit" class="btn btn-default btn-md" ng-disabled="!catalogCreationForm.$valid">Save</button>
 </form>
 
 

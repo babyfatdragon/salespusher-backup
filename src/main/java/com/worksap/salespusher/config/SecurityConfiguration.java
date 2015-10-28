@@ -34,8 +34,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.authorizeRequests()
 		.antMatchers("/index.html", "/templates/partials/_home.html", "/templates/partials/_login.html", "/templates/partials/_users.html", "/").permitAll().anyRequest()
 		.authenticated().and()
-
-
 		.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
 		.csrf().csrfTokenRepository(csrfTokenRepository());
 	}
