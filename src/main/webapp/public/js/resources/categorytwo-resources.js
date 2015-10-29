@@ -1,5 +1,5 @@
 (function(){
-	angular.module("salespusher.resources").factory("CategoryTwo", function CategoryTwoFactory($resource) {  
+	angular.module("salespusher.resources").factory("CategoryTwo", ['$resource',function CategoryTwoFactory($resource) {  
 		return $resource("/categoryones/:categoryOneId/categorytwos/:id", {categoryOneId:'@categoryOneId'}, {});
-	});
+	}]);
 })();

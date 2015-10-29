@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +25,7 @@ public class FilesController {
 	private final ProductImageRepository productImageRepository;
 	
 	@Autowired
-	public FilesController(ProductDocumentRepository productDocumentRepository,ProductImageRepository productImageRepository){
+	public FilesController(ProductDocumentRepository productDocumentRepository, ProductImageRepository productImageRepository){
 		this.productDocumentRepository = productDocumentRepository;
 		this.productImageRepository = productImageRepository;
 	}
@@ -36,10 +35,10 @@ public class FilesController {
     public ProductImageEntity uploadImages(@RequestParam("file") MultipartFile file,@RequestParam("productId") String productId) throws IOException {
         if (!file.isEmpty()) {
             try {
-            	//String fileDirectory = "C:/Users/li_zh/workspace/sp-files/images/";
-            	String fileDirectory = "/Users/fatdragon/Repos/sp-files/images/";
+            	String fileDirectory = "C:/Users/li_zh/workspace/Li-Zhenshuo/src/main/webapp/resources/products/images/";
+            	//String fileDirectory = "/Users/fatdragon/Repos/sp-files/products/images/";
                 byte[] bytes = file.getBytes();
-                String fileName = "product-"+productId+"-"+file.getOriginalFilename();
+                String fileName = "product"+productId+"-"+file.getOriginalFilename();
                 BufferedOutputStream stream = new BufferedOutputStream(
                 		new FileOutputStream(
                 				new File(fileDirectory+fileName)
@@ -47,10 +46,11 @@ public class FilesController {
         		);
 	            stream.write(bytes);
 	            stream.close();
-	            long pId = Long.getLong(productId);
+	            long pId = Long.parseLong(productId.trim());
 	            ProductImageEntity product = new ProductImageEntity(fileName,pId);
 	            return this.productImageRepository.save(product);
             } catch (Exception e) {
+            	System.out.println(e);
             }
         }
 		return null;
@@ -61,20 +61,23 @@ public class FilesController {
     public ProductDocumentEntity uploadDocs(@RequestParam("file") MultipartFile file,@RequestParam("productId") String productId) throws IOException {
         if (!file.isEmpty()) {
             try {
-            	//String fileDirectory = "C:/Users/li_zh/workspace/sp-files/images/";
-            	String fileDirectory = "/Users/fatdragon/Repos/sp-files/images/";
+            	String fileDirectory = "C:/Users/li_zh/workspace/Li-Zhenshuo/src/main/webapp/resources/products/documents/";
+            	//String fileDirectory = "/Users/fatdragon/Repos/sp-files/products/docs/";
                 byte[] bytes = file.getBytes();
-                String fileName = "product-"+productId+"-"+file.getOriginalFilename();
+                String fileName = "product"+productId+"-"+file.getOriginalFilename();
                 BufferedOutputStream stream =
                         new BufferedOutputStream(new FileOutputStream(new File(fileDirectory+fileName)));
                 stream.write(bytes);
                 stream.close();
-	            long pId = Long.getLong(productId);
+	            long pId = Long.parseLong(productId.trim());
 	            ProductDocumentEntity product = new ProductDocumentEntity(fileName,pId);
 	            return this.productDocumentRepository.save(product);
             } catch (Exception e) {
+            	System.out.println(e);
             }
         }
         return null;
     }
+    
+
 }

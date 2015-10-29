@@ -1,21 +1,36 @@
-<div class="row">
+<div class="container">
 	<h2>{{product.name}}</h2>
+	<hr />
+	<h1><a class="btn btn-default" href="#/product_catalog/{{categoryone.id}}/categories/{{categorytwo.id}}/products/{{product.id}}/update" ng-show="authority==='ADMIN'">Update Product</a></h1>
 	<hr />
   	<div style="height: 305px">
     	<uib-carousel interval="myInterval" no-wrap="noWrapSlides">
       		<uib-slide ng-repeat="slide in slides" active="slide.active">
-	        	<img ng-src="{{slide.image}}" style="margin:auto;">
+	        	<img ng-src="{{slide.image}}" class="product-image">
        	        <div class="carousel-caption">
-          			<h4>Slide {{$index+1}}</h4>
-	          		<p>{{slide.text}}</p>
 	    	    </div>
       		</uib-slide>
 	    </uib-carousel>
   	</div>
 	<hr />
+	<div class="product-tabs-container">
   	<uib-tabset justified="true">
     	<uib-tab heading="Overview">{{product.overview}}</uib-tab>
     	<uib-tab heading="Technology">{{product.technology}}</uib-tab>
-    	<uib-tab heading="SPecification">{{product.specification}}</uib-tab>
-  </uib-tabset>
+    	<uib-tab heading="Specification">{{product.specification}}</uib-tab>
+  	</uib-tabset>
+  	</div>
+  	
+  	<hr />
+  	<!-- accordion -->
+	<uib-accordion close-others="oneAtATime">
+    	<uib-accordion-group is-open="status.open">
+     		<uib-accordion-heading>
+        		Download <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+     		</uib-accordion-heading>
+    		<a ng-repeat="productDocument in productDocuments" href="{{getDocumentDirectory(productDocument.name)}}">
+	  			<i class="glyphicon glyphicon-file"></i>{{getOriginDocumentName(productDocument.name)}}
+			</a>
+    	</uib-accordion-group>
+  	</uib-accordion>
 </div>

@@ -45,6 +45,10 @@
 			templateUrl: 'templates/products/product_show.html',
 			controller: 'ProductShowCtrl'
 		})
+		.when('/product_catalog/:categoryOneId/categories/:categoryTwoId/products/:id/update',{
+			templateUrl: 'templates/products/product_update.html',
+			controller: 'ProductUpdateCtrl'
+		})
 		.otherwise('/');
 		
 		/* disable basic http authentication dialog */

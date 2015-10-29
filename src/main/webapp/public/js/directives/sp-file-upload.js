@@ -10,7 +10,6 @@
 			},
 			templateUrl: "templates/directives/sp-file-upload.html",
 			controller: function($scope,$cookies,FileUploader){
-				var ctrl = this;
 		  		/* uploading images*/
 		        var uploader = $scope.uploader = new FileUploader({
 		        	url: $scope.uploadUrl,

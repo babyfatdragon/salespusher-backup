@@ -1,5 +1,7 @@
 (function(){
-	angular.module('salespusher.controllers').controller('ProductCreateCtrl',['$scope','$http','$route','$cookies','ModalService','CategoryOne','CategoryTwo','Product','FileUploader',function($scope,$http,$route,$cookies,ModalService,CategoryOne,CategoryTwo,Product,FileUploader){
+	angular.module('salespusher.controllers').controller('ProductCreateCtrl',[
+	    '$scope','$http','$route','$cookies','ModalService','CategoryOne','CategoryTwo','Product','FileUploader',
+	    function($scope,$http,$route,$cookies,ModalService,CategoryOne,CategoryTwo,Product,FileUploader){
 		$scope.product = new Product();
 		$scope.categoryones = CategoryOne.query();
 		$scope.categorytwos = [];

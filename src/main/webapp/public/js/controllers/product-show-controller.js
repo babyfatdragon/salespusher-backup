@@ -1,25 +1,35 @@
 (function(){
-	angular.module('salespusher.controllers').controller('ProductShowCtrl',['$scope','$http', '$routeParams','CategoryOne','CategoryTwo','CategoryProduct','Product',function($scope,$http,$routeParams,CategoryOne,CategoryTwo,CategoryProduct,Product){	
+	angular.module('salespusher.controllers').controller('ProductShowCtrl',[
+    '$scope','$http', '$routeParams','CategoryOne','CategoryTwo','CategoryProduct','Product','ProductImage','ProductDocument',
+    function($scope,$http,$routeParams,CategoryOne,CategoryTwo,CategoryProduct,Product,ProductImage,ProductDocument){	
 		$scope.categoryone = CategoryOne.get({id:$routeParams.categoryOneId});
 		$scope.categorytwo = CategoryTwo.get({categoryOneId:$routeParams.categoryOneId,id:$routeParams.categoryTwoId});
+		var productImages = ProductImage.query({productId:$routeParams.id});
+		var productDocuments = $scope.productDocuments = ProductDocument.query({productId:$routeParams.id});
+		
 		Product.get({id:$routeParams.id}).$promise.then(function(product){
 			$scope.product = product;
-			$scope.product.text = "test";
-			$scope.product.imageUrl = "testimageurl";
-			
 			var slides = $scope.slides = [];
-			$scope.addSlide = function() {
+			
+			$scope.addSlide = function(productImage) {
 				var newWidth = 600 + slides.length + 1;
 			    slides.push({
-		    		image: '//placekitten.com/' + newWidth + '/300',
-		    		text: ['More','Extra','Lots of','Surplus'][slides.length % 4] + ' ' +
-			        ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 4]
+		    		image: "/resources/products/images/"+productImage.name,
 			    });
 			};
-			for (var i=0; i<4; i++) {
-				$scope.addSlide();
+			
+			for (var i=0; i<productImages.length; i++) {
+				$scope.addSlide(productImages[i]);
 			}
+			console.log("DOCUMENTS: "+JSON.stringify(productDocuments,null,2));
 		});
 		
+		$scope.getDocumentDirectory = function(fileName){
+			return "/resources/products/documents/"+fileName;
+		}
+		
+		$scope.getOriginDocumentName = function(fileName){
+			return fileName.substr(fileName.indexOf("-")+1);
+		}
 	}]);
 })();

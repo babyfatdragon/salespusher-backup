@@ -9,7 +9,5 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations(
 				"/resources/");
-		registry.addResourceHandler("/images/**").addResourceLocations(
-				"file:/C:/Users/li_zh/workspace/sp-files/images/");
 	}
 }
