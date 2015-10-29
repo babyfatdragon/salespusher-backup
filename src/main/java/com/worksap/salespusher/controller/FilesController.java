@@ -35,8 +35,8 @@ public class FilesController {
     public ProductImageEntity uploadImages(@RequestParam("file") MultipartFile file,@RequestParam("productId") String productId) throws IOException {
         if (!file.isEmpty()) {
             try {
-            	String fileDirectory = "C:/Users/li_zh/workspace/Li-Zhenshuo/src/main/webapp/resources/products/images/";
-            	//String fileDirectory = "/Users/fatdragon/Repos/sp-files/products/images/";
+            	//String fileDirectory = "C:/Users/li_zh/workspace/Li-Zhenshuo/src/main/webapp/resources/products/images/";
+            	String fileDirectory = "/Users/fatdragon/Repos/salespusher-backup/src/main/webapp/resources/products/images/";
                 byte[] bytes = file.getBytes();
                 String fileName = "product"+productId+"-"+file.getOriginalFilename();
                 BufferedOutputStream stream = new BufferedOutputStream(
@@ -61,8 +61,8 @@ public class FilesController {
     public ProductDocumentEntity uploadDocs(@RequestParam("file") MultipartFile file,@RequestParam("productId") String productId) throws IOException {
         if (!file.isEmpty()) {
             try {
-            	String fileDirectory = "C:/Users/li_zh/workspace/Li-Zhenshuo/src/main/webapp/resources/products/documents/";
-            	//String fileDirectory = "/Users/fatdragon/Repos/sp-files/products/docs/";
+            	//String fileDirectory = "C:/Users/li_zh/workspace/Li-Zhenshuo/src/main/webapp/resources/products/documents/";
+            	String fileDirectory = "/Users/fatdragon/Repos/salespusher-backup/src/main/webapp/resources/products/documents/";
                 byte[] bytes = file.getBytes();
                 String fileName = "product"+productId+"-"+file.getOriginalFilename();
                 BufferedOutputStream stream =

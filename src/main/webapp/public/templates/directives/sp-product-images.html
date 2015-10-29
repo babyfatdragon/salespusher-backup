@@ -1,0 +1,20 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="productImage in productImages">
+            <td>
+                <img class="product-thumbnail" src="{{getFilePath(productImage.name)}}">
+            </td>
+            <td nowrap>
+                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                    <span class="glyphicon glyphicon-trash"></span> Remove
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

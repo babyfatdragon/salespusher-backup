@@ -5,7 +5,6 @@
 		'ngCookies',
 		'ui.bootstrap',
 		'angularModalService',
-		'ngFileUpload',
 		'angularFileUpload',
 		'salespusher.controllers',
 		'salespusher.resources',

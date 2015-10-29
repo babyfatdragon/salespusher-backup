@@ -1,3 +1,5 @@
+/****** website-wide settings ******/
+
 /* remove all round corners */
 * {
   border-radius: 0 !important;
@@ -15,9 +17,12 @@ border-color: #FA787E;
 border-color: #78FA89;
 }
 
-/* website-wide settings */
 html, body { 
 	height: 100%; background-color:rgb(250,250,250)
+}
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+	display: none !important;
 }
 
 a {
@@ -27,7 +32,7 @@ a {
 .glyphicon.glyphicon-file {
     font-size: 55px;
 }
-/* end of website-wide settings */
+/****** end of website-wide settings ******/
 
 /* angular-file-upload image canvas */
 .my-drop-zone { border: dotted 3px lightgray; }
