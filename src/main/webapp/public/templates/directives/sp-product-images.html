@@ -1,18 +1,18 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Actions</th>
+            <th>Existing Images</th>
+            <th class="float-right">Actions</th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="productImage in productImages">
+        <tr ng-repeat="productImage in productImages" ng-show="productImage.id">
             <td>
                 <img class="product-thumbnail" src="{{getFilePath(productImage.name)}}">
             </td>
             <td nowrap>
-                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
-                    <span class="glyphicon glyphicon-trash"></span> Remove
+                <button type="button" class="btn btn-danger btn-xs float-right" ng-click="remove(productImage)">
+                    <span class="glyphicon glyphicon-trash"></span> Delete
                 </button>
             </td>
         </tr>

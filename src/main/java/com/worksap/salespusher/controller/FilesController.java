@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.worksap.salespusher.constants.SalesPusherConstants;
 import com.worksap.salespusher.entity.ProductDocumentEntity;
 import com.worksap.salespusher.entity.ProductImageEntity;
 import com.worksap.salespusher.repository.ProductDocumentRepository;
@@ -35,8 +36,7 @@ public class FilesController {
     public ProductImageEntity uploadImages(@RequestParam("file") MultipartFile file,@RequestParam("productId") String productId) throws IOException {
         if (!file.isEmpty()) {
             try {
-            	//String fileDirectory = "C:/Users/li_zh/workspace/Li-Zhenshuo/src/main/webapp/resources/products/images/";
-            	String fileDirectory = "/Users/fatdragon/Repos/salespusher-backup/src/main/webapp/resources/products/images/";
+            	String fileDirectory = SalesPusherConstants.PRODUCT_IMAGE_FILE_DIRECTORY; 
                 byte[] bytes = file.getBytes();
                 String fileName = "product"+productId+"-"+file.getOriginalFilename();
                 BufferedOutputStream stream = new BufferedOutputStream(
@@ -61,8 +61,7 @@ public class FilesController {
     public ProductDocumentEntity uploadDocs(@RequestParam("file") MultipartFile file,@RequestParam("productId") String productId) throws IOException {
         if (!file.isEmpty()) {
             try {
-            	//String fileDirectory = "C:/Users/li_zh/workspace/Li-Zhenshuo/src/main/webapp/resources/products/documents/";
-            	String fileDirectory = "/Users/fatdragon/Repos/salespusher-backup/src/main/webapp/resources/products/documents/";
+            	String fileDirectory = SalesPusherConstants.PRODUCT_DOCUMENT_FILE_DIRECTORY; 
                 byte[] bytes = file.getBytes();
                 String fileName = "product"+productId+"-"+file.getOriginalFilename();
                 BufferedOutputStream stream =
@@ -78,6 +77,4 @@ public class FilesController {
         }
         return null;
     }
-    
-
 }

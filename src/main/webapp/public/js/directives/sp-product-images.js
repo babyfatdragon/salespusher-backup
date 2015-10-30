@@ -4,11 +4,11 @@
 		return {  
 			restrict: 'E',
 			scope: {
-				productId: '='
+				productId: '=',
 			},
 			templateUrl: 'templates/directives/sp-product-images.html',
-			controller: ['$scope','ProductImage',function($scope,ProductImage){
-				$scope.$watch("productId", function(){
+			controller: ['$scope','ProductImage','ModalService',function($scope,ProductImage,ModalService){
+				$scope.$watch('productId', function(){					
 					ProductImage.query({productId:$scope.productId})
 					.$promise.then(function(productImages){
 						$scope.productImages = productImages;
@@ -18,9 +18,28 @@
 				$scope.getFilePath = function(fileName){
 					return "/resources/products/images/"+fileName;
 				}
+				
+				$scope.remove = function(productImage){
+				    ModalService.showModal({
+				    	templateUrl: "templates/partials/_modal_dialog.html",
+				    	controller: "ModalDialogController",
+				    	inputs: {
+				    		header: "Delete Image",
+				    		content: "Delete this image?"
+				    	}
+				    })
+					.then(function(modal) {
+						modal.element.modal();
+						modal.close.then(function(result) {
+							if(result){
+								productImage.$remove().then(function(data){
+								})
+								.finally(function(){});
+							}
+						});
+			    	});					
+				}
 			}]
 		};
-	
-		
 	}]);
 })();

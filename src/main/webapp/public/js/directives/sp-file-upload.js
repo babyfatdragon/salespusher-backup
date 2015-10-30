@@ -6,11 +6,12 @@
 			scope: {
 				fileType: "@",
 				uploadUrl: "@",
-				productId: '='
+				productId: '=',
 			},
 			templateUrl: "templates/directives/sp-file-upload.html",
-			controller: function($scope,$cookies,FileUploader){
+			controller: ['$scope','$cookies','FileUploader',function($scope,$cookies,FileUploader){
 		  		/* uploading images*/
+				
 		        var uploader = $scope.uploader = new FileUploader({
 		        	url: $scope.uploadUrl,
 		            headers:{
@@ -49,7 +50,7 @@
 		            item.formData.push({productId: $scope.productId});
 		        };
 		        /* end of uploading images */
-			},
+			}],
 		}
 	}]);
 })();

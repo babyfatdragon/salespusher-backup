@@ -32,6 +32,10 @@ a {
 .glyphicon.glyphicon-file {
     font-size: 55px;
 }
+
+.float-right{
+	float:right;
+}
 /****** end of website-wide settings ******/
 
 /* angular-file-upload image canvas */

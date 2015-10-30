@@ -28,9 +28,11 @@
      		<uib-accordion-heading>
         		Download <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
      		</uib-accordion-heading>
-    		<a ng-repeat="productDocument in productDocuments" href="{{getDocumentDirectory(productDocument.name)}}">
-	  			<i class="glyphicon glyphicon-file"></i>{{getOriginDocumentName(productDocument.name)}}
-			</a>
+     		<div class="col-md-6" ng-repeat="productDocument in productDocuments">
+	    		<a href="{{getDocumentDirectory(productDocument.name)}}">
+		  			<i class="glyphicon glyphicon-file"></i>{{getOriginDocumentName(productDocument.name)}}
+				</a>
+			</div>
     	</uib-accordion-group>
   	</uib-accordion>
 </div>

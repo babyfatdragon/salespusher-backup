@@ -28,9 +28,15 @@
 						modal.element.modal();
 						modal.close.then(function(result) {
 							if(result){
-								$scope.product.$save().then(function(data){
-								})
-								.finally(function(){});
+								if($scope.action==="Create"){
+									$scope.product.$save().then(function(data){
+									})
+									.finally(function(){});
+								} else if($scope.action==="Update"){
+									$scope.product.$update().then(function(data){
+									})
+									.finally(function(){});
+								}
 							}
 						});
 			    	});

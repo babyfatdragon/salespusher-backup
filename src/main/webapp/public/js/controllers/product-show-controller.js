@@ -16,12 +16,10 @@
 			    slides.push({
 		    		image: "/resources/products/images/"+productImage.name,
 			    });
-			};
-			
+			};			
 			for (var i=0; i<productImages.length; i++) {
 				$scope.addSlide(productImages[i]);
 			}
-			console.log("DOCUMENTS: "+JSON.stringify(productDocuments,null,2));
 		});
 		
 		$scope.getDocumentDirectory = function(fileName){

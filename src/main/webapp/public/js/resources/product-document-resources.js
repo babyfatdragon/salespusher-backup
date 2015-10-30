@@ -1,5 +1,5 @@
 (function(){
 	angular.module("salespusher.resources").factory("ProductDocument",['$resource', function ProductDocumentFactory($resource){
-		return $resource("/products/:productId/productDocuments/:id",{productId:'@productId'},{});
+		return $resource("/products/:productId/productDocuments/:id",{productId:'@productId',id:'@id'},{});
 	}]);
 })();

@@ -3,6 +3,8 @@ package com.worksap.salespusher.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.worksap.salespusher.entity.CategoryOneEntity;
+import com.worksap.salespusher.entity.ProductEntity;
 import com.worksap.salespusher.repository.CategoryOneRepository;
 
 @RestController
@@ -22,21 +25,34 @@ public class CategoryOneController {
 		this.categoryOneRepository = categoryOneRepository;
 	}
 	
-	@RequestMapping(value = "/categoryones", method = RequestMethod.GET)
-	@PreAuthorize("isAuthenticated()")
-	public List<CategoryOneEntity> getCategoryOnes(){
-		return this.categoryOneRepository.findAll();
-	}
-	
 	@RequestMapping(value = "/categoryones", method = RequestMethod.POST)
 	@PreAuthorize("isAuthenticated()")
 	public CategoryOneEntity createCategoryOne(@RequestBody CategoryOneEntity categoryOne) {
-	return this.categoryOneRepository.save(categoryOne);
+		return this.categoryOneRepository.save(categoryOne);
 	}	
 	
 	@RequestMapping(value = "/categoryones/{id}", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
 	public CategoryOneEntity getCategoryOne(@PathVariable long id){
 		return this.categoryOneRepository.findOne(id);
+	}
+	
+	@RequestMapping(value = "/categoryones/{id}", method = RequestMethod.PUT)
+	@PreAuthorize("isAuthenticated()")
+	public CategoryOneEntity updateCategoryOne(@PathVariable long id,@RequestBody CategoryOneEntity categoryOne){
+		return this.categoryOneRepository.save(categoryOne);
+	}
+	
+	@RequestMapping(value = "/categoryones/{id}", method = RequestMethod.DELETE)
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<Boolean> deleteCategoryOne(@PathVariable long id){
+		this.categoryOneRepository.delete(id);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/categoryones", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public List<CategoryOneEntity> getCategoryOnes(){
+		return this.categoryOneRepository.findAll();
 	}
 }
