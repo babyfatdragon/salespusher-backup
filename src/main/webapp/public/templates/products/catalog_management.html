@@ -1,17 +1,25 @@
-<table st-table="displayed" class="table table-striped">
+<table st-table="categoryones" st-safe-src="displayCategoryones" class="table table-striped">
 	<thead>
 		<tr>
 			<th st-ratio="20" st-sort="id">ID</th>
 			<th st-ratio="65" st-sort="name">Name</th>
 			<th st-ratio="15">Actions</th>
 		</tr>
+		<tr>
+			<th st-ratio="20">
+			</th>
+            <th st-ratio="65">
+            	<input st-search="name" placeholder="search for name" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="15">
+            </th>
+        </tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="categoryone in categoryones">
 			<td st-ratio="20"><a href="#/product_catalog/{{categoryone.id}}">{{categoryone.id}}</a></td>
 			<td st-ratio="65"><a href="#/product_catalog/{{categoryone.id}}">{{categoryone.name}}</a></td>
 			<td st-ratio="15">
-				<i class="glyphicon glyphicon-lg glyphicon-eye-open" uib-popover="View {{categoryone.name}} Categories" popover-trigger="mouseenter" ng-click="view()"></i>						
 				<a  href="#/product_catalog/management/catalog/{{categoryone.id}}/update"><i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{categoryone.name}}" popover-trigger="mouseenter"></i></a>
 				<i class="glyphicon glyphicon-lg glyphicon-trash" uib-popover="Delete {{categoryone.name}}" popover-trigger="mouseenter" ng-click="remove()"></i>
 			</td>
@@ -20,7 +28,7 @@
 	<tfoot>
 		<tr>
 			<td colspan="5" class="text-center">
-				<div  st-items-by-page="20" st-pagination=""></div>
+				<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
 			</td>
 		</tr>
 	</tfoot>
