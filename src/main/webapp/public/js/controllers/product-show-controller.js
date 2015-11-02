@@ -1,13 +1,13 @@
 (function(){
 	angular.module('salespusher.controllers').controller('ProductShowCtrl',[
-    '$scope','$http', '$routeParams','CategoryOne','CategoryTwo','CategoryProduct','Product','ProductImage','ProductDocument',
-    function($scope,$http,$routeParams,CategoryOne,CategoryTwo,CategoryProduct,Product,ProductImage,ProductDocument){	
-		$scope.categoryone = CategoryOne.get({id:$routeParams.categoryOneId});
-		$scope.categorytwo = CategoryTwo.get({categoryOneId:$routeParams.categoryOneId,id:$routeParams.categoryTwoId});
-		var productImages = ProductImage.query({productId:$routeParams.id});
-		var productDocuments = $scope.productDocuments = ProductDocument.query({productId:$routeParams.id});
+    '$scope','$http', '$stateParams','CategoryOne','CategoryTwo','CategoryProduct','Product','ProductImage','ProductDocument',
+    function($scope,$http,$stateParams,CategoryOne,CategoryTwo,CategoryProduct,Product,ProductImage,ProductDocument){	
+		$scope.categoryone = CategoryOne.get({id:$stateParams.categoryOneId});
+		$scope.categorytwo = CategoryTwo.get({categoryOneId:$stateParams.categoryOneId,id:$stateParams.categoryTwoId});
+		var productImages = ProductImage.query({productId:$stateParams.id});
+		var productDocuments = $scope.productDocuments = ProductDocument.query({productId:$stateParams.id});
 		
-		Product.get({id:$routeParams.id}).$promise.then(function(product){
+		Product.get({id:$stateParams.id}).$promise.then(function(product){
 			$scope.product = product;
 			var slides = $scope.slides = [];
 			

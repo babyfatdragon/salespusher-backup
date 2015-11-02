@@ -27,6 +27,8 @@
 		<mysql-connector-java.version>5.1.37</mysql-connector-java.version>
 		<angular-ui-bootstrap-bower.version>0.14.3</angular-ui-bootstrap-bower.version>
 		<angular-modal-service.version>0.6.9</angular-modal-service.version>
+		<angular-breadcrumb.version>0.4.0</angular-breadcrumb.version>
+		<angular-ui-router.version>0.2.15</angular-ui-router.version>
 	</properties>
 
 	<dependencies>
@@ -38,7 +40,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
@@ -97,6 +98,16 @@
 		    <groupId>org.webjars.npm</groupId>
 		    <artifactId>angular-modal-service</artifactId>
 		    <version>${angular-modal-service.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-ui-router</artifactId>
+		    <version>${angular-ui-router.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-breadcrumb</artifactId>
+		    <version>${angular-breadcrumb.version}</version>
 		</dependency>
 	</dependencies>
 	

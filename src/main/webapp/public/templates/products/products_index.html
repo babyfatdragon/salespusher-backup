@@ -1,7 +1,7 @@
-<h1>{{categoryone.name}}</h1>
-<h1>{{categorytwo.name}}</h1>
-<div class="row row-fluid">
-	<a ng-repeat="product in products" ng-href="#/product_catalog/{{categoryone.id}}/categories/{{categorytwo.id}}/products/{{product.id}}">
+<div class="col col-md-12">
+	<div><label>Search:</label> <input type="text" ng-model="search" /></div>
+	<a ng-repeat="product in filtered = products | filter:search | startFrom:(currentPage-1)*pageCapacity | limitTo:pageCapacity" href="#/product_catalog/{{categoryone.id}}/categories/{{categorytwo.id}}/products/{{product.id}}">
 	  <product-card header="product.name" id="product.id"></product-card>
 	</a>
 </div>
+<uib-pagination total-items="totalItems" items-per-page="pageCapacity" max-size="noOfPages" ng-model="currentPage"></uib-pagination>

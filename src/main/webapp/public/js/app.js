@@ -6,8 +6,12 @@
 		'ui.bootstrap',
 		'angularModalService',
 		'angularFileUpload',
+		'ui.router.state',
+		'ncy-angular-breadcrumb',
+		'smart-table',
 		'salespusher.controllers',
 		'salespusher.resources',
-		'salespusher.directives'
+		'salespusher.directives',
+		'salespusher.filters'
 		])
 })();

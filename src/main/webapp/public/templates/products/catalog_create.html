@@ -1,11 +1,2 @@
 <h1>New Catalog</h1>
-<form name="catalogCreationForm" class="form col-md-6" ng-submit="catalogCreationForm.$valid && popSaveConfirmationlDialog(categoryone)" novalidate>
-	<fieldset class="form-group">
-    	<label for="title">Name</label>
-	    <input class="form-control" type="text" id="name" name="name" ng-model="categoryone.name" required/>
-  	</fieldset>
-	<button type="submit" value="Submit" class="btn btn-default btn-md" ng-disabled="!catalogCreationForm.$valid">Save</button>
-</form>
-
-
-
+<sp-catalog-form categoryone="categoryone" action="Create"></sp-catalog-form>
