@@ -1,0 +1,11 @@
+<form name="categoryForm" class="form col-md-6" ng-submit="categoryForm.$valid && popSaveConfirmationDialog(categorytwo)" novalidate>
+   	<fieldset class="form-field">
+   	    <label class="form-label" for="catalog">Catalog</label>
+        <select class="form-control" name='catalog' ng-model='categorytwo.categoryOneId' ng-options='categoryone.id as categoryone.name for categoryone in categoryones' required></select>
+  	</fieldset>
+	<fieldset class="form-group">
+    	<label for="title">Name</label>
+	    <input class="form-control" type="text" id="name" name="name" ng-model="categorytwo.name" required/>
+  	</fieldset>
+	<button type="submit" value="Submit" class="btn btn-default btn-md" ng-disabled="!categoryForm.$valid">Save</button>
+</form>

@@ -77,18 +77,34 @@
 	  	})
 	  	.state('productManagement.category',{
 	  		url: '/category',
+	  		templateUrl: '/templates/products/category_management.html',
+	  		controller: 'CategoryManagementCtrl',
+	  		ncyBreadcrumb: {
+	  			label: 'Category Management',
+	  		}
+	  	})
+	  	.state('productManagement.categoryCreate',{
+	  		url: '/category/create',
 	  		templateUrl: '/templates/products/category_create.html',
 	  		controller: 'CategoryCreateCtrl',
 	  		ncyBreadcrumb: {
-	  			label: 'Category',
+	  			label: 'Category Create',
 	  		}
 	  	})
-	  	.state('productManagement.product',{
-	  		url: '/product',
+	  	.state('productManagement.categoryUpdate',{
+	  		url: '/category/:id/update',
+	  		templateUrl: '/templates/products/category_update.html',
+	  		controller: 'categoryUpdateCtrl',
+	  		ncyBreadcrumb: {
+	  			label: 'Category Update',
+	  		}
+	  	})
+	  	.state('productManagement.productCreate',{
+	  		url: '/product/create',
 	  		templateUrl: '/templates/products/product_create.html',
 	  		controller: 'ProductCreateCtrl',
 	  		ncyBreadcrumb: {
-	  			label: 'Product',
+	  			label: 'Product Create',
 	  		}
 	  	})
 	  	.state('productCategory',{

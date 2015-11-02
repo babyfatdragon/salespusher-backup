@@ -39,7 +39,7 @@ public class CategoryTwoController {
 	
 	@RequestMapping(value = "/categoryones/{categoryOneId}/categorytwos/{id}", method = RequestMethod.PUT)
 	@PreAuthorize("isAuthenticated()")
-	public CategoryTwoEntity updateCategoryTwo(@PathVariable long id,@RequestBody CategoryTwoEntity categoryTwo){
+	public CategoryTwoEntity updateCategoryTwoWithCateOneId(@PathVariable long id,@RequestBody CategoryTwoEntity categoryTwo){
 		return this.categoryTwoRepository.save(categoryTwo);
 	}
 	
@@ -66,5 +66,11 @@ public class CategoryTwoController {
 	@PreAuthorize("isAuthenticated()")
 	public CategoryTwoEntity getCategoryTwo(@PathVariable long id){
 		return this.categoryTwoRepository.findOne(id);
+	}
+	
+	@RequestMapping(value = "/categorytwos/{id}", method = RequestMethod.PUT)
+	@PreAuthorize("isAuthenticated()")
+	public CategoryTwoEntity updateCategoryTwo(@PathVariable long id,@RequestBody CategoryTwoEntity categoryTwo){
+		return this.categoryTwoRepository.save(categoryTwo);
 	}
 }

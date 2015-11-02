@@ -4,4 +4,9 @@
 			'update': {method:'PUT'}
 		});
 	}]);
+	angular.module("salespusher.resources").factory("AllCategoryTwo", ['$resource',function AllCategoryTwoFactory($resource) {  
+		return $resource("/categorytwos/:id", {id:'@id'}, {
+			'update': {method:'PUT'}
+		});
+	}]);
 })();

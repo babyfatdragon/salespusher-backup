@@ -1,23 +1,8 @@
-<div class="btn-group" uib-dropdown is-open="status.isopen">
-	<button type="button" class="btn btn-danger btn-lg" uib-dropdown-toggle ng-disabled="disabled">
-    Create New Catalog or Category <span class="caret"></span>
-    </button>
-   	<ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
-   		<li role="menuitem"><a href="#/product_catalog/management/catalog">Catalog Management</a></li>
-    	<li role="menuitem"><a href="#/product_catalog/management/catalog/create">Create New Catalog</a></li>
-       	<li class="divider"></li>
-       	<li role="menuitem"><a href="#/product_catalog/management/category">Create New Category Under Exisiting Catalog</a></li>
-    </ul>
-	<a type="button" class="btn btn-primary btn-lg" href="#/product_catalog/management/product">
-   	Create New Product Under Existing Categories
-   	</a>
+<div class="btn-group">
+	<a type="button" class="btn btn-primary btn-lg" href="#/product_catalog/management/catalog">Catalog Management</a>
+  	<a type="button" class="btn btn-danger btn-lg" href="#/product_catalog/management/category">Category Management</a> 
+	<a type="button" class="btn btn-success btn-lg" href="#/product_catalog/management/product">Product Management</a>      
 </div>
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
 <div ui-view></div>
 
 
