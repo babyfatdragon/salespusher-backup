@@ -28,16 +28,20 @@ CREATE TABLE IF NOT EXISTS PRODUCTS (
 	first_category TINYINT NOT NULL,
 	second_category TINYINT NOT NULL,
 	overview TEXT,
+	benefits TEXT,
+	cases TEXT,
 	technology TEXT,
 	specification TEXT,
 	price INT(11),
 	PRIMARY KEY (id)
 );
 TRUNCATE PRODUCTS;
-INSERT INTO PRODUCTS (product_name,first_category,second_category,overview,technology,specification,price) VALUES 
+INSERT INTO PRODUCTS (product_name,first_category,second_category,overview,benefits,cases,technology,specification,price) VALUES 
 ('Discovery XR656 Plus',1,1,'Discovery* XR656 Plus lets you enjoy productivity and workflow benefits thanks to FlashPad*, 
 a wireless detector that was designed—from the beginning—for advanced digital imaging. 
 Our suite of advanced clinical capabilities helps you address complex clinical needs while differentiating your facility from others. ',
+'',
+'',
 'Advance your clinical capabilities
 FlashPad Digital radiography detector 
 Gain control over your workflow
@@ -49,6 +53,8 @@ Service you can count on!',
 It’s well-suited for the demands of high-volume imaging, especially in treatment centers where space is at a premium, 
 such as orthopedic and sports medicine facilities, physician offices, satellite offices and stand-alone imaging centers. 
 It’s an affordable digital solution in a compact system.',
+'',
+'',
 'Amorphous silicon non-tiled digital detector with cesium iodide scintillator
 Patient-side collimator and technique controls with digital display (e.g. mA, kVp, mAs)
 Patient-side automated positioning selection
@@ -64,6 +70,8 @@ These features help make the system reliable and easy to use while providing hig
 'GE Healthcare is proud to announce that the Discovery* PET/CT 610 has achieved an absolute sensitivity of 10.0 cps/kBq, 
 the highest level found on any scanner on the market.1 Sensitivity is one of GE’s critical foundations of PET/CT imaging, 
 and this double-digit measurement represents a critical milestone. It means the system is designed to deliver fast and detailed scans at low dose.',
+'',
+'',
 'Innovations with a 40-mm detector at 0.35-sec rotation speed.
 Up to 60% lower CO2 emissions using the energy saving mode.
 Advanced applications to help clinicians make a fast and confident diagnosis.
