@@ -1,4 +1,4 @@
-<form name="productForm" class="form col-md-6" ng-submit="productForm.$valid && popSaveConfirmationDialog(product)" novalidate>
+<form name="productForm" class="form col-md-12" ng-submit="productForm.$valid && popSaveConfirmationDialog(product)" novalidate>
    	<fieldset class="form-field">
    	    <label class="form-label" for="catalog">Catalog</label>
         <select class="form-control" name='catalog' ng-model='product.categoryOneId' ng-options='categoryone.id as categoryone.name for categoryone in categoryones' required></select>
@@ -13,15 +13,15 @@
   	</fieldset>
  	<fieldset class="form-group">
     	<label for="title">Overview</label>
-	    <textarea class="form-control" type="text" id="overview" name="overview" ng-model="product.overview" required></textarea>
+			<text-angular ng-model="product.overview"></text-angular>
   	</fieldset>
   		<fieldset class="form-group">
     	<label for="title">Technology</label>
-	    <textarea class="form-control" type="text" id="technology" name="technology" ng-model="product.technology" required></textarea>
+			<text-angular ng-model="product.technology"></text-angular>
   	</fieldset>
   		<fieldset class="form-group">
     	<label for="title">Specification</label>
-	    <textarea class="form-control" type="text" id="specification" name="specification" ng-model="product.specification" required></textarea>
+			<text-angular ng-model="product.specification"></text-angular>
   	</fieldset>  	
 	<fieldset class="form-group">
     	<label for="title">Price</label>

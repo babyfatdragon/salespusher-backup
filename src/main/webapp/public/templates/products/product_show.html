@@ -15,9 +15,9 @@
 	<hr />
 	<div class="product-tabs-container">
   	<uib-tabset justified="true">
-    	<uib-tab heading="Overview">{{product.overview}}</uib-tab>
-    	<uib-tab heading="Technology">{{product.technology}}</uib-tab>
-    	<uib-tab heading="Specification">{{product.specification}}</uib-tab>
+    	<uib-tab heading="Overview"><p ng-bind-html="product.overview"></p></uib-tab>
+    	<uib-tab heading="Technology"><p ng-bind-html="product.technology"></p></uib-tab>
+    	<uib-tab heading="Specification"><p ng-bind-html="product.specification"></p></uib-tab>
   	</uib-tabset>
   	</div>
   	

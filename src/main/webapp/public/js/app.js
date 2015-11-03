@@ -10,6 +10,7 @@
 		'ncy-angular-breadcrumb',
 		'smart-table',
 		'youtube-embed',
+		'textAngular',
 		'salespusher.controllers',
 		'salespusher.resources',
 		'salespusher.directives',
