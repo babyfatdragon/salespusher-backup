@@ -8,7 +8,7 @@
     <tbody>
         <tr ng-repeat="productImage in productImages" ng-show="productImage.id">
             <td>
-                <img class="product-thumbnail" src="{{getFilePath(productImage.name)}}">
+                <img class="product-thumbnail" ng-src="{{getFilePath(productImage.name)}}">
             </td>
             <td nowrap>
                 <button type="button" class="btn btn-danger btn-xs float-right" ng-click="remove(productImage)">

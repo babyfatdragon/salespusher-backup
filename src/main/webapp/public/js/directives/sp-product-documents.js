@@ -7,17 +7,20 @@
 				productId: '='
 			},
 			templateUrl: 'templates/directives/sp-product-documents.html',
-			controller: ['$scope','ProductDocument','ModalService',function($scope,ProductDocument,ModalService){				
+			controller: ['$scope','ProductDocument','ModalService', function($scope,ProductDocument,ModalService){				
 				$scope.$watch("productId", function(){
-					ProductDocument.query({productId:$scope.productId})
-					.$promise.then(function(productDocuments){
-						$scope.productDocuments = productDocuments;
-					});
+					if($scope.productId){
+						ProductDocument.query({productId:$scope.productId})
+						.$promise.then(function(productDocuments){
+							$scope.productDocuments = productDocuments;
+						});	
+					}
 				});	
 				
 				$scope.getFilePath = function(fileName){
-					if(fileName!=null)
-						return "/resources/products/documents/"+fileName;
+					if(fileName!=null){
+						return "/resources/products/documents/"+fileName;	
+					}
 				};
 				$scope.getOriginDocumentName = function(fileName){
 					if(fileName!=null)

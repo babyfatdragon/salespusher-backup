@@ -10,9 +10,11 @@
 				action: '@',
 			},
 			templateUrl: 'templates/directives/sp-product-form.html',
-			controller: ['$scope','ModalService','CategoryTwo',function($scope,ModalService,CategoryTwo){
+			controller: ['$scope','ModalService','CategoryTwo', function($scope,ModalService,CategoryTwo){
 				$scope.$watch("product.categoryOneId", function(){
-					$scope.categorytwos = CategoryTwo.query({categoryOneId: $scope.product.categoryOneId});
+					if($scope.product.categoryOneId){
+						$scope.categorytwos = CategoryTwo.query({categoryOneId: $scope.product.categoryOneId});
+					}
 				});
 				$scope.popSaveConfirmationDialog = function() {
 					var content = $scope.action==="Create"?"Create new product: "+$scope.product.name+" ?":"Update details of "+$scope.product.name+" ?";

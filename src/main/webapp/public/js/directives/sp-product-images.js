@@ -7,16 +7,20 @@
 				productId: '=',
 			},
 			templateUrl: 'templates/directives/sp-product-images.html',
-			controller: ['$scope','ProductImage','ModalService',function($scope,ProductImage,ModalService){
-				$scope.$watch('productId', function(){					
-					ProductImage.query({productId:$scope.productId})
-					.$promise.then(function(productImages){
-						$scope.productImages = productImages;
-					});
+			controller: ['$scope','ProductImage','ModalService', function($scope,ProductImage,ModalService){
+				$scope.$watch('productId', function(){
+					if($scope.productId){
+						ProductImage.query({productId:$scope.productId})
+						.$promise.then(function(productImages){
+							$scope.productImages = productImages;
+						});	
+					}
 				});	
 				
 				$scope.getFilePath = function(fileName){
-					return "/resources/products/images/"+fileName;
+					if(fileName!=null){
+						return "/resources/products/images/"+fileName;
+					}
 				}
 				
 				$scope.remove = function(productImage){

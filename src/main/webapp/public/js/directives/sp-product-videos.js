@@ -10,11 +10,13 @@
 			templateUrl: 'templates/directives/sp-product-videos.html',
 			controller: ['$scope','$route','ModalService','ProductVideo', function($scope,$route,ModalService,ProductVideo){
 				$scope.newProductVideo = new ProductVideo();
-				$scope.$watch('productId', function(){					
-					ProductVideo.query({productId:$scope.productId})
-					.$promise.then(function(productVideos){
-						$scope.productVideos = productVideos;
-					});
+				$scope.$watch('productId', function(){
+					if($scope.productId){
+						ProductVideo.query({productId:$scope.productId})
+						.$promise.then(function(productVideos){
+							$scope.productVideos = productVideos;
+						});
+					}
 				});
 				
 				$scope.remove = function(productVideo){
