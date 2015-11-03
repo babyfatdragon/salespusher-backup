@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.worksap.salespusher.entity.CategoryOneEntity;
 import com.worksap.salespusher.entity.CategoryTwoEntity;
 import com.worksap.salespusher.repository.CategoryTwoRepository;
 
@@ -45,7 +44,7 @@ public class CategoryTwoController {
 	
 	@RequestMapping(value = "/categoryones/{categoryOneId}/categorytwos/{id}", method = RequestMethod.DELETE)
 	@PreAuthorize("isAuthenticated()")
-	public ResponseEntity<Boolean> deleteCategoryOne(@PathVariable long id){
+	public ResponseEntity<Boolean> deleteCategoryTwoWithCateOneId(@PathVariable long id){
 		this.categoryTwoRepository.delete(id);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
@@ -72,5 +71,12 @@ public class CategoryTwoController {
 	@PreAuthorize("isAuthenticated()")
 	public CategoryTwoEntity updateCategoryTwo(@PathVariable long id,@RequestBody CategoryTwoEntity categoryTwo){
 		return this.categoryTwoRepository.save(categoryTwo);
+	}
+	
+	@RequestMapping(value = "/categorytwos/{id}", method = RequestMethod.DELETE)
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<Boolean> deleteCategoryTwo(@PathVariable long id){
+		this.categoryTwoRepository.delete(id);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
 }

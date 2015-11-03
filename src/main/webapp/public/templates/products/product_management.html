@@ -1,0 +1,45 @@
+<table st-table="products" st-safe-src="displayProducts" class="table table-striped">
+	<thead>
+		<tr>
+			<th st-ratio="20" st-sort="id">ID</th>
+			<th st-ratio="20" st-sort="categoryOneId">Catalog</th>
+			<th st-ratio="20" st-sort="categoryTwoId">Category</th>			
+			<th st-ratio="25" st-sort="name">Name</th>
+			<th st-ratio="15">Actions</th>
+		</tr>
+		<tr>
+			<th st-ratio="20"></th>
+            <th st-ratio="20">
+            	<input st-search="catalogName" placeholder="search for catalog" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="20">
+            	<input st-search="categoryName" placeholder="search for category" class="input-sm form-control" type="search"/>
+            </th>
+           	<th st-ratio="25">
+            	<input st-search="name" placeholder="search for name" class="input-sm form-control" type="search"/>
+            </th>
+			<th st-ratio="15"></th>
+		</tr>		
+	</thead>
+	<tbody>
+		<tr ng-repeat="product in products" ng-show="product.id">
+			<td st-ratio="20"><a href="#/product_catalog/{{product.categoryOneId}}/categories/{{product.categoryTwoId}}/products/{{product.id}}">{{product.id}}</a></td>
+			<td st-ratio="20"><a href="#/product_catalog/{{product.categoryOneId}}">{{product.catalogName}}</a></td>
+			<td st-ratio="20"><a href="#/product_catalog/{{product.categoryOneId}}/categories/{{product.categoryTwoId}}/products">{{product.categoryName}}</a></td>			
+			<td st-ratio="25"><a href="#/product_catalog/{{product.categoryOneId}}/categories/{{product.categoryTwoId}}/products/{{product.id}}">{{product.name}}</a></td>
+			<td st-ratio="15">
+				<a  href="#/product_catalog/management/product/{{product.id}}/update"><i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{product.name}}" popover-trigger="mouseenter"></i></a>
+				<i class="glyphicon glyphicon-lg glyphicon-trash" uib-popover="Delete {{product.name}}" popover-trigger="mouseenter" ng-click="deleteAll(product)"></i>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="5" class="text-center">
+				<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+<a type="button" class="btn btn-primary btn-md" href="#/product_catalog/management/product/create">Create New Product</a>

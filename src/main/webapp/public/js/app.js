@@ -9,6 +9,7 @@
 		'ui.router.state',
 		'ncy-angular-breadcrumb',
 		'smart-table',
+		'youtube-embed',
 		'salespusher.controllers',
 		'salespusher.resources',
 		'salespusher.directives',

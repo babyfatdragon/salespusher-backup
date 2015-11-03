@@ -16,12 +16,12 @@
         </tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="categoryone in categoryones">
+		<tr ng-repeat="categoryone in categoryones" ng-show="categoryone.id">
 			<td st-ratio="20"><a href="#/product_catalog/{{categoryone.id}}">{{categoryone.id}}</a></td>
 			<td st-ratio="65"><a href="#/product_catalog/{{categoryone.id}}">{{categoryone.name}}</a></td>
 			<td st-ratio="15">
 				<a  href="#/product_catalog/management/catalog/{{categoryone.id}}/update"><i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{categoryone.name}}" popover-trigger="mouseenter"></i></a>
-				<i class="glyphicon glyphicon-lg glyphicon-trash" uib-popover="Delete {{categoryone.name}}" popover-trigger="mouseenter" ng-click="remove()"></i>
+				<i class="glyphicon glyphicon-lg glyphicon-trash" uib-popover="Delete {{categoryone.name}}" popover-trigger="mouseenter" ng-click="deleteAll(categoryone)"></i>
 			</td>
 		</tr>
 	</tbody>

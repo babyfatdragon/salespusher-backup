@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.worksap.salespusher.constants.SalesPusherConstants;
 import com.worksap.salespusher.entity.ProductDocumentEntity;
-import com.worksap.salespusher.entity.ProductImageEntity;
 import com.worksap.salespusher.repository.ProductDocumentRepository;
 
 @RestController

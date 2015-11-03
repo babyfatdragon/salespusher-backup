@@ -6,6 +6,8 @@
 	}]);
 	
 	angular.module("salespusher.resources").factory("CategoryProduct",['$resource', function CategoryProductFactory($resource){
-		return $resource("/categorytwos/:categoryTwoId/products/:id", {categoryTwoId:'@categoryTwoId'}, {});
+		return $resource("/categorytwos/:categoryTwoId/products/:id", {categoryTwoId:'@categoryTwoId',id:'@id'}, {
+			'update': {method:'PUT'}
+		});
 	}]);
 })();

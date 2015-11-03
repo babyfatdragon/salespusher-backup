@@ -6,7 +6,7 @@
 		$scope.categorytwo = CategoryTwo.get({categoryOneId:$stateParams.categoryOneId,id:$stateParams.categoryTwoId});
 		var productImages = ProductImage.query({productId:$stateParams.id});
 		var productDocuments = $scope.productDocuments = ProductDocument.query({productId:$stateParams.id});
-		
+		$scope.videoUrl = 'https://www.youtube.com/watch?v=D5oF99TM9nA';
 		Product.get({id:$stateParams.id}).$promise.then(function(product){
 			$scope.product = product;
 			var slides = $scope.slides = [];

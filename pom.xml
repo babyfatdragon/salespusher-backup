@@ -29,6 +29,7 @@
 		<angular-modal-service.version>0.6.9</angular-modal-service.version>
 		<angular-breadcrumb.version>0.4.0</angular-breadcrumb.version>
 		<angular-ui-router.version>0.2.15</angular-ui-router.version>
+		<angular-youtube-mb.version>1.1.0</angular-youtube-mb.version>
 	</properties>
 
 	<dependencies>
@@ -108,6 +109,11 @@
 		    <groupId>org.webjars.bower</groupId>
 		    <artifactId>angular-breadcrumb</artifactId>
 		    <version>${angular-breadcrumb.version}</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.webjars.bower</groupId>
+    		<artifactId>angular-youtube-mb</artifactId>
+    		<version>${angular-youtube-mb.version}</version>
 		</dependency>
 	</dependencies>
 	

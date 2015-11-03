@@ -99,12 +99,28 @@
 	  			label: 'Category Update',
 	  		}
 	  	})
+	  	.state('productManagement.product',{
+	  		url: '/product',
+	  		templateUrl: '/templates/products/product_management.html',
+	  		controller: 'ProductManagementCtrl',
+	  		ncyBreadcrumb: {
+	  			label: 'Product Management',
+	  		}
+	  	})
 	  	.state('productManagement.productCreate',{
 	  		url: '/product/create',
 	  		templateUrl: '/templates/products/product_create.html',
 	  		controller: 'ProductCreateCtrl',
 	  		ncyBreadcrumb: {
 	  			label: 'Product Create',
+	  		}
+	  	})
+	  	.state('productManagement.productUpdate',{
+	  		url: '/product/:id/update',
+	  		templateUrl: '/templates/products/product_update.html',
+	  		controller: 'ProductUpdateCtrl',
+	  		ncyBreadcrumb: {
+	  			label: 'Product Update',
 	  		}
 	  	})
 	  	.state('productCategory',{

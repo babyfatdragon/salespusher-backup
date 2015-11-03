@@ -1,17 +1,23 @@
-<h1>Update 
-	<a href="#/product_catalog/{{product.categoryOneId}}/categories/{{product.categoryTwoId}}/products/{{product.id}}">Product {{product.id}}</a>
-	<button type="button" class="btn btn-danger btn-md float-right" ng-click="deleteAll()">
-	    <span class="glyphicon glyphicon-trash"></span> Delete
-	</button>
-</h1>
+<div class="col-md-12">
+	<h1>Update 
+		<a href="#/product_catalog/{{product.categoryOneId}}/categories/{{product.categoryTwoId}}/products/{{product.id}}">Product {{product.id}}</a>
+		<button type="button" class="btn btn-danger btn-md float-right" ng-click="deleteAll()">
+		    <span class="glyphicon glyphicon-trash"></span> Delete
+		</button>
+	</h1>
+	
+	<sp-product-form categoryones="categoryones" categorytwos="categorytwos" product="product" action="Update"></sp-product-form>	
+	
+	<sp-product-images product-id="product.id"></sp-product-images>
+	
+	<sp-file-upload file-type="Image" upload-url="/files/images/upload" product-id="product.id"></sp-file-upload>
+	
+	<sp-product-documents product-id="product.id"></sp-product-documents>
+	
+	<sp-file-upload file-type="Document" upload-url="/files/docs/upload" product-id="product.id"></sp-file-upload>
+	
+	<sp-product-videos product-id="product.id" action="'update'"></sp-product-videos>
+</div>
 
-<sp-product-form categoryones="categoryones" categorytwos="categorytwos" product="product" action="Update"></sp-product-form>	
 
-<sp-product-images product-id="product.id" updated="updated"></sp-product-images>
-
-<sp-file-upload file-type="Image" upload-url="/files/images/upload" product-id="product.id"></sp-file-upload>
-
-<sp-product-documents product-id="product.id"></sp-product-documents>
-
-<sp-file-upload file-type="Document" upload-url="/files/docs/upload" product-id="product.id"></sp-file-upload>
 

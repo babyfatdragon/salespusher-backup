@@ -89,3 +89,9 @@ canvas {
   margin: -5px 0;
 }
 /* end of _pagination.html*/
+
+.video-container {
+	width:60%;
+	margin-left:auto;
+	margin-right: auto;
+}

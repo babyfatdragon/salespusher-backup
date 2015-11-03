@@ -1,5 +1,5 @@
 (function(){
-	angular.module('salespusher.controllers').controller('UsersCtrl',['$rootScope','$scope','$http', 'User', function($rootScope, $scope, $http, User){
+	angular.module('salespusher.controllers').controller('UsersCtrl',['$rootScope','$scope','$http','User', function($rootScope, $scope, $http, User){
 
 		$scope.users = User.query();
 		

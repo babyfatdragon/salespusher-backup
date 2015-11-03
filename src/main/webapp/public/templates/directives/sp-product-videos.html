@@ -1,0 +1,30 @@
+<table class="table">
+    <thead ng-show="action==='createOrUpdate'">
+        <tr>
+            <th>Existing Videos</th>
+            <th class="float-right">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="productVideo in productVideos" ng-show="productVideo.id">
+            <td>
+	  			<youtube-video class="embed-responsive-item" video-url="productVideo.url"></youtube-video>
+            </td>
+            <td nowrap ng-show="action==='createOrUpdate'">
+                <button type="button" class="btn btn-danger btn-xs float-right" ng-click="remove(productVideo)">
+                    <span class="glyphicon glyphicon-trash"></span> Delete
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<form name="addVideoLinkForm" class="form col-md-6" ng-submit="addVideoLinkForm.$valid && popSaveConfirmationDialog()" ng-show="action==='createOrUpdate'" novalidate>
+	<h3>Add Youtube Video Link (One Per Save)</h3>
+	
+	<fieldset class="form-group">
+    	<label for="title">Url</label>
+	    <input class="form-control" type="text" id="url" name="url" ng-model="newProductVideo.url" required/>
+  	</fieldset>
+	<button type="submit" value="Submit" class="btn btn-default btn-md" ng-disabled="!addVideoLinkForm.$valid">Save</button>
+</form>

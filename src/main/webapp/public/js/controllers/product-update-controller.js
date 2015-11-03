@@ -4,8 +4,8 @@
 	'$scope','$stateParams','$location','CategoryOne','CategoryTwo','Product','ProductImage','ProductDocument','ModalService',
 	function($scope,$stateParams,$location,CategoryOne,CategoryTwo,Product,ProductImage,ProductDocument,ModalService){
 		/* Retrieve categoryone and categorytwo for showing in breadcrumb */
-		$scope.categoryone = CategoryOne.get({id:$stateParams.categoryOneId});
-		$scope.categorytwo = CategoryTwo.get({categoryOneId:$stateParams.categoryOneId,id:$stateParams.categoryTwoId});
+		//$scope.categoryone = CategoryOne.get({id:$stateParams.categoryOneId});
+		//$scope.categorytwo = CategoryTwo.get({categoryOneId:$stateParams.categoryOneId,id:$stateParams.categoryTwoId});
 		/* Retrieve categoryones and categorytwos for updating product   */
 		$scope.categoryones = CategoryOne.query();
 		$scope.categorytwos = [];

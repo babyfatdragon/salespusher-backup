@@ -1,7 +1,7 @@
 <div class="container">
 	<h2>{{product.name}}</h2>
 	<hr />
-	<h1><a class="btn btn-default" href="#/product_catalog/{{categoryone.id}}/categories/{{categorytwo.id}}/products/{{product.id}}/update" ng-show="authority==='ADMIN'">Update Product</a></h1>
+	<h1><a class="btn btn-default" href="#/product_catalog/management/product/{{product.id}}/update" ng-show="authority==='ADMIN'">Update Product</a></h1>
 	<hr />
   	<div style="height: 305px">
     	<uib-carousel interval="myInterval" no-wrap="noWrapSlides">
@@ -23,10 +23,10 @@
   	
   	<hr />
   	<!-- accordion -->
-	<uib-accordion close-others="oneAtATime">
-    	<uib-accordion-group is-open="status.open">
+	<uib-accordion>
+    	<uib-accordion-group is-open="download.open">
      		<uib-accordion-heading>
-        		Download <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+        		Download <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': download.open, 'glyphicon-chevron-right': !download.open}"></i>
      		</uib-accordion-heading>
      		<div class="col-md-6" ng-repeat="productDocument in productDocuments">
 	    		<a href="{{getDocumentDirectory(productDocument.name)}}">
@@ -34,5 +34,11 @@
 				</a>
 			</div>
     	</uib-accordion-group>
+	   	<uib-accordion-group is-open="videos.open">
+ 	     	<uib-accordion-heading>
+        		Videos <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': videos.open, 'glyphicon-chevron-right': !videos.open}"></i>
+     		</uib-accordion-heading>
+			<sp-product-videos product-id="product.id"></sp-product-videos>
+        </uib-accordion-group>
   	</uib-accordion>
 </div>

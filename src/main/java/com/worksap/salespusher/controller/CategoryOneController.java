@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.worksap.salespusher.entity.CategoryOneEntity;
-import com.worksap.salespusher.entity.ProductEntity;
 import com.worksap.salespusher.repository.CategoryOneRepository;
 
 @RestController
