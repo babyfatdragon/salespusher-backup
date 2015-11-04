@@ -20,7 +20,6 @@ public class SalespusherApplication {
 	    model.put("content", "Hello World");
 	    return model;
 	}
-
     public static void main(String[] args) {
         SpringApplication.run(SalespusherApplication.class, args);
     }

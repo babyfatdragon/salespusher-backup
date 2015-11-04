@@ -1,4 +1,4 @@
-package com.worksap.salespusher;
+/*package com.worksap.salespusher;
 
 import javax.servlet.ServletContext;
 
@@ -11,4 +11,4 @@ public class SecurityApplicationInitializer extends AbstractSecurityWebApplicati
 	protected void beforeSpringSecurityFilterChain(ServletContext servletContext) {
 		insertFilters(servletContext, new MultipartFilter());
 	}
-}
+}*/

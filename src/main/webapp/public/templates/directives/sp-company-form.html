@@ -1,0 +1,19 @@
+<form name="companyForm" class="form col-md-12" ng-submit="companyForm.$valid && popSaveConfirmationDialog()" novalidate>
+	<fieldset class="form-group">
+    	<label for="title">Name</label>
+	    <input class="form-control" type="text" id="name" name="name" ng-model="company.name" required/>
+  	</fieldset>
+ 	<fieldset class="form-group">
+    	<label for="title">Telephone</label>
+	    <input class="form-control" type="text" id="telephone" name="telephone" ng-model="company.telephone" required/>
+  	</fieldset>
+ 	<fieldset class="form-group">
+    	<label for="title">Email</label>
+	    <input class="form-control" type="email" id="email" name="email" ng-model="company.email" required/>
+  	</fieldset>
+ 	<fieldset class="form-group">
+    	<label for="title">Address</label>
+	    <input class="form-control" type="text" id="address" name="address" ng-model="company.address" required/>
+  	</fieldset>
+ 	<button type="submit" value="Submit" class="btn btn-default btn-md" ng-disabled="!companyForm.$valid">Save</button>
+</form>

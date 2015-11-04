@@ -17,11 +17,11 @@ import com.worksap.salespusher.entity.ProductDocumentEntity;
 import com.worksap.salespusher.repository.ProductDocumentRepository;
 
 @RestController
-public class ProductDocumentController {
+public class ProductDocumentsController {
 	private ProductDocumentRepository productDocumentRepository;
 	
 	@Autowired
-	public ProductDocumentController(ProductDocumentRepository productDocumentRepository){
+	public ProductDocumentsController(ProductDocumentRepository productDocumentRepository){
 		this.productDocumentRepository = productDocumentRepository;
 	}
 	

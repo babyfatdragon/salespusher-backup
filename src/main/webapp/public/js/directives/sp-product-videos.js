@@ -18,7 +18,7 @@
 						});
 					}
 				});
-				
+								
 				$scope.remove = function(productVideo){
 				    ModalService.showModal({
 				    	templateUrl: "templates/partials/_modal_dialog.html",

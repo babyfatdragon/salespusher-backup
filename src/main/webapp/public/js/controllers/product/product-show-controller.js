@@ -29,5 +29,13 @@
 		$scope.getOriginDocumentName = function(fileName){
 			return fileName.substr(fileName.indexOf("-")+1);
 		}
+		
+		/*let dropdown open by default*/
+		$scope.videos = {
+				open:true
+		}
+		$scope.download = {
+				open:true
+		} 
 	}]);
 })();

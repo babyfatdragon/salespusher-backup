@@ -29,10 +29,11 @@
 	<body ng-app="salespusher" ng-cloak class="ng-cloak">
 		<div ng-controller="NavigationCtrl as panel" class="container">
 			<ul class="nav nav-pills" role="tablist">
-				<li><a href="#/" ng-click="panel.selectTab(1)">home</a></li>
-				<li><a href="#/users" ng-click="panel.selectTab(2)" ng-show="authenticated">users</a></li>
-				<li><a href="#/product_catalog" ng-click="panel.selectTab(3)" ng-show="authenticated">product catalog</a></li>
-				<li><a href="#/login" ng-click="panel.selectTab(4)" ng-hide="authenticated">login</a></li>
+				<li><a href="#/">Home</a></li>
+				<li><a href="#/users" ng-show="authenticated">Users</a></li>
+				<li><a href="#/product_catalog" ng-show="authenticated">Product Catalog</a></li>
+				<li><a href="#/customerManagement" ng-show="authenticated">Customer Management</a></li>
+				<li><a href="#/login" ng-hide="authenticated">Login</a></li>
 				<li ng-show="authenticated"><a href="" ng-click="logout()">logout</a></li>
 			</ul>
 		</div>
@@ -58,6 +59,7 @@
 		<script src="js/resources/product-image-resources.js"></script>
 		<script src="js/resources/product-document-resources.js"></script>
 		<script src="js/resources/product-video-resources.js"></script>
+		<script src="js/resources/company-resources.js"></script>
 		
 		<!-- Controllers -->
 		<script src="js/controllers/main.js"></script>
@@ -81,6 +83,8 @@
 		<script src="js/controllers/product/product-create-controller.js"></script>				
 		<script src="js/controllers/product/product-update-controller.js"></script>
 		<script src="js/controllers/product/product-management-controller.js"></script>
+		
+		<script src="js/controllers/company/company-create-controller.js"></script>
 						
 		<!-- Directives -->
 		<script src="js/directives/main.js"></script>
@@ -94,7 +98,9 @@
 		<script src="js/directives/sp-category-form.js"></script>
 		<script src="js/directives/st-ratio.js"></script>					
 		<script src="js/directives/st-page-select.js"></script>					
-		<script src="js/directives/sp-product-videos.js"></script>								
+		<script src="js/directives/sp-product-videos.js"></script>
+		
+		<script src="js/directives/sp-company-form.js"></script>								
 		
 		<!--  Filters -->
 		<script src="js/filters/main.js"></script>

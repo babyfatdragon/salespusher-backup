@@ -24,6 +24,12 @@ public class CategoryOneController {
 		this.categoryOneRepository = categoryOneRepository;
 	}
 	
+	@RequestMapping(value = "/categoryones", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public List<CategoryOneEntity> getCategoryOnes(){
+		return this.categoryOneRepository.findAll();
+	}
+	
 	@RequestMapping(value = "/categoryones", method = RequestMethod.POST)
 	@PreAuthorize("isAuthenticated()")
 	public CategoryOneEntity createCategoryOne(@RequestBody CategoryOneEntity categoryOne) {
@@ -47,11 +53,5 @@ public class CategoryOneController {
 	public ResponseEntity<Boolean> deleteCategoryOne(@PathVariable long id){
 		this.categoryOneRepository.delete(id);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
-	}
-	
-	@RequestMapping(value = "/categoryones", method = RequestMethod.GET)
-	@PreAuthorize("isAuthenticated()")
-	public List<CategoryOneEntity> getCategoryOnes(){
-		return this.categoryOneRepository.findAll();
 	}
 }

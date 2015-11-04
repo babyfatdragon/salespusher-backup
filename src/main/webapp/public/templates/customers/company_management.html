@@ -1,0 +1,49 @@
+<table st-table="companies" st-safe-src="displayCompanies" class="table table-striped">
+	<thead>
+		<tr>
+			<th st-ratio="10" st-sort="id">ID</th>
+			<th st-ratio="20" st-sort="name">Name</th>
+			<th st-ratio="20" st-sort="telephone">Tel</th>
+			<th st-ratio="20" st-sort="email">Email</th>
+			<th st-ratio="20" st-sort="address">Address</th>
+			<th st-ratio="10">Actions</th>
+		</tr>
+		<tr>
+			<th st-ratio="10"></th>
+            <th st-ratio="20">
+            	<input st-search="name" placeholder="search for name" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="20">
+            	<input st-search="telephone" placeholder="search for telephone" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="20">
+            	<input st-search="email" placeholder="search for email" class="input-sm form-control" type="search"/>
+            </th>
+           	<th st-ratio="20">
+            	<input st-search="address" placeholder="search for address" class="input-sm form-control" type="search"/>
+            </th>
+			<th st-ratio="10"></th>
+		</tr>		
+	</thead>
+	<tbody>
+		<tr ng-repeat="company in companies" ng-show="company.id">
+			<td st-ratio="10">{{company.id}}</td>
+			<td st-ratio="20">{{company.name}}</td>
+			<td st-ratio="20">{{company.telephone}}</td>
+			<td st-ratio="20">{{company.email}}</td>
+			<td st-ratio="20">{{company.address}}</td>
+			<td st-ratio="10">
+				<i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{company.name}}" popover-trigger="mouseenter"></i></a>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="5" class="text-center">
+				<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+<a type="button" class="btn btn-primary btn-md" href="#/customerManagement/company/create">Create New Company</a>

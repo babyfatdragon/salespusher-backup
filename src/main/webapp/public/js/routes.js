@@ -159,6 +159,37 @@
 	  			parent: 'product'
 	  		}
 	  	})
+	  	/* customer management */
+	  	.state('customerManagement',{
+	  		url: '/customerManagement',
+	  		templateUrl: '/templates/customers/management.html',
+	  		ncyBreadcrumb: {
+	  			label: 'Customers',
+	  			parent: 'home'
+	  		}
+	  	})
+	  	.state('customerManagement.company',{
+	  		url: '/company',
+	  		templateUrl: '/templates/customers/company_management.html',
+	  		ncyBreadcrumb: {
+	  			label: 'Company Management',
+	  		}
+	  	})
+	  	.state('customerManagement.companyCreate',{
+	  		url: '/company/create',
+	  		templateUrl: '/templates/customers/company_create.html',
+  			controller: 'CompanyCreateCtrl',
+	  		ncyBreadcrumb: {
+	  			label: 'Company Create',
+	  		}
+	  	})
+	  	.state('customerManagement.customer',{
+	  		url: '/customer',
+	  		templateUrl: '/templates/customers/customer_management.html',
+	  		ncyBreadcrumb: {
+	  			label: 'Customer Management',
+	  		}
+	  	})
 	  	$urlRouterProvider.otherwise('/');
     	
     	/* disable basic http authentication dialog */
