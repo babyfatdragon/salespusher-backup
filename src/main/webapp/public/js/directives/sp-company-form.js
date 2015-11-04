@@ -8,7 +8,7 @@
 				action: '@',
 			},
 			templateUrl: 'templates/directives/sp-company-form.html',
-			controller: ['$scope','ModalService','Company', function($scope,ModalService,Company){
+			controller: ['$scope','$location','ModalService','Company', function($scope,$location,ModalService,Company){
 				$scope.popSaveConfirmationDialog = function() {
 					var content = $scope.action==="Create"?"Create new company: "+$scope.company.name+" ?":"Update details of "+$scope.company.name+" ?";
 				    ModalService.showModal({
@@ -24,9 +24,13 @@
 						modal.close.then(function(result) {
 							if(result){
 								if($scope.action==="Create"){
-									$scope.company.$save().then(function(data){});
+									$scope.company.$save().then(function(data){
+										$location.path("/customerManagement/company");
+									});
 								} else if($scope.action==="Update"){
-									$scope.company.$update().then(function(data){});
+									$scope.company.$update().then(function(data){
+										$location.path("/customerManagement/company");
+									});
 								}
 							}
 						});

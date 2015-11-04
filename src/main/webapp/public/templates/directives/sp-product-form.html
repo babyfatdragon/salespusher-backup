@@ -8,31 +8,31 @@
         <select class="form-control" name='category' ng-model='product.categoryTwoId' ng-options='categorytwo.id as categorytwo.name for categorytwo in categorytwos' required></select>
   	</fieldset>
 	<fieldset class="form-group">
-    	<label for="title">Name</label>
+    	<label for="name">Name</label>
 	    <input class="form-control" type="text" id="name" name="name" ng-model="product.name" required/>
   	</fieldset>
  	<fieldset class="form-group">
-    	<label for="title">Overview</label>
+    	<label for="overview">Overview</label>
 			<text-angular ng-model="product.overview"></text-angular>
   	</fieldset>
  	<fieldset class="form-group">
-    	<label for="title">Benefits</label>
+    	<label for="benefits">Benefits</label>
 			<text-angular ng-model="product.benefits"></text-angular>
   	</fieldset>
  	<fieldset class="form-group">
-    	<label for="title">Cases</label>
+    	<label for="cases">Cases</label>
 			<text-angular ng-model="product.cases"></text-angular>
   	</fieldset>
   	<fieldset class="form-group">
-    	<label for="title">Technology</label>
+    	<label for="technology">Technology</label>
 			<text-angular ng-model="product.technology"></text-angular>
   	</fieldset>
   		<fieldset class="form-group">
-    	<label for="title">Specification</label>
+    	<label for="specification">Specification</label>
 			<text-angular ng-model="product.specification"></text-angular>
   	</fieldset>  	
 	<fieldset class="form-group">
-    	<label for="title">Price</label>
+    	<label for="price">Price</label>
 	    <input class="form-control" type="number" id="price" name="price" ng-model="product.price" required/>
   	</fieldset>
  	<button type="submit" value="Submit" class="btn btn-default btn-md" ng-disabled="!productForm.$valid">Save</button>

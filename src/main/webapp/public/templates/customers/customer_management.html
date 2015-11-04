@@ -53,7 +53,9 @@
 			<td st-ratio="10">{{customer.email}}</td>
 			<td st-ratio="15">{{customer.address}}</td>
 			<td st-ratio="10">
-				<i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{customer.name}}" popover-trigger="mouseenter"></i></a>
+				<a href="#/customerManagement/customer/{{customer.id}}/update">
+					<i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{customer.name}}" popover-trigger="mouseenter"></i></a>
+				</a>
 			</td>
 		</tr>
 	</tbody>
@@ -66,4 +68,4 @@
 	</tfoot>
 </table>
 
-<a type="button" class="btn btn-primary btn-md" href="">Create New Customer</a>
+<a type="button" class="btn btn-primary btn-md" href="#/customerManagement/customer/create">Create New Customer</a>

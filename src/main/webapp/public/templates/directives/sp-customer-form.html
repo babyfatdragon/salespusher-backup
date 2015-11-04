@@ -1,0 +1,35 @@
+<form name="customerForm" class="form col-md-6" ng-submit="customerForm.$valid && popSaveConfirmationDialog()" novalidate>
+	<fieldset class="form-group">
+    	<label for="title">Name</label>
+	    <input class="form-control" type="text" id="name" name="name" ng-model="customer.name" required/>
+  	</fieldset>
+	<fieldset class="form-group">
+    	<label for="gender">Gender</label>
+	    <select class="form-control" name="gender" ng-model="customer.gender" ng-options="gender.type as gender.type for gender in genders" required/>  	
+  	</fieldset>
+  	<fieldset class="form-field">
+   	    <label class="form-label" for="company">Company</label>
+        <select class="form-control" name='catalog' ng-model='customer.companyId' ng-options='company.id as company.name for company in companies' required></select>
+  	</fieldset>
+  	<fieldset class="form-group">
+    	<label for="department">Department</label>
+	    <input class="form-control" type="text" id="department" name="department" ng-model="customer.department" required/>
+  	</fieldset> 	
+  	<fieldset class="form-group">
+    	<label for="position">Position</label>
+	    <input class="form-control" type="text" id="position" name="position" ng-model="customer.position" required/>
+  	</fieldset>
+ 	<fieldset class="form-group">
+    	<label for="telephone">Telephone</label>
+	    <input class="form-control" type="text" id="telephone" name="telephone" ng-model="customer.telephone" required/>
+  	</fieldset>
+ 	<fieldset class="form-group">
+    	<label for="email">Email</label>
+	    <input class="form-control" type="email" id="email" name="email" ng-model="customer.email" required/>
+  	</fieldset>
+ 	<fieldset class="form-group">
+    	<label for="address">Address</label>
+	    <input class="form-control" type="text" id="address" name="address" ng-model="customer.address" required/>
+  	</fieldset>
+	<button type="submit" value="Submit" class="btn btn-default btn-md" ng-disabled="!customerForm.$valid">Save</button>
+</form>

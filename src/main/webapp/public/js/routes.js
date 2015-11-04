@@ -159,7 +159,7 @@
 	  			parent: 'product'
 	  		}
 	  	})
-	  	/* customer management */
+	  	/****** customer management ******/
 	  	.state('customerManagement',{
 	  		url: '/customerManagement',
 	  		templateUrl: '/templates/customers/management.html',
@@ -171,6 +171,7 @@
 	  	.state('customerManagement.company',{
 	  		url: '/company',
 	  		templateUrl: '/templates/customers/company_management.html',
+	  		controller: 'CompanyManagementCtrl',
 	  		ncyBreadcrumb: {
 	  			label: 'Company Management',
 	  		}
@@ -183,11 +184,36 @@
 	  			label: 'Company Create',
 	  		}
 	  	})
+	  	.state('customerManagement.companyUpdate',{
+	  		url: '/company/:id/update',
+	  		templateUrl: '/templates/customers/company_update.html',
+  			controller: 'CompanyUpdateCtrl',
+	  		ncyBreadcrumb: {
+	  			label: 'Company Update',
+	  		}
+	  	})
 	  	.state('customerManagement.customer',{
 	  		url: '/customer',
 	  		templateUrl: '/templates/customers/customer_management.html',
+	  		controller: 'CustomerManagementCtrl',
 	  		ncyBreadcrumb: {
 	  			label: 'Customer Management',
+	  		}
+	  	})
+	  	.state('customerManagement.customerCreate',{
+	  		url: '/customer/create',
+	  		templateUrl: '/templates/customers/customer_create.html',
+  			controller: 'CustomerCreateCtrl',
+	  		ncyBreadcrumb: {
+	  			label: 'Customer Create',
+	  		}
+	  	})
+	  	.state('customerManagement.customerUpdate',{
+	  		url: '/customer/:id/update',
+	  		templateUrl: '/templates/customers/customer_update.html',
+  			controller: 'CustomerUpdateCtrl',
+	  		ncyBreadcrumb: {
+	  			label: 'Customer Update',
 	  		}
 	  	})
 	  	$urlRouterProvider.otherwise('/');

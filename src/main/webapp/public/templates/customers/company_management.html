@@ -33,7 +33,9 @@
 			<td st-ratio="20">{{company.email}}</td>
 			<td st-ratio="20">{{company.address}}</td>
 			<td st-ratio="10">
-				<i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{company.name}}" popover-trigger="mouseenter"></i></a>
+				<a href="#/customerManagement/company/{{company.id}}/update">
+					<i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{company.name}}" popover-trigger="mouseenter"></i>
+				</a>
 			</td>
 		</tr>
 	</tbody>
