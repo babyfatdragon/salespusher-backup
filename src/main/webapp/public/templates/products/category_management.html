@@ -19,11 +19,11 @@
 	</thead>
 	<tbody>
 		<tr ng-repeat="categorytwo in categorytwos" ng-show="categorytwo.id">
-			<td st-ratio="20"><a href="#/product_catalog/{{categorytwo.categoryOneId}}/categories/{{categorytwo.id}}/products">{{categorytwo.id}}</a></td>
-			<td st-ratio="20"><a href="#/product_catalog/{{categorytwo.categoryOneId}}">{{categorytwo.catalogName}}</a></td>
-			<td st-ratio="45"><a href="#/product_catalog/{{categorytwo.categoryOneId}}/categories/{{categorytwo.id}}/products">{{categorytwo.name}}</a></td>
+			<td st-ratio="20"><a ui-sref="products({categoryOneId:categorytwo.categoryOneId,categoryTwoId:categorytwo.id})">{{categorytwo.id}}</a></td>
+			<td st-ratio="20"><a ui-sref="productCategory({categoryOneId:categorytwo.categoryOneId})">{{categorytwo.catalogName}}</a></td>
+			<td st-ratio="45"><a ui-sref="products({categoryOneId:categorytwo.categoryOneId,categoryTwoId:categorytwo.id})">{{categorytwo.name}}</a></td>
 			<td st-ratio="15">
-				<a  href="#/product_catalog/management/category/{{categorytwo.id}}/update"><i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{categorytwo.name}}" popover-trigger="mouseenter"></i></a>
+				<a  ui-sref="productManagement.categoryUpdate({id:categorytwo.id})"><i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{categorytwo.name}}" popover-trigger="mouseenter"></i></a>
 				<i class="glyphicon glyphicon-lg glyphicon-trash" uib-popover="Delete {{categorytwo.name}}" popover-trigger="mouseenter" ng-click="deleteAll(categorytwo)"></i>
 			</td>
 		</tr>
@@ -37,4 +37,4 @@
 	</tfoot>
 </table>
 
-<a type="button" class="btn btn-primary btn-md" href="#/product_catalog/management/category/create">Create New Category</a>
+<a type="button" class="btn btn-primary btn-md" ui-sref="productManagement.categoryCreate">Create New Category</a>

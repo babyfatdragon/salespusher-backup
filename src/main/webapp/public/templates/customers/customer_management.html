@@ -18,7 +18,6 @@
             	<input st-search="name" placeholder="search for name" class="input-sm form-control" type="search"/>
             </th>
             <th st-ratio="5">
-            	<input st-search="gender" placeholder="search for gender" class="input-sm form-control" type="search"/>
             </th>
             <th st-ratio="15">
             	<input st-search="companyName" placeholder="search for company" class="input-sm form-control" type="search"/>
@@ -53,7 +52,10 @@
 			<td st-ratio="10">{{customer.email}}</td>
 			<td st-ratio="15">{{customer.address}}</td>
 			<td st-ratio="10">
-				<a href="#/customerManagement/customer/{{customer.id}}/update">
+				<a ui-sref="customerManagement.customerShow({id:customer.id})">
+					<i class="glyphicon glyphicon-lg glyphicon-eye-open" uib-popover="View {{customer.name}}" popover-trigger="mouseenter"></i></a>
+				</a>
+				<a ui-sref="customerManagement.customerUpdate({id:customer.id})">
 					<i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{customer.name}}" popover-trigger="mouseenter"></i></a>
 				</a>
 			</td>
@@ -68,4 +70,4 @@
 	</tfoot>
 </table>
 
-<a type="button" class="btn btn-primary btn-md" href="#/customerManagement/customer/create">Create New Customer</a>
+<a type="button" class="btn btn-primary btn-md" ui-sref="customerManagement.customerCreate">Create New Customer</a>

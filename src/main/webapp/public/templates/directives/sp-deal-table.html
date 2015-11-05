@@ -1,0 +1,74 @@
+<table st-set-filter="customFilter" st-table="deals" st-safe-src="displayDeals" class="table table-striped">
+	<thead>
+		<tr>
+			<th st-ratio="5" st-sort="id">ID</th>
+			<th st-ratio="10" st-sort="productName">Product Name</th>
+			<th st-ratio="5" st-sort="quantity">Quantity</th>									
+			<th st-ratio="10" st-sort="totalPrice">Total Price</th>
+			<th st-ratio="10" st-sort="customerName">Customer</th>			
+			<th st-ratio="10" st-sort="companyName">Company</th>
+			<th st-ratio="10" st-sort="userName">User</th>
+			<th st-ratio="10" st-sort="dealStatus">Deal Status</th>
+			<th st-ratio="10" st-sort="dateCreated">Open At</th>
+			<th st-ratio="10" st-sort="dateClosed">Updated At</th>
+			<th st-ratio="5">Actions</th>
+		</tr>
+		<tr>
+			<th st-ratio="5"></th>
+            <th st-ratio="10">
+            	<input st-search="productName" placeholder="search for product" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="5">
+            	<input st-search="quantity" placeholder="search for quantity" class="input-sm form-control" type="search"/>
+            </th>
+			<th st-ratio="10">
+				<st-number-range predicate="totalPrice" lower="query.lower" higher="query.higher"></st-number-range>
+			</th>
+            <th st-ratio="10">
+            	<input st-search="customerName" placeholder="search for customer" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="10">
+            	<input st-search="companyName" placeholder="search for company" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="10">
+            	<input st-search="userName" placeholder="search for user" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="10">
+            	<input st-search="dealStatus" placeholder="search for deal status" class="input-sm form-control" type="search"/>
+            </th>
+			<th st-ratio="10">
+				<st-date-range  id="created" predicate="dateCreated" after="query.after" before="query.before"></st-date-range>
+			</th>
+           	<th st-ratio="10">
+				<st-date-range  id="closed" predicate="dateClosed" after="query.after" before="query.before"></st-date-range>
+            </th>
+			<th st-ratio="5"></th>
+		</tr>		
+	</thead>
+	<tbody>
+		<tr ng-repeat="deal in deals" ng-show="deal.id">
+			<td st-ratio="5">{{deal.id}}</td>
+			<td st-ratio="10">{{deal.productName}}</td>
+			<td st-ratio="10">{{deal.quantity}}</td>			
+			<td st-ratio="10">{{deal.totalPrice}}</td>
+			<td st-ratio="10">{{deal.customerName}}</td>
+			<td st-ratio="10">{{deal.companyName}}</td>
+			<td st-ratio="10">{{deal.userName}}</td>
+			<td st-ratio="10">{{deal.dealStatus}}</td>
+			<td st-ratio="10">{{deal.dateCreated | date:'yyyy/MM/dd'}}</td>
+			<td st-ratio="10">{{deal.dateClosed | date:'yyyy/MM/dd'}}</td>		
+			<td st-ratio="5">
+				<i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{customer.name}}" popover-trigger="mouseenter"></i>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="5" class="text-center">
+				<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+<a type="button" class="btn btn-primary btn-md" ng-click="add()">Create New Deal</a>

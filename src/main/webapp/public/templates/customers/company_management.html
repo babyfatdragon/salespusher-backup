@@ -33,7 +33,7 @@
 			<td st-ratio="20">{{company.email}}</td>
 			<td st-ratio="20">{{company.address}}</td>
 			<td st-ratio="10">
-				<a href="#/customerManagement/company/{{company.id}}/update">
+				<a ui-sref="customerManagement.companyUpdate({id:company.id})">
 					<i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{company.name}}" popover-trigger="mouseenter"></i>
 				</a>
 			</td>
@@ -48,4 +48,4 @@
 	</tfoot>
 </table>
 
-<a type="button" class="btn btn-primary btn-md" href="#/customerManagement/company/create">Create New Company</a>
+<a type="button" class="btn btn-primary btn-md" ui-sref="customerManagement.companyCreate">Create New Company</a>

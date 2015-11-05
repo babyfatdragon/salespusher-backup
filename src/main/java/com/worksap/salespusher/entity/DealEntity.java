@@ -34,8 +34,8 @@ public class DealEntity {
 	@Column(name="date_created", insertable = false, updatable = false)
 	private Date dateCreated;
     @Temporal(TemporalType.TIMESTAMP)
-	@Column(name="date_modified", insertable = false)
-	private Date dateModified;
+	@Column(name="date_closed")
+	private Date dateClosed;
 	
 	protected DealEntity() {}
 
@@ -121,12 +121,12 @@ public class DealEntity {
 		this.dateCreated = dateCreated;
 	}
 
-	public Date getDateModified() {
-		return dateModified;
+	public Date getDateClosed() {
+		return dateClosed;
 	}
 
-	public void setDateModified(Date dateModified) {
-		this.dateModified = dateModified;
+	public void setDateClosed(Date dateClosed) {
+		this.dateClosed = dateClosed;
 	};
 	
 	

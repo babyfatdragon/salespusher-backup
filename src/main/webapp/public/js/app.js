@@ -11,6 +11,8 @@
 		'smart-table',
 		'youtube-embed',
 		'textAngular',
+	    'eehNavigation',
+	    'pascalprecht.translate',
 		'salespusher.controllers',
 		'salespusher.resources',
 		'salespusher.directives',

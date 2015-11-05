@@ -25,13 +25,16 @@
 		<bootstrap.version>3.3.4</bootstrap.version>
 		<angularjs.version>1.4.7</angularjs.version>
 		<mysql-connector-java.version>5.1.37</mysql-connector-java.version>
-		<angular-ui-bootstrap-bower.version>0.14.3</angular-ui-bootstrap-bower.version>
+		<angular-ui-bootstrap.version>0.14.0</angular-ui-bootstrap.version>
 		<angular-modal-service.version>0.6.9</angular-modal-service.version>
 		<angular-breadcrumb.version>0.4.0</angular-breadcrumb.version>
 		<angular-ui-router.version>0.2.15</angular-ui-router.version>
 		<angular-youtube-mb.version>1.1.0</angular-youtube-mb.version>
 		<textAngular.version>1.4.6</textAngular.version>
 		<font-awesome.version>4.4.0</font-awesome.version>
+		<angular-translate.version>2.7.0</angular-translate.version>
+		<eeh-navigation.version>4.1.2</eeh-navigation.version>
+		
 	</properties>
 
 	<dependencies>
@@ -93,9 +96,9 @@
 	 		<version>${bootstrap.version}</version>
 		</dependency>
 		<dependency>
-		 	<groupId>org.webjars.bower</groupId>
-		 	<artifactId>angular-ui-bootstrap-bower</artifactId>
-	 		<version>${angular-ui-bootstrap-bower.version}</version>
+		 	<groupId>org.webjars</groupId>
+		 	<artifactId>angular-ui-bootstrap</artifactId>
+	 		<version>${angular-ui-bootstrap.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.webjars.npm</groupId>
@@ -121,6 +124,11 @@
 		    <groupId>org.webjars.bower</groupId>
 		    <artifactId>textAngular</artifactId>
 		    <version>${textAngular.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>eeh-navigation</artifactId>
+		    <version>${eeh-navigation.version}</version>
 		</dependency>
 	</dependencies>
 	

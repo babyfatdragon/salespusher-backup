@@ -34,6 +34,7 @@
 	  			parent: 'home'
 	  		}
 	  	})
+	  	/****** product catalog ******/
 	  	.state('productCatalog',{
 	  		url: '/product_catalog',
 	  		templateUrl: '/templates/products/catalog_index.html',
@@ -161,7 +162,7 @@
 	  	})
 	  	/****** customer management ******/
 	  	.state('customerManagement',{
-	  		url: '/customerManagement',
+	  		url: '/customer_management',
 	  		templateUrl: '/templates/customers/management.html',
 	  		ncyBreadcrumb: {
 	  			label: 'Customers',
@@ -214,6 +215,23 @@
   			controller: 'CustomerUpdateCtrl',
 	  		ncyBreadcrumb: {
 	  			label: 'Customer Update',
+	  		}
+	  	})
+	  	.state('customerManagement.customerShow',{
+	  		url: '/customer/:id/show',
+	  		templateUrl: '/templates/customers/customer_show.html',
+  			controller: 'CustomerShowCtrl',
+	  		ncyBreadcrumb: {
+	  			label: '{{customer.name}}',
+	  		}
+	  	})
+	  	/****** deal management ******/
+	  	.state('dealManagement',{
+	  		url: '/deal_management',
+	  		templateUrl: '/templates/deals/deal_management.html',
+	  		controller: 'DealManagementCtrl',
+	  		ncyBreadcrumb: {
+	  			label: 'Deal Management',
 	  		}
 	  	})
 	  	$urlRouterProvider.otherwise('/');
