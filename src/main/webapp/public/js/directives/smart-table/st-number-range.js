@@ -15,7 +15,6 @@
                 var inputHigher = angular.element(inputs[1]);
 
                 var predicateName = attr.predicate;
-                console.log(inputs);
 
                 [inputLower, inputHigher].forEach(function (input, index) {
                     input.bind('blur', function () {

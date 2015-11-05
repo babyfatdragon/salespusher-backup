@@ -15,8 +15,6 @@
                 var inputBefore = angular.element(inputs[0]);
                 var inputAfter = angular.element(inputs[1]);
                 var predicateName = attr.predicate;
-                console.log("before: "+JSON.stringify(inputBefore,2,null));
-                console.log("after: "+JSON.stringify(inputAfter,2,null));
                 [inputBefore, inputAfter].forEach(function (input) {
                     input.bind('blur', function () {
                         var query = {};

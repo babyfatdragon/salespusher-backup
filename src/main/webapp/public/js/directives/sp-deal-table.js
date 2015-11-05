@@ -6,10 +6,10 @@
 			scope: {
 				deals: '=',
 				displayDeals: '=',
-				itemsByPage: '='
+				itemsByPage: '=',
 			},
 			templateUrl: '/templates/directives/sp-deal-table.html',
-			controller: ['$scope','Deal',function($scope,Deal){
+			controller: ['$rootScope','$scope','Deal',function($rootScope,$scope,Deal){
 				Deal.query().$promise.then(function(deals){
 					for(var i=0;i<deals.length;i++){
 						
@@ -18,7 +18,10 @@
 					$scope.displayDeals = [].concat(deals);
 				});
 		    	$scope.itemsByPage = 10;
-				
+		    	$scope.add = function(){
+		    		$rootScope.$broadcast('SHOW_DEAL_FORM');
+		    		console.log("show");
+		    	}
 			}]
 		}
 	}]);
