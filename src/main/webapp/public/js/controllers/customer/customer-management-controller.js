@@ -5,7 +5,8 @@
 			$scope.companies = companies;
 			Customer.query().$promise.then(function(customers){
 				for(var i=0;i<customers.length;i++){
-					customers[i].companyName = $scope.getCompanyName(customers[i].companyId);
+					var company = $scope.getObjectById($scope.companies,customers[i].companyId);
+					customers[i].companyName = company.name;
 				}
 				$scope.customers = customers;
 	    	    $scope.displayCustomers = [].concat(customers);
@@ -14,15 +15,15 @@
 
     	$scope.itemsByPage = 10;
     	
-    	$scope.getCompanyName = function(id){
-    		if($scope.companies.length){
-        		var result = $.grep($scope.companies, function(element){
+		$scope.getObjectById = function(models,id){
+    		if(models.length){
+        		var result = $.grep(models, function(element){
         			return element.id === id; 
     			});
         		if(result.length){
-            		return result[0].name;
+            		return result[0];
         		}
     		}
-    	};
+		}
 	}]);
 })();

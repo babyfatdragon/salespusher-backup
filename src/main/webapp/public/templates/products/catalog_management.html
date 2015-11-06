@@ -20,8 +20,12 @@
 			<td st-ratio="20"><a ui-sref="productCategory({categoryOneId:categoryone.id})">{{categoryone.id}}</a></td>
 			<td st-ratio="65"><a ui-sref="productCategory({categoryOneId:categoryone.id})">{{categoryone.name}}</a></td>
 			<td st-ratio="15">
-				<a  ui-sref="productManagement.catalogUpdate({categoryOneId:categoryone.id})"><i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{categoryone.name}}" popover-trigger="mouseenter"></i></a>
-				<i class="glyphicon glyphicon-lg glyphicon-trash" uib-popover="Delete {{categoryone.name}}" popover-trigger="mouseenter" ng-click="deleteAll(categoryone)"></i>
+				<a  ui-sref="productManagement.catalogUpdate({categoryOneId:categoryone.id})" type="button" class="btn btn-sm btn-primary" uib-popover="Edit {{categoryone.name}}" popover-trigger="mouseenter">
+					<i class="glyphicon glyphicon-lg glyphicon-edit"></i>
+				</a>
+				<button type="button" class="btn btn-sm btn-danger" uib-popover="Delete {{categoryone.name}}" popover-trigger="mouseenter" ng-click="deleteAll(categoryone)">
+					<i class="glyphicon glyphicon-lg glyphicon-trash"></i>
+				</button>
 			</td>
 		</tr>
 	</tbody>

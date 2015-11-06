@@ -52,11 +52,13 @@
 			<td st-ratio="10">{{customer.email}}</td>
 			<td st-ratio="15">{{customer.address}}</td>
 			<td st-ratio="10">
-				<a ui-sref="customerManagement.customerShow({id:customer.id})">
-					<i class="glyphicon glyphicon-lg glyphicon-eye-open" uib-popover="View {{customer.name}}" popover-trigger="mouseenter"></i></a>
+				
+				<a ui-sref="customerManagement.customerShow({id:customer.id})" type="button" class="btn btn-sm btn-primary" uib-popover="View {{customer.name}}" popover-trigger="mouseenter">
+					<i class="glyphicon glyphicon-lg glyphicon-eye-open"></i>
 				</a>
-				<a ui-sref="customerManagement.customerUpdate({id:customer.id})">
-					<i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{customer.name}}" popover-trigger="mouseenter"></i></a>
+				
+				<a ui-sref="customerManagement.customerUpdate({id:customer.id})" type="button" class="btn btn-sm btn-primary" uib-popover="Edit {{customer.name}}" popover-trigger="mouseenter">
+					<i class="glyphicon glyphicon-lg glyphicon-edit"></i>
 				</a>
 			</td>
 		</tr>

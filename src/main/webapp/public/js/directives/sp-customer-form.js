@@ -35,11 +35,11 @@
 							if(result){
 								if($scope.action==="Create"){
 									$scope.customer.$save().then(function(data){
-										$location.path("/customerManagement/customer");
+										$location.path("/customer_management/customer");
 									});
 								} else if($scope.action==="Update"){
 									$scope.customer.$update().then(function(data){
-										$location.path("/customerManagement/customer");
+										$location.path("/customer_management/customer");
 									});
 								}
 							}

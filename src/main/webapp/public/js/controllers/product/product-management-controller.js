@@ -12,35 +12,27 @@
         		$scope.categorytwos = categorytwos;
         		Product.query().$promise.then(function(products){
             		for(var i=0;i<products.length;i++){
-            			products[i].catalogName = $scope.getCategoryOneName(products[i].categoryOneId);
-            			products[i].categoryName = $scope.getCategoryTwoName(products[i].categoryTwoId);
+            			var catalog = $scope.getObjectById($scope.categoryones,products[i].categoryOneId);
+            			products[i].catalogName =catalog.name;
+            			var category = $scope.getObjectById($scope.categorytwos,products[i].categoryTwoId);
+            			products[i].categoryName = category.name;
             		}
             		$scope.products = products;
             	    $scope.displayProducts = [].concat(products);
         		});
         	});
     	});
-
-    	$scope.getCategoryOneName = function(id){
-    		if($scope.categoryones.length){
-        		var result = $.grep($scope.categoryones, function(element){
+    	
+		$scope.getObjectById = function(models,id){
+    		if(models.length){
+        		var result = $.grep(models, function(element){
         			return element.id === id; 
     			});
         		if(result.length){
-            		return result[0].name;
+            		return result[0];
         		}
     		}
-    	};
-    	$scope.getCategoryTwoName = function(id){
-    		if($scope.categorytwos.length){
-        		var result = $.grep($scope.categorytwos, function(element){
-        			return element.id === id; 
-    			});
-        		if(result.length){
-            		return result[0].name;
-        		}
-    		}
-    	};
+		}
     	
     	$scope.itemsByPage = 10;
     	

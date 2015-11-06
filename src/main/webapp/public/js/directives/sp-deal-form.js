@@ -4,15 +4,58 @@
 		return{
 			strict: 'E',
 			templateUrl: '/templates/directives/sp-deal-form.html',
-			controller: ['$scope', function($scope){
-				$scope.$on('SHOW_DEAL_FORM',function(events,args){
-					$scope.showDealForm = true;
+			controller: ['$rootScope','$scope','Product','Company','Customer','Deal', function($rootScope,$scope,Product,Company,Customer,Deal){
+				Product.query().$promise.then(function(products){
+					$scope.products = products;
 				});
 				
+				Customer.query().$promise.then(function(customers){
+					$scope.customers = customers;
+				});
+				
+				$scope.$on('SHOW_ADD_DEAL_FORM',function(events,args){
+					$scope.show = true;
+					$scope.action = "Create";
+					$scope.deal = new Deal();
+				});
+				$scope.$on('SHOW_EDIT_DEAL_FORM',function(events,args){
+					$scope.editId = args.editDeal.id;
+					$scope.show = true;
+					$scope.action = "Update";
+					Deal.get({id:$scope.editId}).$promise.then(function(deal){
+						$scope.deal = deal;
+					});
+				});
+				$scope.save = function() {
+					Customer.get({id:$scope.deal.customerId}).$promise.then(function(customer){
+						if($scope.action==="Create"){
+							Deal.save($scope.deal).$promise.then(function(){
+								$scope.deal = {};
+								$scope.deal.companyId = customer.companyId;
+								$scope.deal.userId = $rootScope.currentUser.id;
+								$scope.deal.dealStatus = "IN PROGRESS";
+					    		$rootScope.$broadcast('DEALS_UPDATED');
+							});		
+						} 
+						else if($scope.action==="Update"){
+							if($scope.deal.dealStatus!='IN PROGRESS'){
+								$scope.deal.dateClosed = new Date();
+							}
+							Deal.update($scope.deal).$promise.then(function(){
+								$scope.show = false;
+								$scope.deal = {};
+					    		$rootScope.$broadcast('DEALS_UPDATED');
+							});		
+						}
+					});
+				}
 				$scope.cancel = function(){
 					$scope.deal = {};
-					$scope.showDealForm = false;
+					$scope.show = false;
+		    		$rootScope.$broadcast('UPDATE_CANCELED');
 				}
+				
+				$scope.statusOptions = [{name:"IN PROGRESS"},{name:"WON"},{name:"LOST"}];
 			}]
 		}
 	}]);

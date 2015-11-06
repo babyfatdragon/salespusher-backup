@@ -1,0 +1,29 @@
+<div>
+	<div class="row">
+		<h3>Opportunity: <a>{{deal.productName}}</a> <i>for</i> <a>{{deal.customerName}}</a>@<a>{{deal.companyName}}</a></h3>
+	</div>
+	<hr />
+	<div class="row">
+		<div class="col-md-1">
+			<h5>QUANTITY</h5>
+			<h4><small>{{deal.quantity}}</small></h4>		
+		</div>
+		<div class="col-md-1">
+			<h5>AMOUNT</h5>
+			<h4><small>{{deal.totalPrice | currency}}</small></h4>		
+		</div>
+		<div class="col-md-1">
+			<h5>OPEN DATE</h5>
+			<h4><small>{{deal.dateCreated | date:'MMM dd yyyy'}}</small></h4>		
+		</div>
+		<div class="col-md-1">
+			<h5>CLOSE DATE</h5>
+			<h4><small>{{deal.dateClosed}}</small></h4>		
+		</div>
+		<div class="col-md-1">
+			<h5>OWNER</h5>
+			<h4><small>{{deal.userName}}</small></h4>		
+		</div>
+	</div>
+</pre>
+

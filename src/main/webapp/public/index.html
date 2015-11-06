@@ -8,7 +8,7 @@
 		<script type="text/javascript" src="webjars/angular-route/${angularjs.version}/angular-route.min.js"></script>
 		<script type="text/javascript" src="webjars/angular-cookies/${angularjs.version}/angular-cookies.min.js"></script>		
 		<script type="text/javascript" src="webjars/angular-resource/${angularjs.version}/angular-resource.min.js"></script>
-		<script type="text/javascript" src="webjars/angular-ui-bootstrap/${angular-ui-bootstrap.version}/ui-bootstrap-tpls.min.js"></script>
+		<script type="text/javascript" src="webjars/angular-ui-bootstrap-bower/${angular-ui-bootstrap-bower.version}/ui-bootstrap-tpls.min.js"></script>
 		<script type="text/javascript" src="webjars/angular-modal-service/${angular-modal-service.version}/dst/angular-modal-service.min.js"></script>
 		<script type="text/javascript" src="webjars/angular-ui-router/${angular-ui-router.version}/release/angular-ui-router.min.js"></script>
 		<script type="text/javascript" src="webjars/angular-breadcrumb/${angular-breadcrumb.version}/dist/angular-breadcrumb.min.js"></script>
@@ -24,12 +24,17 @@
 		
 		<script type="text/javascript" src="webjars/eeh-navigation/${eeh-navigation.version}/dist/eeh-navigation.min.js"></script>
 		<script type="text/javascript" src="webjars/eeh-navigation/${eeh-navigation.version}/dist/eeh-navigation.tpl.min.js"></script>
-				
+		
+<!-- 		<script type="text/javascript" src="webjars/angular-sanitize/${angular-sanitize.version}/angular-sanitize.min.js"></script> -->
+		<script type="text/javascript" src="webjars/ui-select/${ui-select.version}/dist/select.min.js"></script>
+		
 		<link rel="stylesheet" type="text/css" href="css/main.css"></link>
+		<link rel="stylesheet" type="text/css" href="css/smart-table.css"></link>		
 		<link rel="stylesheet" type="text/css" href="webjars/bootstrap/${bootstrap.version}/dist/css/bootstrap.min.css"></link>
 		<link rel="stylesheet" type="text/css" href="webjars/font-awesome/${font-awesome.version}/css/font-awesome.min.css"></link>
 		<link rel="stylesheet" type="text/css" href="webjars/textAngular/${textAngular.version}/dist/textAngular.css"></link>
 		<link rel="stylesheet" type="text/css" href="webjars/eeh-navigation/${eeh-navigation.version}/dist/eeh-navigation.css"></link>
+		<link rel="stylesheet" type="text/css" href="webjars/ui-select/${ui-select.version}/dist/select.min.css"></link>
 	</head>
 	
 	<body ng-app="salespusher" ng-cloak class="ng-cloak">
@@ -104,7 +109,8 @@
 		<script src="js/controllers/customer/customer-show-controller.js"></script>						
 		<script src="js/controllers/customer/customer-management-controller.js"></script>	
 		
-		<script src="js/controllers/deal/deal-management-controller.js"></script>			
+		<script src="js/controllers/deal/deal-management-controller.js"></script>
+		<script src="js/controllers/deal/deal-show-controller.js"></script>			
 				
 		<!-- Directives -->
 		<script src="js/directives/main.js"></script>

@@ -234,6 +234,15 @@
 	  			label: 'Deal Management',
 	  		}
 	  	})
+	  	.state('dealShow',{
+	  		url: '/deal/:id/show',
+	  		templateUrl: '/templates/deals/deal_show.html',
+	  		controller: 'DealShowCtrl',
+	  		ncyBreadcrumb: {
+	  			label: 'Deal {{currentDeal.id}}',
+	  			parent: 'dealManagement'
+	  		}
+	  	})
 	  	$urlRouterProvider.otherwise('/');
     	
     	/* disable basic http authentication dialog */

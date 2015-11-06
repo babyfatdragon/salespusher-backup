@@ -32,8 +32,12 @@
 			<td st-ratio="20"><a ui-sref="products({categoryOneId:product.categoryOneId,categoryTwoId:product.categoryTwoId})">{{product.categoryName}}</a></td>			
 			<td st-ratio="25"><a ui-sref="product({categoryOneId:product.categoryOneId,categoryTwoId:product.categoryTwoId,id:product.id})">{{product.name}}</a></td>
 			<td st-ratio="15">
-				<a  ui-sref="productManagement.productUpdate({id:product.id})"><i class="glyphicon glyphicon-lg glyphicon-edit" uib-popover="Edit {{product.name}}" popover-trigger="mouseenter"></i></a>
-				<i class="glyphicon glyphicon-lg glyphicon-trash" uib-popover="Delete {{product.name}}" popover-trigger="mouseenter" ng-click="deleteAll(product)"></i>
+				<a  ui-sref="productManagement.productUpdate({id:product.id})" type="button" class="btn btn-sm btn-primary" uib-popover="Edit {{product.name}}" popover-trigger="mouseenter">
+					<i class="glyphicon glyphicon-lg glyphicon-edit"></i>
+				</a>
+				<button type="button" class="btn btn-sm btn-danger" uib-popover="Delete {{product.name}}" popover-trigger="mouseenter" ng-click="deleteAll(product)">
+					<i class="glyphicon glyphicon-lg glyphicon-trash"></i>				
+				</button> 
 			</td>
 		</tr>
 	</tbody>

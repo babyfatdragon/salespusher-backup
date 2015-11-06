@@ -10,23 +10,24 @@
     		$scope.categoryones = categoryones;
         	AllCategoryTwo.query().$promise.then(function(categorytwos){
         		for(var i=0;i<categorytwos.length;i++){
-        			categorytwos[i].catalogName = $scope.getCategoryOneName(categorytwos[i].categoryOneId);
+        			var catalog =  $scope.getObjectById($scope.categoryones,categorytwos[i].categoryOneId);
+        			categorytwos[i].catalogName = catalog.name;
         		}
         		$scope.categorytwos = categorytwos;
         	    $scope.displayCategorytwos = [].concat(categorytwos);
         	});
     	});
 
-    	$scope.getCategoryOneName = function(id){
-    		if($scope.categoryones.length){
-        		var result = $.grep($scope.categoryones, function(element){
+		$scope.getObjectById = function(models,id){
+    		if(models.length){
+        		var result = $.grep(models, function(element){
         			return element.id === id; 
     			});
         		if(result.length){
-            		return result[0].name;
+            		return result[0];
         		}
     		}
-    	};
+		}
     	
     	$scope.itemsByPage = 10;
     	

@@ -31,11 +31,11 @@
 		}
 		
 		/*let dropdown open by default*/
-		$scope.videos = {
+/*		$scope.videos = {
 				open:true
 		}
 		$scope.download = {
 				open:true
-		} 
+		} */
 	}]);
 })();

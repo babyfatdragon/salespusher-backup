@@ -1,13 +1,17 @@
 (function(){
-	angular.module('salespusher.controllers').controller('NavigationCtrl',['$rootScope','$scope','$http','$location', function($rootScope, $scope, $http, $location) {				
+	angular.module('salespusher.controllers').controller('NavigationCtrl',['$rootScope','$scope','$http','$location','User', function($rootScope, $scope, $http, $location,User) {				
 		/*authentication, login & logut*/
 		var authenticate = function(callback) {
 			$http.get('user').success(function(data) {
 				if (data.name) {
 					$rootScope.authenticated = true;
 		        	/* set $rootScope authority */
-					$http.get('/user', {}).success(function(data){
-		        		$rootScope.authority = data.authorities[0].authority;
+					$http.get('/user', {}).success(function(user){
+		        		$rootScope.authority = user.authorities[0].authority;
+		        		User.get({username:user.name}).$promise.then(function(currentUser){
+		        			$rootScope.currentUser =currentUser;
+		        			console.log($rootScope.currentUser);
+		        		});
 		        	});
 				} else {
 					$rootScope.authenticated = false;
