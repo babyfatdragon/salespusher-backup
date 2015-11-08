@@ -15,6 +15,7 @@
 		'textAngular',
 	    'eehNavigation',
 	    'pascalprecht.translate',
+    	'chart.js',
 		'salespusher.controllers',
 		'salespusher.resources',
 		'salespusher.directives',

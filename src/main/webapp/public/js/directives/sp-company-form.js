@@ -25,11 +25,11 @@
 							if(result){
 								if($scope.action==="Create"){
 									$scope.company.$save().then(function(data){
-										$location.path("/customerManagement/company");
+										$location.path("/customer_management/company");
 									});
 								} else if($scope.action==="Update"){
 									$scope.company.$update().then(function(data){
-										$location.path("/customerManagement/company");
+										$location.path("/customer_management/company");
 									});
 								}
 							}

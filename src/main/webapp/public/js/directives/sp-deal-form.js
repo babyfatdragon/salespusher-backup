@@ -29,11 +29,11 @@
 				$scope.save = function() {
 					Customer.get({id:$scope.deal.customerId}).$promise.then(function(customer){
 						if($scope.action==="Create"){
+							$scope.deal.companyId = customer.companyId;
+							$scope.deal.userId = $rootScope.currentUser.id;
+							$scope.deal.dealStatus = "IN PROGRESS";
 							Deal.save($scope.deal).$promise.then(function(){
 								$scope.deal = {};
-								$scope.deal.companyId = customer.companyId;
-								$scope.deal.userId = $rootScope.currentUser.id;
-								$scope.deal.dealStatus = "IN PROGRESS";
 					    		$rootScope.$broadcast('DEALS_UPDATED');
 							});		
 						} 

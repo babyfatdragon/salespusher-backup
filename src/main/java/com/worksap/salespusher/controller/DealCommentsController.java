@@ -30,25 +30,31 @@ public class DealCommentsController {
 		return this.dealCommentRepository.findAll();
 	}
 	
-	@RequestMapping(value = "/dealComments", method = RequestMethod.POST)
+	@RequestMapping(value = "/dealComments/{dealId}/comments", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public List<DealCommentEntity> getDealCommentsByDealId(@PathVariable long dealId){
+		return this.dealCommentRepository.findByDealId(dealId);
+	}
+	
+	@RequestMapping(value = "/dealComments/{dealId}/comments", method = RequestMethod.POST)
 	@PreAuthorize("isAuthenticated()")	
 	public DealCommentEntity createDeal(@RequestBody DealCommentEntity dealComment){
 		return this.dealCommentRepository.save(dealComment);
 	}
 	
-	@RequestMapping(value = "/dealComments/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/dealComments/{dealId}/comments/{id}", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
 	public DealCommentEntity getDeal(@PathVariable long id){
 		return this.dealCommentRepository.findOne(id);
 	}
 	
-	@RequestMapping(value = "/dealComments/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/dealComments/{dealId}/comments/{id}", method = RequestMethod.PUT)
 	@PreAuthorize("isAuthenticated()")
 	public DealCommentEntity updateDeal(@PathVariable long id,@RequestBody DealCommentEntity dealComment){
 		return this.dealCommentRepository.save(dealComment);
 	}
 	
-	@RequestMapping(value = "/dealComments/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/dealComments/{dealId}/comments/{id}", method = RequestMethod.DELETE)
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<Boolean> deleteDeal(@PathVariable long id){
 		this.dealCommentRepository.delete(id);
