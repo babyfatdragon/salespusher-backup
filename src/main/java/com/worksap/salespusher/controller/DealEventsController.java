@@ -48,7 +48,7 @@ public class DealEventsController {
 		return this.dealEventRepository.save(dealEvent);
 	}
 	
-	@RequestMapping(value = "/dealEvents/{dealId}/event/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/dealEvents/{dealId}/events/{id}", method = RequestMethod.DELETE)
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<Boolean> deleteDealEvent(@PathVariable long id){
 		this.dealEventRepository.delete(id);

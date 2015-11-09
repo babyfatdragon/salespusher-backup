@@ -1,7 +1,7 @@
 (function(){
 	angular.module('salespusher.controllers')
-	.controller('DealShowCtrl',['$rootScope','$scope','$stateParams','User','Product','Company','Customer','Deal','DealComment','DealEvent',
-	                            function($rootScope,$scope,$stateParams,User,Product,Company,Customer,Deal,DealComment,DealEvent){
+	.controller('DealShowCtrl',['$rootScope','$scope','$stateParams','User','Product','Company','Customer','Deal','DealComment','DealEvent','uiCalendarConfig',
+	                            function($rootScope,$scope,$stateParams,User,Product,Company,Customer,Deal,DealComment,DealEvent,uiCalendarConfig){
 		$scope.comment = new DealComment();
 		$scope.event = {}; /*used in form*/
 		$scope.action = "Create";
@@ -41,7 +41,7 @@
 							});
 							DealEvent.query({dealId:$stateParams.id}).$promise.then(function(events){
 							    for(var i=0;i<events.length;i++){
-							    	var event = {title:events[i].title,start:events[i].start,end:events[i].end};
+							    	var event = {id:events[i].id,title:events[i].title,start:events[i].start,end:events[i].end};
 							    	$scope.events.push(event);
 							    }
 							});
@@ -51,6 +51,21 @@
 				});
 			});
 		});
+		
+	    /* edit on eventClick */
+	    var editOnEventClick = function(calEvent, jsEvent, view){
+	    	DealEvent.get({dealId:$stateParams.id,id:calEvent.id}).$promise.then(function(event){
+	    		$scope.action="Update";
+	    		$scope.event.id = event.id;
+	    		$scope.event.title = event.title;
+	    		$scope.event.startDate = event.start;
+	    		$scope.event.startTime = event.start;
+	    		$scope.event.endDate = event.end;
+	    		$scope.event.endTime = event.end;
+	    		$scope.showForm = true;
+	    		console.log($scope.event);
+			});
+    	};
 
 		/* update on Drop */
 		var updateEventOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
@@ -61,21 +76,6 @@
 				console.log(event);
 			});
 	    };
-	    
-	    $scope.$on('EVENTS_UPDATED',function(event,args){
-	    	console.log("events updated");
-/*	    	$scope.events.splice(0, $scope.events.length);
-			DealEvent.query({dealId:$stateParams.id}).$promise.then(function(events){
-			    for(var i=0;i<events.length;i++){
-			    	var event = {title:events[i].title,start:events[i].start,end:events[i].end};
-			    	$scope.events.push(event);
-			    }
-			    $scope.eventSources = [];
-			    $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
-
-			});*/
-	    });
-	    
 	    /* update on Resize */
 	    var updateEventOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
 			DealEvent.get({dealId:$stateParams.id,id:event._id}).$promise.then(function(draggedEvent){
@@ -85,21 +85,13 @@
 				console.log(event);
 			});
 		};
-		
-	    /* edit on eventClick */
-	    var editOnEventClick = function(calEvent, jsEvent, view){
-	    	DealEvent.get({dealId:$stateParams.id,id:calEvent._id}).$promise.then(function(event){
-	    		$scope.event.id = event.id;
-	    		$scope.event.title = event.title;
-	    		$scope.event.startDate = event.start;
-	    		$scope.event.startTime = event.start;
-	    		$scope.event.endDate = event.end;
-	    		$scope.event.endTime = event.end;
-	    		$scope.action="Update";
-	    		console.log($scope.event);
-			});
-    	};
-		
+
+		var viewOnDoubleClick = function(date, cell) {
+			  cell.bind('dblclick', function() {
+		    	  $('#events-calendar').fullCalendar('gotoDate',date);
+		    	  $('#events-calendar').fullCalendar('changeView','agendaDay')
+	    	  });
+		}
 	    /* config object */
 	    $scope.uiConfig = {
 	      calendar:{
@@ -113,7 +105,8 @@
 	        },
 	        eventClick: editOnEventClick,
 	        eventDrop: updateEventOnDrop,
-	        eventResize: updateEventOnResize
+	        eventResize: updateEventOnResize,
+	        dayRender: viewOnDoubleClick
 	      }
 	    };
 		 
@@ -151,12 +144,20 @@
 		$scope.getUserByUsername = function(username){
     		if($scope.users.length){
         		var result = $.grep($scope.users, function(element){
-        			return element.username === usernmae; 
+        			return element.username === usernmae;
     			});
         		if(result.length){
             		return result[0];
         		}
     		}
 		}
+		
+		$scope.add = function(){
+			$scope.action = "Create";
+			$scope.showForm = true;
+		}
+		$scope.$on('FORM_CANCELED',function(event,args){
+			$scope.showForm = false;
+		});
 	}]);
 })();

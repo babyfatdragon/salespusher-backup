@@ -6,7 +6,7 @@
 			scope: {
 				deal: '=',
 				event: '=',
-				action: '='
+				action: '=',
 			},
 			templateUrl: 'templates/directives/sp-event-form.html',
 			controller: ['$rootScope','$scope','$state','DealEvent',function($rootScope,$scope,$state,DealEvent){
@@ -38,7 +38,6 @@
 				$scope.ismeridian = true;
 				
 				$scope.submit = function(){
-					console.log($scope.event);
 					$scope.event.start = new Date(new Date($scope.event.startDate).getFullYear(),
 							new Date($scope.event.startDate).getMonth(),
 							new Date($scope.event.startDate).getDate(),
@@ -56,8 +55,18 @@
 						DealEvent.update({id:$scope.event.id},$scope.event);
 					}
 					$state.reload();
-					console.log($scope.event);
 				}
+				$scope.remove = function(){
+					DealEvent.remove({dealId:$scope.deal.id,id:$scope.event.id}).$promise.then(function(){
+						$state.reload();
+					});
+				};
+				
+				$scope.cancel = function(){
+					$rootScope.$broadcast('FORM_CANCELED');
+					console.log($scope.showForm);
+				}
+			
 			}]
 		};
 	}]);
