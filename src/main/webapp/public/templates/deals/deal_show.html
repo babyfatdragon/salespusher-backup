@@ -18,7 +18,7 @@
 		</div>
 		<div class="col-md-2">
 			<h5>CLOSE DATE</h5>
-			<h4><small>{{deal.dateClosed}}</small></h4>		
+			<h4><small>{{deal.dateClosed | date:'MMM dd yyyy'}}</small></h4>		
 		</div>
 		<div class="col-md-2">
 			<h5>OWNER</h5>
@@ -26,7 +26,7 @@
 		</div>
 	</div>
 	<h3>Comments</h3>
-	<div class="row col-md-8">
+	<div class="row col-md-6" style="margin-right:10px">
 		<div ng-repeat="comment in comments | orderBy:'-id' | startFrom:(currentPage-1)*pageCapacity | limitTo:pageCapacity" style="border:1px solid;border-color:#ddd;margin-bottom:20px">
 			<div class="comment-header" style="background-color:#F7F7F7;color:#767676;height:22px">
 				<span style="font-weight:bold">&nbsp;{{comment.userName}}</span><span>&nbsp;commented at {{comment.dateCreated | date:'MMM d, y h:mm:ss a'}}</span>
@@ -35,9 +35,14 @@
 				<p ng-bind-html="comment.comment"></p>
 			</div>
 		</div>
-		<uib-pagination total-items="totalItems" items-per-page="pageCapacity" max-size="noOfPages" ng-model="currentPage"></uib-pagination>
+		<uib-pagination total-items="totalItems" items-per-page="pageCapacity" max-size="noOfPages" ng-model="currentPage" ng-show="comments.length"></uib-pagination>
 		
 		<sp-comment-form deal="deal" comment="comment"></sp-comment-form>
 	</div>
+	<div class="row col-md-6">
+		<div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+		<sp-event-form ng-show="showForm" deal="deal" event="event" action="action"></sp-event-form>
+	</div>
 </div>
+
 

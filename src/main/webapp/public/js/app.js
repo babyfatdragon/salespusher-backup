@@ -16,6 +16,7 @@
 	    'eehNavigation',
 	    'pascalprecht.translate',
     	'chart.js',
+    	'ui.calendar',
 		'salespusher.controllers',
 		'salespusher.resources',
 		'salespusher.directives',

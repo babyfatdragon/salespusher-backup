@@ -1,0 +1,33 @@
+<form name="eventForm" class="form col-md-6" ng-submit="eventForm.$valid && submit()" novalidate>
+	<fieldset class="form-group">
+    	<label for="title">Title</label>
+	    <input class="form-control" type="text" id="title" name="title" ng-model="event.title" required/>
+  	</fieldset>
+ 	<fieldset class="form-group">
+    	<label for="start">Start Date Time</label>
+	    <p class="input-group">
+	       	<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" is-open="startDateStatus.opened" ng-model="event.startDate" close-text="Close"/>
+			<span class="input-group-btn"> 
+			    <button type="button" class="btn btn-default" ng-click="openStart($event)">
+			    	<i class="glyphicon glyphicon-calendar"></i>
+			   	</button>
+		    </span>	    
+		</p>
+ 		<uib-timepicker ng-model="event.startTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>   	
+		    
+  	</fieldset>
+	<fieldset class="form-group">
+   		<label for="start">End Date Time</label>
+    	<p class="input-group">
+      		<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" is-open="endDateStatus.opened" ng-model="event.endDate" close-text="Close"/>
+			<span class="input-group-btn"> 
+		    	<button type="button" class="btn btn-default" ng-click="openEnd($event)">
+		    		<i class="glyphicon glyphicon-calendar"></i>
+		   		</button>
+    		</span>
+		</p>
+		<uib-timepicker ng-model="event.endTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>   	
+ 	</fieldset>
+ 	
+	<button type="submit" value="Submit" class="btn btn-default btn-md" ng-disabled="!eventForm.$valid">Save</button>
+</form>

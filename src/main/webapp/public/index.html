@@ -27,17 +27,27 @@
 		
 <!-- 		<script type="text/javascript" src="webjars/angular-sanitize/${angular-sanitize.version}/angular-sanitize.min.js"></script> -->
 		<script type="text/javascript" src="webjars/ui-select/${ui-select.version}/dist/select.min.js"></script>
+		
+		<!-- chart -->
 		<script type="text/javascript" src="js/vendor/Chart.min.js"></script>
 		<script type="text/javascript" src="js/vendor/angular-chart.min.js"></script>
-			
+		<!-- calendar -->
+		<script type="text/javascript" src="webjars/moment/2.10.6/min/moment.min.js"></script>
+<!-- 		<script type="text/javascript" src="webjars/angular-ui-calendar/${angular-ui-calendar.version}/src/calendar.js"></script>		 -->
+		<script type="text/javascript" src="js/vendor/calendar.js"></script>		
+		<script type="text/javascript" src="js/vendor/fullcalendar.min.js"></script>
+		
 		<link rel="stylesheet" type="text/css" href="css/main.css"></link>
-		<link rel="stylesheet" type="text/css" href="css/smart-table.css"></link>		
+		<link rel="stylesheet" type="text/css" href="css/smart-table.css"></link>
+		<link rel="stylesheet" type="text/css" href="css/angular-chart.min.css"></link>
+		<link rel="stylesheet" type="text/css" href="css/fullcalendar.min.css"></link>
 		<link rel="stylesheet" type="text/css" href="webjars/bootstrap/${bootstrap.version}/dist/css/bootstrap.min.css"></link>
 		<link rel="stylesheet" type="text/css" href="webjars/font-awesome/${font-awesome.version}/css/font-awesome.min.css"></link>
 		<link rel="stylesheet" type="text/css" href="webjars/textAngular/${textAngular.version}/dist/textAngular.css"></link>
 		<link rel="stylesheet" type="text/css" href="webjars/eeh-navigation/${eeh-navigation.version}/dist/eeh-navigation.css"></link>
 		<link rel="stylesheet" type="text/css" href="webjars/ui-select/${ui-select.version}/dist/select.min.css"></link>
-		<link rel="stylesheet" type="text/css" href="css/angular-chart.min.css"></link>
+
+
 	</head>
 	
 	<body ng-app="salespusher" ng-cloak class="ng-cloak">
@@ -80,6 +90,7 @@
 		<script src="js/resources/customer-resources.js"></script>
 		<script src="js/resources/deal-resources.js"></script>
 		<script src="js/resources/deal-comment-resources.js"></script>
+		<script src="js/resources/deal-event-resources.js"></script>		
 		
 		<!-- Controllers -->
 		<script src="js/controllers/main.js"></script>
@@ -132,6 +143,7 @@
 		<script src="js/directives/sp-deal-table.js"></script>
 		<script src="js/directives/sp-deal-form.js"></script>
 		<script src="js/directives/sp-comment-form.js"></script>
+		<script src="js/directives/sp-event-form.js"></script>
 		
 		<script src="js/directives/smart-table/st-ratio.js"></script>					
 		<script src="js/directives/smart-table/st-page-select.js"></script>	

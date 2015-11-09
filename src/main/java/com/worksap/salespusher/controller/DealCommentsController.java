@@ -38,25 +38,25 @@ public class DealCommentsController {
 	
 	@RequestMapping(value = "/dealComments/{dealId}/comments", method = RequestMethod.POST)
 	@PreAuthorize("isAuthenticated()")	
-	public DealCommentEntity createDeal(@RequestBody DealCommentEntity dealComment){
+	public DealCommentEntity createDealComments(@RequestBody DealCommentEntity dealComment){
 		return this.dealCommentRepository.save(dealComment);
 	}
 	
 	@RequestMapping(value = "/dealComments/{dealId}/comments/{id}", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
-	public DealCommentEntity getDeal(@PathVariable long id){
+	public DealCommentEntity getDealComment(@PathVariable long id){
 		return this.dealCommentRepository.findOne(id);
 	}
 	
 	@RequestMapping(value = "/dealComments/{dealId}/comments/{id}", method = RequestMethod.PUT)
 	@PreAuthorize("isAuthenticated()")
-	public DealCommentEntity updateDeal(@PathVariable long id,@RequestBody DealCommentEntity dealComment){
+	public DealCommentEntity updateDealComment(@PathVariable long id,@RequestBody DealCommentEntity dealComment){
 		return this.dealCommentRepository.save(dealComment);
 	}
 	
 	@RequestMapping(value = "/dealComments/{dealId}/comments/{id}", method = RequestMethod.DELETE)
 	@PreAuthorize("isAuthenticated()")
-	public ResponseEntity<Boolean> deleteDeal(@PathVariable long id){
+	public ResponseEntity<Boolean> deleteDealComment(@PathVariable long id){
 		this.dealCommentRepository.delete(id);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}	

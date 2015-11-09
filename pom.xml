@@ -36,6 +36,7 @@
 		<eeh-navigation.version>4.1.2</eeh-navigation.version>
 		<angular-sanitize.version>1.4.7</angular-sanitize.version>
 		<ui-select.version>0.13.2</ui-select.version>
+		<angular-ui-calendar.version>1.0.1</angular-ui-calendar.version>
 		
 	</properties>
 
@@ -141,6 +142,11 @@
 		    <groupId>org.webjars.npm</groupId>
 		    <artifactId>ui-select</artifactId>
 		    <version>${ui-select.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-ui-calendar</artifactId>
+		    <version>${angular-ui-calendar.version}</version>
 		</dependency>
 	</dependencies>
 	
