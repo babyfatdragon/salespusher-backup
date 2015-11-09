@@ -21,16 +21,25 @@ public class DealFollowerEntity {
 	private long dealId;
 	@Column(name="user_id")
 	private long userId;
+	@Column(name="unread_comments")
+	private int unreadComments;
+	@Column(name="unread_events")
+	private int unreadEvents;
+	@Column(name="unread_followers")
+	private int unreadFollowers;
     @Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_created", insertable = false, updatable = false)
 	private Date dateCreated;
 	
 	protected DealFollowerEntity() {}
 
-	public DealFollowerEntity(long dealId, long userId) {
+	public DealFollowerEntity(long dealId, long userId, int unreadComments, int unreadEvents, int unreadFollowers) {
 		super();
 		this.dealId = dealId;
 		this.userId = userId;
+		this.unreadComments = unreadComments;
+		this.unreadEvents = unreadEvents;
+		this.unreadFollowers = unreadFollowers;
 	}
 
 	public long getId() {
@@ -55,6 +64,30 @@ public class DealFollowerEntity {
 
 	public void setUserId(long userId) {
 		this.userId = userId;
+	}
+
+	public int getUnreadComments() {
+		return unreadComments;
+	}
+
+	public void setUnreadComments(int unreadComments) {
+		this.unreadComments = unreadComments;
+	}
+
+	public int getUnreadEvents() {
+		return unreadEvents;
+	}
+
+	public void setUnreadEvents(int unreadEvents) {
+		this.unreadEvents = unreadEvents;
+	}
+
+	public int getUnreadFollowers() {
+		return unreadFollowers;
+	}
+
+	public void setUnreadFollowers(int unreadFollowers) {
+		this.unreadFollowers = unreadFollowers;
 	}
 
 	public Date getDateCreated() {

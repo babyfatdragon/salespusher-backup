@@ -4,7 +4,8 @@
 		return{
 			strict: 'E',
 			templateUrl: '/templates/directives/sp-deal-form.html',
-			controller: ['$rootScope','$scope','Product','Company','Customer','Deal', function($rootScope,$scope,Product,Company,Customer,Deal){
+			controller: ['$rootScope','$scope','Product','Company','Customer','Deal','DealFollower',
+			             function($rootScope,$scope,Product,Company,Customer,Deal,DealFollower){
 				Product.query().$promise.then(function(products){
 					$scope.products = products;
 				});
@@ -32,8 +33,13 @@
 							$scope.deal.companyId = customer.companyId;
 							$scope.deal.userId = $rootScope.currentUser.id;
 							$scope.deal.dealStatus = "IN PROGRESS";
-							Deal.save($scope.deal).$promise.then(function(){
+							Deal.save($scope.deal).$promise.then(function(deal){
 								$scope.deal = {};
+								/**add owner to follower **/
+								var follower = new DealFollower();
+								follower.dealId = deal.id;
+								follower.userId = deal.userId;
+								DealFollower.save(follower);
 					    		$rootScope.$broadcast('DEALS_UPDATED');
 							});		
 						} 

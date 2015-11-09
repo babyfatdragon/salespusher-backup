@@ -24,31 +24,31 @@ public class DealFollowersController {
 		this.dealFollowerRepository = dealFollowerRepository;
 	}
 	
-	@RequestMapping(value = "/dealFollowers", method = RequestMethod.GET)
+	@RequestMapping(value = "/dealFollowers/{dealId}/followers", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
-	public List<DealFollowerEntity> getDealFollowers(){
-		return this.dealFollowerRepository.findAll();
+	public List<DealFollowerEntity> getDealFollowers(@PathVariable long dealId){
+		return this.dealFollowerRepository.findByDealId(dealId);
 	}
 
-	@RequestMapping(value = "/dealFollowers", method = RequestMethod.POST)
+	@RequestMapping(value = "/dealFollowers/{dealId}/followers", method = RequestMethod.POST)
 	@PreAuthorize("isAuthenticated()")	
 	public DealFollowerEntity createDeal(@RequestBody DealFollowerEntity dealFollower){
 		return this.dealFollowerRepository.save(dealFollower);
 	}
 	
-	@RequestMapping(value = "/dealFollowers/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/dealFollowers/{dealId}/followers/{id}", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
 	public DealFollowerEntity getDeal(@PathVariable long id){
 		return this.dealFollowerRepository.findOne(id);
 	}
 	
-	@RequestMapping(value = "/dealFollowers/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/dealFollowers/{dealId}/followers/{id}", method = RequestMethod.PUT)
 	@PreAuthorize("isAuthenticated()")
 	public DealFollowerEntity updateDeal(@PathVariable long id,@RequestBody DealFollowerEntity dealFollower){
 		return this.dealFollowerRepository.save(dealFollower);
 	}
 	
-	@RequestMapping(value = "/dealFollowers/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/dealFollowers/{dealId}/followers/{id}", method = RequestMethod.DELETE)
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<Boolean> deleteDeal(@PathVariable long id){
 		this.dealFollowerRepository.delete(id);

@@ -9,7 +9,7 @@
 				action: '=',
 			},
 			templateUrl: 'templates/directives/sp-event-form.html',
-			controller: ['$rootScope','$scope','$state','DealEvent',function($rootScope,$scope,$state,DealEvent){
+			controller: ['$rootScope','$scope','$state','DealEvent','DealFollower',function($rootScope,$scope,$state,DealEvent,DealFollower){
 			    
 				$scope.event.startDate = new Date();
 				$scope.event.startTime = new Date();
@@ -54,6 +54,18 @@
 					} else if($scope.action==='Update'){
 						DealEvent.update({id:$scope.event.id},$scope.event);
 					}
+					/** update unread flags for other followers **/
+					DealFollower.query({dealId:$scope.deal.id}).$promise.then(function(followers){
+						for(var i=0;i<followers.length;i++){
+							if(followers[i].userId==$scope.event.userId){	
+								//self, do nothing
+							}
+							else{
+								followers[i].unreadEvents+=1;
+								followers[i].$update();
+							}
+						}
+					});
 					$state.reload();
 				}
 				$scope.remove = function(){

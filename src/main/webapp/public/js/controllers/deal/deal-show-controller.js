@@ -1,12 +1,16 @@
 (function(){
 	angular.module('salespusher.controllers')
-	.controller('DealShowCtrl',['$rootScope','$scope','$stateParams','User','Product','Company','Customer','Deal','DealComment','DealEvent','uiCalendarConfig',
-	                            function($rootScope,$scope,$stateParams,User,Product,Company,Customer,Deal,DealComment,DealEvent,uiCalendarConfig){
+	.controller('DealShowCtrl',['$rootScope','$scope','$stateParams','User','Product','Company','Customer','Deal','DealComment','DealEvent','DealFollower','uiCalendarConfig',
+	                            function($rootScope,$scope,$stateParams,User,Product,Company,Customer,Deal,DealComment,DealEvent,DealFollower,uiCalendarConfig){
 		$scope.comment = new DealComment();
 		$scope.event = {}; /*used in form*/
 		$scope.action = "Create";
 		$scope.eventSource = {currentTimezone: 'local'};
 		$scope.events = [];
+		$scope.followers = [];
+		$scope.isFollow = false;
+		$scope.followObj = {};
+		
 		User.query().$promise.then(function(users){
 			$scope.users = users;
 			Product.query().$promise.then(function(products){
@@ -44,6 +48,22 @@
 							    	var event = {id:events[i].id,title:events[i].title,start:events[i].start,end:events[i].end};
 							    	$scope.events.push(event);
 							    }
+							});
+							
+							DealFollower.query({dealId:$stateParams.id}).$promise.then(function(followers){
+								for(var i=0;i<followers.length;i++){
+									if(followers[i].userId===$rootScope.currentUser.id){
+										$scope.isFollow = true;
+										/** if current user is following, retrieve followObj and clear unread **/
+										$scope.followObj = followers[i];
+										$scope.followObj.unreadComments = 0;
+										$scope.followObj.unreadEvents = 0;
+										$scope.followObj.$update();
+									}
+									var user = $scope.getObjectById($scope.users,followers[i].userId);
+									followers[i].userName = user.firstname+" "+user.lastname;
+								}
+								$scope.followers = followers;
 							});
 
 						});
@@ -159,5 +179,23 @@
 		$scope.$on('FORM_CANCELED',function(event,args){
 			$scope.showForm = false;
 		});
+		
+		$scope.follow = function(){
+			var follower = new DealFollower();
+			follower.dealId = $scope.deal.id;
+			follower.userId = $rootScope.currentUser.id;
+			DealFollower.save(follower).$promise.then(function(follower){
+				$scope.followObj = follower;
+				$scope.isFollow = true;
+			});
+		}
+		
+		$scope.unfollow = function(){
+			if($scope.followObj!=null){
+				$scope.followObj.$remove().then(function(){
+					$scope.isFollow = false;
+				});
+			}
+		}
 	}]);
 })();
