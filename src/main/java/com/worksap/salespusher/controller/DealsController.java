@@ -28,7 +28,7 @@ public class DealsController {
 	@PreAuthorize("isAuthenticated()")
 	public List<DealEntity> getDeals(){
 		return this.dealRepository.findAll();
-	}	
+	}
 	
 	@RequestMapping(value = "/deals", method = RequestMethod.POST)
 	@PreAuthorize("isAuthenticated()")	

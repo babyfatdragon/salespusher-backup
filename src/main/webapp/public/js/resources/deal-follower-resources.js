@@ -4,4 +4,9 @@
 			'update': {method:'PUT'}
 		});
 	}]);
+	angular.module('salespusher.resources').factory('FollowingDeal', ['$resource',function FollowingDealFactory($resource) {  
+		return $resource("/dealFollowers/:userId/deals/:id", {userId:'@userId',id:'@id'}, {
+			'update': {method:'PUT'}
+		});
+	}]);
 })();

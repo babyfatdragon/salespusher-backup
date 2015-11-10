@@ -1,13 +1,51 @@
-<h1>Greeting</h1>
+<h1>Dashboard</h1>
 <div ng-show="authenticated">
-	<p>The ID is {{greeting.id}}</p>
-	<p>The content is {{greeting.content}}</p>
-	<canvas id="line" class="chart chart-line" chart-data="data"
-	  chart-labels="labels" chart-legend="true" chart-series="series"
-	  chart-click="onClick" >
-	</canvas>
-	
+<!-- 	<p>The ID is {{greeting.id}}</p>
+	<p>The content is {{greeting.content}}</p> -->
+	<div class="row">
+		<div class="col-md-12">		
+			<div class="col-md-6">
+				<div class="panel panel-primary">
+			  		<div class="panel-heading">Own Deals</div>
+				  	<div class="panel-body">
+		    			<div ng-repeat="ownDeal in ownDeals | orderBy:'-ownDeal.id' | limitTo:3">
+		    				<a href="#/deal/{{ownDeal.dealId}}/show">
+			    				<span>#{{ownDeal.dealId}} <i>{{ownDeal.productName}}</i> for {{ownDeal.companyName}}</span>
+			    				<span class="label" ng-class="ownDeal.dealStatus==='IN PROGRESS' ? 'label-warning' : (ownDeal.dealStatus==='WON' ? 'label-success' : 'label-danger')">{{ownDeal.dealStatus}}</span>
+				    			<span class="label label-primary" ng-show="ownDeal.unreadComments">{{ownDeal.unreadComments}} unread comments</span>
+				    			<span class="label label-info" ng-show="ownDeal.unreadEvents">{{ownDeal.unreadEvents}} new events</span>
+		    				</a>	
+		    			</div>
+			  		</div>
+			  	</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel panel-info">
+			  		<div class="panel-heading">Following Deals</div>
+				  	<div class="panel-body">
+						<div ng-repeat="otherDeal in otherDeals | orderBy:'-otherDeal.id' | limitTo:3">
+							<a href="#/deal/{{otherDeal.dealId}}/show">
+								<span>#{{otherDeal.dealId}} <i>{{otherDeal.productName}}</i> for {{otherDeal.companyName}}</span>
+								<span class="label" ng-class="otherDeal.dealStatus==='IN PROGRESS' ? 'label-warning' : (otherDeal.dealStatus==='WON' ? 'label-success' : 'label-danger')">{{otherDeal.dealStatus}}</span>
+				    			<span class="label label-primary" ng-show="otherDeal.unreadComments">{{otherDeal.unreadComments}} unread comments</span>
+				    			<span class="label label-info" ng-show="otherDeal.unreadEvents">{{otherDeal.unreadEvents}} new events</span>
+							</a>	
+		    			</div>	  		
+	    			</div>
+			  	</div>
+			</div>
+		</div>
+	</div>
+	<hr />
+	<div class="row">
+		<div class="col-md-12">
+			<div class="col-md-6">
+				<div id="events-calendar" ui-calendar="" ng-model="eventSources"></div>
+			</div>
+		</div>
+	</div>
 </div>
+
 <div ng-show="!authenticated">
 	<p>Login to see your greeting</p>
 </div>

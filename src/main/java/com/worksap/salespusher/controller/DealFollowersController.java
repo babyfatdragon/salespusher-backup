@@ -24,6 +24,7 @@ public class DealFollowersController {
 		this.dealFollowerRepository = dealFollowerRepository;
 	}
 	
+	
 	@RequestMapping(value = "/dealFollowers/{dealId}/followers", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
 	public List<DealFollowerEntity> getDealFollowers(@PathVariable long dealId){
@@ -53,5 +54,12 @@ public class DealFollowersController {
 	public ResponseEntity<Boolean> deleteDeal(@PathVariable long id){
 		this.dealFollowerRepository.delete(id);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
+	
+	/** Following Deals **/
+	@RequestMapping(value = "/dealFollowers/{userId}/deals", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public List<DealFollowerEntity> getFollowDeals(@PathVariable long userId){
+		return this.dealFollowerRepository.findByUserId(userId);
 	}
 }
