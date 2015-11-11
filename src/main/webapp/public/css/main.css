@@ -103,3 +103,8 @@ canvas {
 div.deal-header{
 	background-color: #fff;
 }
+
+.angular-google-map-container {
+	width: 960px;
+	height: 480px;
+}

@@ -5,7 +5,7 @@
 		$scope.comment = new DealComment();
 		$scope.event = {}; /*used in form*/
 		$scope.action = "Create";
-		$scope.eventSource = {currentTimezone: 'local'};
+		$scope.eventSource = {};
 		$scope.events = [];
 		$scope.followers = [];
 		$scope.isFollow = false;
@@ -45,27 +45,27 @@
 							});
 							DealEvent.query({dealId:$stateParams.id}).$promise.then(function(events){
 							    for(var i=0;i<events.length;i++){
-							    	var event = {id:events[i].id,title:events[i].title,start:events[i].start,end:events[i].end};
+							    	var event = {id:events[i].id,title:events[i].title,start:events[i].start,end:events[i].end,dealId:events[i].dealId};
 							    	$scope.events.push(event);
 							    }
 							});
 							
 							DealFollower.query({dealId:$stateParams.id}).$promise.then(function(followers){
-								for(var i=0;i<followers.length;i++){
-									if(followers[i].userId===$rootScope.currentUser.id){
+								followers.forEach(function(follower){
+									if(follower.userId===$rootScope.currentUser.id){
 										$scope.isFollow = true;
 										/** if current user is following, retrieve followObj and clear unread **/
-										$scope.followObj = followers[i];
+										/** make a copy of follower, otherwise $update operation will override the userName attribute **/
+										$scope.followObj = angular.copy(follower);
 										$scope.followObj.unreadComments = 0;
 										$scope.followObj.unreadEvents = 0;
 										$scope.followObj.$update();
 									}
-									var user = $scope.getObjectById($scope.users,followers[i].userId);
-									followers[i].userName = user.firstname+" "+user.lastname;
-								}
-								$scope.followers = followers;
+									var user = $scope.getObjectById($scope.users,follower.userId);
+									follower.userName = user.firstname+" "+user.lastname;
+									$scope.followers.push(follower);
+								});
 							});
-
 						});
 					});
 				});
@@ -82,6 +82,7 @@
 	    		$scope.event.startTime = event.start;
 	    		$scope.event.endDate = event.end;
 	    		$scope.event.endTime = event.end;
+	    		$scope.event.location = event.location;
 	    		$scope.showForm = true;
 	    		console.log($scope.event);
 			});
@@ -89,7 +90,7 @@
 
 		/* update on Drop */
 		var updateEventOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
-			DealEvent.get({dealId:$stateParams.id,id:event._id}).$promise.then(function(draggedEvent){
+			DealEvent.get({dealId:$stateParams.id,id:event.id}).$promise.then(function(draggedEvent){
 				draggedEvent.start = event.start;
 				draggedEvent.end = event.end;
 				draggedEvent.$update();
@@ -98,7 +99,7 @@
 	    };
 	    /* update on Resize */
 	    var updateEventOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
-			DealEvent.get({dealId:$stateParams.id,id:event._id}).$promise.then(function(draggedEvent){
+			DealEvent.get({dealId:$stateParams.id,id:event.id}).$promise.then(function(draggedEvent){
 				draggedEvent.start = event.start;
 				draggedEvent.end = event.end;
 				draggedEvent.$update();
@@ -197,5 +198,6 @@
 				});
 			}
 		}
+		
 	}]);
 })();

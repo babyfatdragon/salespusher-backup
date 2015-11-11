@@ -17,6 +17,7 @@
 	    'pascalprecht.translate',
     	'chart.js',
     	'ui.calendar',
+    	'uiGmapgoogle-maps',
 		'salespusher.controllers',
 		'salespusher.resources',
 		'salespusher.directives',

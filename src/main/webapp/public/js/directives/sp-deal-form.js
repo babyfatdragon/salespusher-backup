@@ -39,6 +39,7 @@
 								var follower = new DealFollower();
 								follower.dealId = deal.id;
 								follower.userId = deal.userId;
+								follower.isOwner = 1;
 								DealFollower.save(follower);
 					    		$rootScope.$broadcast('DEALS_UPDATED');
 							});		

@@ -8,7 +8,8 @@
 				<div class="panel panel-primary">
 			  		<div class="panel-heading">Own Deals</div>
 				  	<div class="panel-body">
-		    			<div ng-repeat="ownDeal in ownDeals | orderBy:'-ownDeal.id' | limitTo:3">
+				  		<div ng-show="allOwnDealsDisplayed"><label>Search:</label> <input type="text" ng-model="searchOwnDeals" /></div>
+		    			<div ng-repeat="ownDeal in ownDeals | orderBy:'-dealId'| filter:searchOwnDeals | startFrom:(ownDealsCurrentPage-1)*pageCapacity | limitTo:numOfDisplayedOwnDeals">
 		    				<a href="#/deal/{{ownDeal.dealId}}/show">
 			    				<span>#{{ownDeal.dealId}} <i>{{ownDeal.productName}}</i> for {{ownDeal.companyName}}</span>
 			    				<span class="label" ng-class="ownDeal.dealStatus==='IN PROGRESS' ? 'label-warning' : (ownDeal.dealStatus==='WON' ? 'label-success' : 'label-danger')">{{ownDeal.dealStatus}}</span>
@@ -16,6 +17,13 @@
 				    			<span class="label label-info" ng-show="ownDeal.unreadEvents">{{ownDeal.unreadEvents}} new events</span>
 		    				</a>	
 		    			</div>
+		    			<div>
+		    				<uib-pagination total-items="totalOwnDeals" items-per-page="pageCapacity" max-size="ownDealsNoOfPages" ng-model="ownDealsCurrentPage" ng-show="allOwnDealsDisplayed"></uib-pagination>
+		    			</div>
+   						<div>
+   							<button class="btn btn-primary btn-xs" ng-show="ownDeals.length>numOfDisplayedOwnDeals && displayViewAllOwnDealsButton" ng-click="displayAllOwnDeals()">View All</button>
+					   		<button class="btn btn-primary btn-xs" ng-show="displayCloseAllOwnDealsButton" ng-click="closeAllOwnDeals()">Close</button>
+   						</div> 			
 			  		</div>
 			  	</div>
 			</div>
@@ -23,14 +31,22 @@
 				<div class="panel panel-info">
 			  		<div class="panel-heading">Following Deals</div>
 				  	<div class="panel-body">
-						<div ng-repeat="otherDeal in otherDeals | orderBy:'-otherDeal.id' | limitTo:3">
+			  		<div ng-show="allOtherDealsDisplayed"><label>Search:</label> <input type="text" ng-model="searchOtherDeals" /></div>  	
+						<div ng-repeat="otherDeal in otherDeals | orderBy:'-dealId' | filter:searchOtherDeals | startFrom:(otherDealsCurrentPage-1)*pageCapacity | limitTo:numOfDisplayedOtherDeals">
 							<a href="#/deal/{{otherDeal.dealId}}/show">
 								<span>#{{otherDeal.dealId}} <i>{{otherDeal.productName}}</i> for {{otherDeal.companyName}}</span>
 								<span class="label" ng-class="otherDeal.dealStatus==='IN PROGRESS' ? 'label-warning' : (otherDeal.dealStatus==='WON' ? 'label-success' : 'label-danger')">{{otherDeal.dealStatus}}</span>
 				    			<span class="label label-primary" ng-show="otherDeal.unreadComments">{{otherDeal.unreadComments}} unread comments</span>
 				    			<span class="label label-info" ng-show="otherDeal.unreadEvents">{{otherDeal.unreadEvents}} new events</span>
-							</a>	
-		    			</div>	  		
+							</a>
+		    			</div>
+		    			<div>
+		    				<uib-pagination total-items="totalOtherDeals" items-per-page="pageCapacity" max-size="otherDealsNoOfPages" ng-model="otherDealsCurrentPage" ng-show="allOtherDealsDisplayed"></uib-pagination>
+		    			</div>
+		    			<div>
+		    				<button class="btn btn-info btn-xs" ng-show="otherDeals.length>numOfDisplayedOtherDeals && displayViewAllOtherDealsButton" ng-click="displayAllOtherDeals()">View All</button>
+							<button class="btn btn-primary btn-xs" ng-show="displayCloseAllOtherDealsButton" ng-click="closeAllOtherDeals()">Close</button>		  		
+	    				</div>
 	    			</div>
 			  	</div>
 			</div>
@@ -40,7 +56,22 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="col-md-6">
-				<div id="events-calendar" ui-calendar="" ng-model="eventSources"></div>
+				<div id="events-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+				<div ng-show="event.id">
+					<br />
+					<div class="panel panel-warning">
+			  			<div class="panel-heading">Selected Event</div>
+					  	<div class="panel-body">
+					  		<ul class="list-group">
+								<li class="list-group-item">Title: {{event.title}}</li>
+								<li class="list-group-item">Start Time: {{event.start | date:'MMM dd yyyy HH:mm'}}</li>
+								<li class="list-group-item">End Time:{{event.end | date:'MMM dd yyyy HH:mm'}}</li>	
+								<li class="list-group-item">Location:{{event.location}}</li>	
+					  		</ul>
+					  	</div>
+				  	</div>
+													
+				</div>
 			</div>
 		</div>
 	</div>

@@ -37,6 +37,11 @@
 		<script type="text/javascript" src="js/vendor/calendar.js"></script>		
 		<script type="text/javascript" src="js/vendor/fullcalendar.min.js"></script>
 		
+		<!-- angular-google-maps -->
+		<script type="text/javascript" src="webjars/lodash/2.4.1-6/lodash.min.js"></script>
+		<script type="text/javascript" src="webjars/angular-simple-logger/${angular-simple-logger.version}/dist/angular-simple-logger.min.js"></script>
+		<script type="text/javascript" src="webjars/angular-google-maps/${angular-google-maps.version}/angular-google-maps.min.js"></script>
+		
 		<link rel="stylesheet" type="text/css" href="css/main.css"></link>
 		<link rel="stylesheet" type="text/css" href="css/smart-table.css"></link>
 		<link rel="stylesheet" type="text/css" href="css/angular-chart.min.css"></link>
@@ -64,7 +69,6 @@
 		</div>
 		<br />
 
-		
 		<div class="container-full">
 			<div style="margin-bottom:0px" ncy-breadcrumb></div>
 			<eeh-navigation-sidebar search-input-is-visible="false" menu-name="'spSidebar'">
@@ -75,7 +79,8 @@
 		<!-- App -->
 		<script src="js/app.js"></script>
 		<script src="js/routes.js"></script>
-		<script src="js/eehNavConfig.js"></script>			
+		<script src="js/eehNavConfig.js"></script>
+		<script src="js/googleMapsConfig.js"></script>			
 
 		<!-- Resources -->
 		<script src="js/resources/main.js"></script>		
@@ -91,7 +96,8 @@
 		<script src="js/resources/deal-resources.js"></script>
 		<script src="js/resources/deal-comment-resources.js"></script>
 		<script src="js/resources/deal-event-resources.js"></script>
-		<script src="js/resources/deal-follower-resources.js"></script>	
+		<script src="js/resources/deal-follower-resources.js"></script>
+		<script src="js/resources/service-event-resources.js"></script>	
 		
 		<!-- Controllers -->
 		<script src="js/controllers/main.js"></script>

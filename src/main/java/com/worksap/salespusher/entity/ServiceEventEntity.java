@@ -12,13 +12,15 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="deal_events")
-public class DealEventEntity {
+@Table(name="service_events")
+public class ServiceEventEntity {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	@Column(name="deal_id")
 	private long dealId;
+	@Column(name="user_id")
+	private long userId;
 	private String title;
     @Temporal(TemporalType.TIMESTAMP)
 	@Column(name="start_dt")
@@ -27,12 +29,13 @@ public class DealEventEntity {
 	@Column(name="end_dt")
     private Date end;
     private String location;
-	
-	protected DealEventEntity() {}
+    
+    protected ServiceEventEntity() {}
 
-	public DealEventEntity(long dealId, String title, Date start, Date end, String location) {
+	public ServiceEventEntity(long dealId, long userId, String title, Date start, Date end, String location) {
 		super();
 		this.dealId = dealId;
+		this.userId = userId;
 		this.title = title;
 		this.start = start;
 		this.end = end;
@@ -53,6 +56,14 @@ public class DealEventEntity {
 
 	public void setDealId(long dealId) {
 		this.dealId = dealId;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	public String getTitle() {

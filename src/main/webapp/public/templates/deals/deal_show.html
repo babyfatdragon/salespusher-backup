@@ -29,7 +29,9 @@
 		</div>
 		<div class="col-md-5">
 			<h5>FOLLOWERS</h5>
-			<div ng-repeat="follower in followers"><i class="glyphicon glyphicon-lg glyphicon-user" uib-popover="{{follower.userName}}" popover-trigger="mouseenter"></i></div>
+			<span ng-repeat="follower in followers">
+				<i class="glyphicon glyphicon-lg glyphicon-user" uib-popover="{{follower.userName}}" popover-trigger="mouseenter"></i>
+			</span>
 		</div>
 	</div>
 	<hr />

@@ -6,5 +6,46 @@
 <ul>
 	<li ng-repeat="user in users">{{user.id}}: {{user.firstname}} {{user.lastname}}</li>
 </ul>
+<div>
+	<form name="eventForm" style="margin-top:20px" class="form col-md-8" ng-submit="eventForm.$valid && submit()" novalidate>
+
+	 	<fieldset class="form-group">
+	    	<label for="start">Start Date Time</label>
+		    <p class="input-group">
+		       	<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" is-open="startDateStatus.opened" ng-model="event.startDate" close-text="Close"/>
+				<span class="input-group-btn">
+				    <button type="button" class="btn btn-default" ng-click="openStart($event)">
+				    	<i class="glyphicon glyphicon-calendar"></i>
+				   	</button>
+			    </span>	    
+			</p>
+	 		<uib-timepicker ng-model="event.startTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>   	
+			    
+	  	</fieldset>
+		<fieldset class="form-group">
+	   		<label for="start">End Date Time</label>
+	    	<p class="input-group">
+	      		<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" is-open="endDateStatus.opened" ng-model="event.endDate" close-text="Close"/>
+				<span class="input-group-btn"> 
+			    	<button type="button" class="btn btn-default" ng-click="openEnd($event)">
+			    		<i class="glyphicon glyphicon-calendar"></i>
+			   		</button>
+	    		</span>
+			</p>
+			<uib-timepicker ng-model="event.endTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>   	
+	 	</fieldset>
+
+		<button type="submit" value="Submit" class="btn btn-success btn-md" ng-disabled="!eventForm.$valid">Save</button>
+		<button value="Cancel" class="btn btn-default btn-md" ng-click="cancel()">Cancel</button>
+	</form>
+</div>
+<div class="row">
+	<ui-gmap-google-map center='map.center' zoom='map.zoom'></ui-gmap-google-map>
+</div>
+<!-- 
+		<fieldset class="form-group">
+	    	<label for="title">Location</label>
+	        <input class="form-control"type="text" id="location" name="location" ng-model="event.location" required></select>
+	  	</fieldset> -->
 
 

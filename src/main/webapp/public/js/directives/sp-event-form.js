@@ -9,7 +9,7 @@
 				action: '=',
 			},
 			templateUrl: 'templates/directives/sp-event-form.html',
-			controller: ['$rootScope','$scope','$state','DealEvent','DealFollower',function($rootScope,$scope,$state,DealEvent,DealFollower){
+			controller: ['$rootScope','$scope','$state','$timeout','Company','DealEvent','DealFollower',function($rootScope,$scope,$state,$timeout,Company,DealEvent,DealFollower){
 			    
 				$scope.event.startDate = new Date();
 				$scope.event.startTime = new Date();
@@ -34,6 +34,14 @@
 					hstep: [1, 2, 3],
 					mstep: [1, 5, 10, 15, 25, 30]
 				};
+				
+				$timeout(function(){
+					Company.get({id:$scope.deal.companyId}).$promise.then(function(company){
+						/** set default event location to company's address **/
+						$scope.event.location = company.address;
+					});	
+				},300);
+				
 				
 				$scope.ismeridian = true;
 				

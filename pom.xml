@@ -37,6 +37,8 @@
 		<angular-sanitize.version>1.4.7</angular-sanitize.version>
 		<ui-select.version>0.13.2</ui-select.version>
 		<angular-ui-calendar.version>1.0.1</angular-ui-calendar.version>
+		<angular-simple-logger.version>0.1.4</angular-simple-logger.version>
+		<angular-google-maps.version>2.1.1</angular-google-maps.version>
 		
 	</properties>
 
@@ -147,6 +149,16 @@
 		    <groupId>org.webjars.bower</groupId>
 		    <artifactId>angular-ui-calendar</artifactId>
 		    <version>${angular-ui-calendar.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-simple-logger</artifactId>
+		    <version>${angular-simple-logger.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>angular-google-maps</artifactId>
+		    <version>${angular-google-maps.version}</version>
 		</dependency>
 	</dependencies>
 	
