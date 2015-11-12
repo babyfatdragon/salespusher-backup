@@ -44,7 +44,7 @@
 						/** set default event location to company's address **/
 						$scope.event.location = company.address;
 					});	
-				},500);
+				},700);
 				
 				
 				$scope.ismeridian = true;
@@ -104,7 +104,6 @@
 				};
 				
 				$scope.cancel = function(){
-					$scope.event = {};
 					if($scope.eventType==='Event'){
 						$rootScope.$broadcast('FORM_CANCELED');
 					} else if($scope.eventType==='Service'){

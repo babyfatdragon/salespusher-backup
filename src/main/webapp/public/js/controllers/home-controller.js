@@ -7,6 +7,8 @@
 		});
 		$scope.eventSource = {};
 		$scope.events = [];
+		$scope.serviceEvents = [];
+		$scope.numOfDisplayedServiceEvents = 3;
 		$scope.event = {};
 		$scope.ownDeals = [];
 		$scope.numOfDisplayedOwnDeals = 3;
@@ -22,8 +24,9 @@
 			/** retrieve service(personal) events **/
 			UserServiceEvent.query({userId:$rootScope.currentUser.id}).$promise.then(function(events){
 			    events.forEach(function(evt){
-			    	var event = {id:evt.id,title:evt.title,start:evt.start,end:evt.end,color:'Black',dealId:evt.dealId,userId:evt.userId};
-			    	$scope.events.push(event);							    	
+			    	var event = {id:evt.id,title:evt.title,start:evt.start,end:evt.end,color:'Black',dealId:evt.dealId,userId:evt.userId,charge:evt.charge,location:evt.location};
+			    	$scope.events.push(event);
+			    	$scope.serviceEvents.push(event);
 			    });
 			});
 			FollowingDeal.query({userId:$rootScope.currentUser.id}).$promise.then(function(followingDeals){
@@ -74,6 +77,10 @@
 			$scope.totalOtherDeals = $scope.otherDeals.length;
 			$scope.otherDealsCurrentPage = 1;
 			$scope.otherDealsNoOfPages = Math.ceil($scope.totalOtherDeals / $scope.pageCapacity);
+			
+			$scope.totalServiceEvents = $scope.serviceEvents.length;
+			$scope.serviceEventsCurrentPage = 1;
+			$scope.serviceEventsNoOfPages = Math.ceil($scope.totalServiceEvents / $scope.pageCapacity);
 			/** end of pagination **/
 		},1000);
 		
@@ -151,7 +158,7 @@
 			$scope.filtered = filterFilter($scope.ownDeals, newVal);
 			$scope.totalOwnDeals = $scope.filtered.length;
 			$scope.OwnDealsNoOfPages = Math.ceil($scope.totalOwnDeals / $scope.pageCapacity);
-			$scope.currentPage = 1;
+			$scope.ownDealsCurrentPage = 1;
 		}, true);
 		
 	    /** other deals' filter configuration **/
@@ -173,7 +180,29 @@
 			$scope.filtered = filterFilter($scope.otherDeals, newVal);
 			$scope.totalOtherDeals = $scope.filtered.length;
 			$scope.OtherDealsNoOfPages = Math.ceil($scope.totalOtherDeals / $scope.pageCapacity);
-			$scope.currentPage = 1;
+			$scope.otherDealsCurrentPage = 1;
+		}, true);
+		
+		/** service events' filter configuration**/
+	    $scope.displayViewAllServiceEventsButton = true;
+		$scope.displayAllServiceEvents = function(){
+			$scope.allServiceEventsDisplayed = true;
+			$scope.numOfDisplayedServiceEvents = $scope.pageCapacity;
+			$scope.displayViewAllServiceEventsButton = false;
+			$scope.displayCloseAllServiceEventsButton = true;
+		}
+		$scope.closeAllServiceEvents = function(){
+			$scope.allServiceEventsDisplayed = false;
+			$scope.numOfDisplayedServiceEvents = 3;
+			$scope.displayViewAllServiceEventsButton = true;
+			$scope.displayCloseAllServiceEventsButton = false;
+		}
+		
+		$scope.$watch('searchServiceEvents', function (newVal, oldVal) {
+			$scope.filtered = filterFilter($scope.serviceEvents, newVal);
+			$scope.totalServiceEvents = $scope.filtered.length;
+			$scope.ServiceEventsNoOfPages = Math.ceil($scope.totalServiceEvents / $scope.pageCapacity);
+			$scope.serviceEventsCurrentPage = 1;
 		}, true);
 	}]);
 })();

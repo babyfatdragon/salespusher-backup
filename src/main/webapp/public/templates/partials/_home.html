@@ -71,9 +71,28 @@
 								<li class="list-group-item">Location:{{event.location}}</li>	
 					  		</ul>
 					  	</div>
-				  	</div>
-													
+				  	</div>								
 				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel panel-default">
+			  		<div class="panel-heading">Assigned Tasks</div>
+				  	<div class="panel-body">
+				  	<div ng-show="allServiceEventsDisplayed"><label>Search:</label> <input type="text" ng-model="searchServiceEvents" /></div>
+		    			<div ng-repeat="serviceEvent in serviceEvents | orderBy:'-id'| filter:searchServiceEvents | startFrom:(serviceEventsCurrentPage-1)*pageCapacity | limitTo:numOfDisplayedServiceEvents">
+		    				<a href="#/deal/{{serviceEvent.dealId}}/show">
+			    				<span>#{{serviceEvent.id}} {{serviceEvent.title}}@{{serviceEvent.location}}<br />{{serviceEvent.start | date: 'MMM dd yyyy HH:mm'}} - {{serviceEvent.end | date: 'MMM dd yyyy HH:mm'}}</span>
+		    				</a>	
+		    			</div>
+		    			<div>
+		    				<uib-pagination total-items="totalServiceEvents" items-per-page="pageCapacity" max-size="serviceEventsNoOfPages" ng-model="serviceEventsCurrentPage" ng-show="allServiceEventsDisplayed"></uib-pagination>
+		    			</div>
+   						<div>
+   							<button class="btn btn-primary btn-xs" ng-show="serviceEvents.length>numOfDisplayedServiceEvents && displayViewAllServiceEventsButton" ng-click="displayAllServiceEvents()">View All</button>
+					   		<button class="btn btn-primary btn-xs" ng-show="displayCloseAllServiceEventsButton" ng-click="closeAllServiceEvents()">Close</button>
+   						</div> 	
+				  	</div>
+				</div>  	
 			</div>
 		</div>
 	</div>

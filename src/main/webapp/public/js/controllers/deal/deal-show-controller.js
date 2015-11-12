@@ -1,11 +1,11 @@
 (function(){
 	angular.module('salespusher.controllers')
-	.controller('DealShowCtrl',['$rootScope','$scope','$stateParams','User','Product','Company','Customer','Deal','DealComment','DealEvent','DealFollower','DealServiceEvent','ServiceDocument','uiCalendarConfig',
-	                            function($rootScope,$scope,$stateParams,User,Product,Company,Customer,Deal,DealComment,DealEvent,DealFollower,DealServiceEvent,ServiceDocument,uiCalendarConfig){
+	.controller('DealShowCtrl',['$rootScope','$scope','$timeout','$state','$stateParams','User','Product','Company','Customer','Deal','DealComment','DealEvent','DealFollower','DealServiceEvent','ServiceDocument','uiCalendarConfig',
+	                            function($rootScope,$scope,$timeout,$state,$stateParams,User,Product,Company,Customer,Deal,DealComment,DealEvent,DealFollower,DealServiceEvent,ServiceDocument,uiCalendarConfig){
+		$scope.deal = {};
 		$scope.comment = new DealComment();
 		$scope.event = {}; /*used in form*/
 		$scope.serviceEvent = {}; /*used in form*/
-
 		$scope.action = "Create";
 		$scope.eventSource = {};
 		$scope.events = [];
@@ -16,84 +16,99 @@
 		$scope.isFollow = false;
 		$scope.followObj = {};
     	$scope.itemsByPage = 5;
-		User.query().$promise.then(function(users){
-			$scope.users = users;
-			Product.query().$promise.then(function(products){
-				$scope.products = products;
-				Company.query().$promise.then(function(companies){
-					$scope.companies = companies;
-					Customer.query().$promise.then(function(customers){
-						$scope.customers = customers;
-						Deal.get({id:$stateParams.id}).$promise.then(function(deal){
-							
-							var product = $scope.getObjectById($scope.products,deal.productId);
-							deal.productName = product.name;
-							var customer = $scope.getObjectById($scope.customers,deal.customerId);
-							deal.customerName = customer.name;
-							var company = $scope.getObjectById($scope.companies,customer.companyId);
-							deal.companyName = company.name;
-							var user = $scope.getObjectById($scope.users,deal.userId);
-							deal.userName = user.firstname+" "+user.lastname;
-							$scope.deal = deal;
-							/** retrieve comments **/
-							DealComment.query({dealId:$stateParams.id}).$promise.then(function(comments){
-								for(var i=0;i<comments.length;i++){
-									var user = $scope.getObjectById($scope.users,comments[i].userId);
-									comments[i].userName = user.firstname+" "+user.lastname;
-								}
-								$scope.comments = comments;
-								/* pagination */
-								$scope.totalItems = $scope.comments.length;
-								$scope.currentPage = 1;
-								$scope.pageCapacity = 5;
-								$scope.noOfPages = Math.ceil($scope.totalItems / $scope.pageCapacity);
-							});
-							DealEvent.query({dealId:$stateParams.id}).$promise.then(function(events){
-								events.forEach(function(evt){
-							    	var event = {id:evt.id,title:evt.title,start:evt.start,end:evt.end,dealId:evt.dealId,location:evt.location};
-							    	$scope.events.push(event);					
-						    	});
+    	$timeout(function(){
+    		User.query().$promise.then(function(users){
+    			$scope.users = users;
+    			Product.query().$promise.then(function(products){
+    				$scope.products = products;
+    				Company.query().$promise.then(function(companies){
+    					$scope.companies = companies;
+    					Customer.query().$promise.then(function(customers){
+    						$scope.customers = customers;
+    						Deal.get({id:$stateParams.id}).$promise.then(function(deal){
+    							
+    							var product = $scope.getObjectById($scope.products,deal.productId);
+    							deal.productName = product.name;
+    							var customer = $scope.getObjectById($scope.customers,deal.customerId);
+    							deal.customerName = customer.name;
+    							var company = $scope.getObjectById($scope.companies,customer.companyId);
+    							deal.companyName = company.name;
+    							var user = $scope.getObjectById($scope.users,deal.userId);
+    							deal.userName = user.firstname+" "+user.lastname;
+    							$scope.deal = deal;
+    							/** retrieve comments **/
+    							DealComment.query({dealId:$stateParams.id}).$promise.then(function(comments){
+    								for(var i=0;i<comments.length;i++){
+    									var user = $scope.getObjectById($scope.users,comments[i].userId);
+    									comments[i].userName = user.firstname+" "+user.lastname;
+    								}
+    								$scope.comments = comments;
+    								/* pagination */
+    								$scope.totalItems = $scope.comments.length;
+    								$scope.currentPage = 1;
+    								$scope.pageCapacity = 5;
+    								$scope.noOfPages = Math.ceil($scope.totalItems / $scope.pageCapacity);
+    							});
+    							DealEvent.query({dealId:$stateParams.id}).$promise.then(function(events){
+    								events.forEach(function(evt){
+    							    	var event = {id:evt.id,title:evt.title,start:evt.start,end:evt.end,dealId:evt.dealId,location:evt.location};
+    							    	$scope.events.push(event);					
+    						    	});
 
-							});
-							
-							DealServiceEvent.query({dealId:$stateParams.id}).$promise.then(function(events){
-								events.forEach(function(evt){
-									var user = $scope.getObjectById($scope.users,evt.userId);
-									evt.userName = user.firstname+" "+user.lastname;
-									var event = {id:evt.id,title:evt.title,start:evt.start,end:evt.end,dealId:evt.dealId,userId:evt.userId,userName:evt.userName,location:evt.location,charge:evt.charge};
-									ServiceDocument.query({serviceId:event.id}).$promise.then(function(serviceDocuments){
-										event.serviceDocuments = serviceDocuments;
-										/** for smart table **/
-										$scope.serviceEvents.push(event);
-										/** for calendar display **/
-								    	$scope.displayServiceEvents.push(event);
-									});
-								});
-							});
-							
-							
-							DealFollower.query({dealId:$stateParams.id}).$promise.then(function(followers){
-								followers.forEach(function(follower){
-									if(follower.userId===$rootScope.currentUser.id){
-										$scope.isFollow = true;
-										/** if current user is following, retrieve followObj and clear unread **/
-										/** make a copy of follower, otherwise $update operation will override the userName attribute **/
-										$scope.followObj = angular.copy(follower);
-										$scope.followObj.unreadComments = 0;
-										$scope.followObj.unreadEvents = 0;
-										$scope.followObj.unreadFiles = 0;
-										$scope.followObj.$update();
-									}
-									var user = $scope.getObjectById($scope.users,follower.userId);
-									follower.userName = user.firstname+" "+user.lastname;
-									$scope.followers.push(follower);
-								});
-							});
-						});
-					});
-				});
-			});
+    							});
+    							
+    							DealServiceEvent.query({dealId:$stateParams.id}).$promise.then(function(events){
+    								events.forEach(function(evt){
+    									var user = $scope.getObjectById($scope.users,evt.userId);
+    									evt.userName = user.firstname+" "+user.lastname;
+    									var event = {id:evt.id,title:evt.title,start:evt.start,end:evt.end,dealId:evt.dealId,userId:evt.userId,userName:evt.userName,location:evt.location,charge:evt.charge};
+    									ServiceDocument.query({serviceId:event.id}).$promise.then(function(serviceDocuments){
+    										event.serviceDocuments = serviceDocuments;
+    										/** for smart table **/
+    										$scope.serviceEvents.push(event);
+    										/** for calendar display **/
+    								    	$scope.displayServiceEvents.push(event);
+    									});
+    								});
+    							});
+    							
+    							
+    							DealFollower.query({dealId:$stateParams.id}).$promise.then(function(followers){
+    								followers.forEach(function(follower){
+    									if(follower.userId===$rootScope.currentUser.id){
+    										$scope.isFollow = true;
+    										/** if current user is following, retrieve followObj and clear unread **/
+    										/** make a copy of follower, otherwise $update operation will override the userName attribute **/
+    										$scope.followObj = angular.copy(follower);
+    										$scope.followObj.unreadComments = 0;
+    										$scope.followObj.unreadEvents = 0;
+    										$scope.followObj.unreadFiles = 0;
+    										$scope.followObj.$update();
+    									}
+    									var user = $scope.getObjectById($scope.users,follower.userId);
+    									follower.userName = user.firstname+" "+user.lastname;
+    									$scope.followers.push(follower);
+    								});
+    							});
+    						});
+    					});
+    				});
+    			});
+    		});  		
+    	},500);
+
+    	$scope.editDeal = function(dealId){
+			$scope.showDealForm = true;
+    		$rootScope.$broadcast('SHOW_EDIT_DEAL_FORM',{editDeal:{id:dealId}});		
+    	};
+		$scope.$on('DEALS_UPDATED',function(events,args){
+			$state.reload();
 		});
+		
+		$scope.$on('UPDATE_CANCELED',function(events,args){
+			$scope.showDealForm = false;
+		});	
+		
 		
 	    /* edit on eventClick */
 	    var editOnEventClick = function(calEvent, jsEvent, view){

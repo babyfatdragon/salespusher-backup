@@ -57,7 +57,6 @@
 					});
 				}
 				$scope.cancel = function(){
-					$scope.deal = {};
 					$scope.show = false;
 		    		$rootScope.$broadcast('UPDATE_CANCELED');
 				}
