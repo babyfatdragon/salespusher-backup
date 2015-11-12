@@ -36,31 +36,90 @@
 	</div>
 	<hr />
 	<div class="row">
-		<div class="row col-md-6" style="margin-right:10px">
-			<h3>Comments</h3>
-			<div ng-repeat="comment in comments | orderBy:'-id' | startFrom:(currentPage-1)*pageCapacity | limitTo:pageCapacity" style="border:1px solid;border-color:#ddd;margin-bottom:20px">
-				<div class="comment-header" style="background-color:#F7F7F7;color:#767676;height:22px">
-					<span style="font-weight:bold">&nbsp;{{comment.userName}}</span><span>&nbsp;commented at {{comment.dateCreated | date:'MMM d, y h:mm:ss a'}}</span>
-				</div>
-				<div class="comment-body" style="margin:10px;">
-					<p ng-bind-html="comment.comment"></p>
-				</div>
+		<div class="row col-md-6" style="margin-right:30px">
+			<uib-tabset justified="true">
+				<uib-tab heading="Comments">
+					<div ng-repeat="comment in comments | orderBy:'-id' | startFrom:(currentPage-1)*pageCapacity | limitTo:pageCapacity" style="border:1px solid;border-color:#ddd;margin-bottom:20px">
+						<div class="comment-header" style="background-color:#F7F7F7;color:#767676;height:22px">
+							<span style="font-weight:bold">&nbsp;{{comment.userName}}</span><span>&nbsp;commented at {{comment.dateCreated | date:'MMM d, y h:mm:ss a'}}</span>
+						</div>
+						<div class="comment-body" style="margin:10px;">
+							<p ng-bind-html="comment.comment"></p>
+						</div>
+					</div>
+					<uib-pagination total-items="totalItems" items-per-page="pageCapacity" max-size="noOfPages" ng-model="currentPage" ng-show="comments.length"></uib-pagination>
+					<sp-comment-form deal="deal" comment="comment"></sp-comment-form>
+				</uib-tab>
+				
+				<uib-tab heading="Documents">
+					<sp-documents deal-id="deal.id"></sp-documents>	
+					<sp-file-upload file-type="Document" upload-url="/files/deal-docs/upload" deal-id="deal.id"></sp-file-upload>
+				</uib-tab>
+			</uib-tabset>
+		</div>
+		<div class="row col-md-6">
+			<div class="row">
+				<h3>Deal Calendar</h3>
+				<div id="events-calendar" ui-calendar="uiConfig.eventCalendar" ng-model="eventSources"></div>
+				<sp-event-form ng-show="showForm" deal="deal" event="event" event-type="Event" action="action"></sp-event-form>
+				<br />
+				<button type="button" class="btn btn-primary btn-md" ng-click="add()" ng-hide="showForm">Create New Event</button>
 			</div>
-			<uib-pagination total-items="totalItems" items-per-page="pageCapacity" max-size="noOfPages" ng-model="currentPage" ng-show="comments.length"></uib-pagination>
-			
-			<sp-comment-form deal="deal" comment="comment"></sp-comment-form>
-		</div>
-		<div class="row col-md-6">
-			<h3>Calendar</h3>
-			<div id="events-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
-			<sp-event-form ng-show="showForm" deal="deal" event="event" action="action"></sp-event-form>
-		</div>
-		<div class="row col-md-6">
-			<br />
-			<button type="button" class="btn btn-primary btn-md" ng-click="add()" ng-hide="showForm">Create New Event</button>
 		</div>
 	</div>
 	<hr />
+	<div class="row">
+		<div class="col-md-6">
+		<h3>Services</h3>
+		<table st-set-filter="customFilter" st-table="serviceEvents" st-safe-src="displayServiceEvents" class="table table-striped">
+			<thead>
+				<tr>
+					<th st-ratio="10" st-sort="title">Title</th>
+					<th st-ratio="10" st-sort="end" st-sort-default="reverse">Date</th>			
+					<th st-ratio="10" st-sort="location">Location</th>
+					<th st-ratio="10" st-sort="userName">Assigned To</th>								
+					<th st-ratio="10" st-sort="charge">Charge</th>
+					<th st-ratio="10" st-sort="">Files</th>
+				</tr>		
+			</thead>
+			<tbody>
+				<tr ng-repeat="serviceEvent in serviceEvents" ng-show="serviceEvent.id">
+					<td st-ratio="10">{{serviceEvent.title}}</td>
+					<td st-ratio="10">{{serviceEvent.end | date:'yyyy/MM/dd'}}</td>			
+					<td st-ratio="10">{{serviceEvent.location}}</td>
+					<td st-ratio="10">{{serviceEvent.userName}}</td>		
+					<td st-ratio="10">{{serviceEvent.charge | currency}}</td>
+					<td st-ratio="10">
+						<a ng-repeat="serviceDocument in serviceEvent.serviceDocuments" href="{{getServiceDocumentDirectory(serviceDocument.name)}}">
+				  			<span class="glyphicon glyphicon-file" uib-popover="{{getOriginDocumentName(serviceDocument.name)}}" popover-trigger="mouseenter"></span>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="5" class="text-center">
+						<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		</div>
+		<div class="col-md-6">
+			<div class="row">
+				<h3>Service Calendar</h3>
+				<div id="services-calendar" ui-calendar="uiConfig.serviceCalendar" ng-model="serviceEventSources"></div>
+				<sp-event-form ng-show="showServiceForm" deal="deal" event="serviceEvent" event-type="Service" action="serviceAction"></sp-event-form>
+				<sp-documents service-id="serviceEvent.id" ng-show="showServiceForm && serviceAction=='Update'"></sp-documents>	
+				<sp-file-upload file-type="Document" upload-url="/files/service-docs/upload" service-id="serviceEvent.id" ng-show="showServiceForm && serviceAction=='Update'"></sp-file-upload>
+				<br />
+				<button type="button" class="btn btn-primary btn-md" ng-click="addService()" ng-hide="showServiceForm">Create New Service</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div style="height:400px">
+
 </div>
 
 

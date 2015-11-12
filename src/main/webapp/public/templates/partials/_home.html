@@ -15,6 +15,7 @@
 			    				<span class="label" ng-class="ownDeal.dealStatus==='IN PROGRESS' ? 'label-warning' : (ownDeal.dealStatus==='WON' ? 'label-success' : 'label-danger')">{{ownDeal.dealStatus}}</span>
 				    			<span class="label label-primary" ng-show="ownDeal.unreadComments">{{ownDeal.unreadComments}} unread comments</span>
 				    			<span class="label label-info" ng-show="ownDeal.unreadEvents">{{ownDeal.unreadEvents}} new events</span>
+				    			<span class="label label-default" ng-show="ownDeal.unreadFiles">{{ownDeal.unreadFiles}} new files</span>
 		    				</a>	
 		    			</div>
 		    			<div>
@@ -38,6 +39,7 @@
 								<span class="label" ng-class="otherDeal.dealStatus==='IN PROGRESS' ? 'label-warning' : (otherDeal.dealStatus==='WON' ? 'label-success' : 'label-danger')">{{otherDeal.dealStatus}}</span>
 				    			<span class="label label-primary" ng-show="otherDeal.unreadComments">{{otherDeal.unreadComments}} unread comments</span>
 				    			<span class="label label-info" ng-show="otherDeal.unreadEvents">{{otherDeal.unreadEvents}} new events</span>
+						    	<span class="label label-default" ng-show="otherDeal.unreadFiles">{{otherDeal.unreadFiles}} new files</span>
 							</a>
 		    			</div>
 		    			<div>

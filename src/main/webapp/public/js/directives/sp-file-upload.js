@@ -7,9 +7,11 @@
 				fileType: "@",
 				uploadUrl: "@",
 				productId: '=',
+				dealId: '=',
+				serviceId: '=',
 			},
 			templateUrl: "templates/directives/sp-file-upload.html",
-			controller: ['$scope','$cookies','FileUploader',function($scope,$cookies,FileUploader){
+			controller: ['$rootScope','$scope','$cookies','DealFollower','FileUploader',function($rootScope,$scope,$cookies,DealFollower,FileUploader){
 		  		/* uploading images*/
 				
 		        var uploader = $scope.uploader = new FileUploader({
@@ -47,8 +49,31 @@
 		        });
 		        
 		        uploader.onBeforeUploadItem = function(item) {
-		            item.formData.push({productId: $scope.productId});
+		        	if($scope.productId){
+			            item.formData.push({productId: $scope.productId});
+		        	} else if($scope.dealId){
+		        		item.formData.push({dealId: $scope.dealId});
+		        	} else if($scope.serviceId){
+			            item.formData.push({serviceId: $scope.serviceId});
+		        	}
 		        };
+		        
+		        uploader.onCompleteAll = function(){
+					/** update unread flags for other followers **/
+					DealFollower.query({dealId:$scope.dealId}).$promise.then(function(followers){
+						followers.forEach(function(follower){
+							if(follower.userId===$rootScope.currentUser.id){
+								//self, do nothing
+							} else{
+								follower.unreadFiles+=1;
+								follower.$update().then(function(){
+									console.log("updated!!! "+follower.unreadFiles);
+								});
+							}
+						});
+					});
+		        }
+		        
 		        /* end of uploading images */
 			}],
 		}

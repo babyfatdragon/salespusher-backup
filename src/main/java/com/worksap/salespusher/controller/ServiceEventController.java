@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,43 +16,43 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.worksap.salespusher.entity.DealEventEntity;
 import com.worksap.salespusher.entity.ServiceEventEntity;
 import com.worksap.salespusher.repository.ServiceEventRepository;
 
 @RestController
 public class ServiceEventController {
 	private final ServiceEventRepository serviceEventRepository;
-
+	
+	@Autowired
 	public ServiceEventController(ServiceEventRepository serviceEventRepository) {
 		this.serviceEventRepository = serviceEventRepository;
 	}
 	/** find by deal id **/
-	@RequestMapping(value = "/serviceEvents/{dealId}/events", method = RequestMethod.GET)
+	@RequestMapping(value = "/serviceEventsByDeal/{dealId}/events", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
 	public List<ServiceEventEntity> getServiceEventsByDealId(@PathVariable long dealId){
 		return this.serviceEventRepository.findByDealId(dealId);
 	}
 	
-	@RequestMapping(value = "/serviceEvents/{dealId}/events", method = RequestMethod.POST)
+	@RequestMapping(value = "/serviceEventsByDeal/{dealId}/events", method = RequestMethod.POST)
 	@PreAuthorize("isAuthenticated()")	
 	public ServiceEventEntity createServiceEvent(@RequestBody ServiceEventEntity serviceEvent){
 		return this.serviceEventRepository.save(serviceEvent);
 	}
 	
-	@RequestMapping(value = "/serviceEvents/{dealId}/events/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/serviceEventsByDeal/{dealId}/events/{id}", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
 	public ServiceEventEntity getServiceEvent(@PathVariable long id){
 		return this.serviceEventRepository.findOne(id);
 	}
 	
-	@RequestMapping(value = "/serviceEvents/{dealId}/events/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/serviceEventsByDeal/{dealId}/events/{id}", method = RequestMethod.PUT)
 	@PreAuthorize("isAuthenticated()")
 	public ServiceEventEntity updateServiceEvent(@PathVariable long id,@RequestBody ServiceEventEntity serviceEvent){
 		return this.serviceEventRepository.save(serviceEvent);
 	}
 	
-	@RequestMapping(value = "/serviceEvents/{dealId}/events/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/serviceEventsByDeal/{dealId}/events/{id}", method = RequestMethod.DELETE)
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<Boolean> deleteServiceEvent(@PathVariable long id){
 		this.serviceEventRepository.delete(id);
@@ -59,13 +60,13 @@ public class ServiceEventController {
 	}
 	
 	/** find by user id **/
-	@RequestMapping(value = "/serviceEvents/{userId}/events", method = RequestMethod.GET)
+	@RequestMapping(value = "/serviceEventsByUser/{userId}/events", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
 	public List<ServiceEventEntity> getServiceEventsByUserId(@PathVariable long userId){
 		return this.serviceEventRepository.findByUserId(userId);
 	}
 	
-	@RequestMapping(value = "/serviceEvents/{userId}/events/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/serviceEventsByUser/{userId}/events/{id}", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
 	public ServiceEventEntity getServiceEventByUserId(@PathVariable long id){
 		return this.serviceEventRepository.findOne(id);
@@ -74,7 +75,7 @@ public class ServiceEventController {
 	/** find by end time**/
 	@RequestMapping(value = "/serviceEvents", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
-	public List<ServiceEventEntity> getAllDealEvents(){
+	public List<ServiceEventEntity> getAllServiceEvents(){
 		return this.serviceEventRepository.findAll();
 	}
 	

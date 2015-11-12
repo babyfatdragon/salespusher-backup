@@ -29,10 +29,12 @@ public class ServiceEventEntity {
 	@Column(name="end_dt")
     private Date end;
     private String location;
+    private Integer charge;
     
     protected ServiceEventEntity() {}
 
-	public ServiceEventEntity(long dealId, long userId, String title, Date start, Date end, String location) {
+	public ServiceEventEntity(long dealId, long userId, String title, Date start, Date end, String location,
+			Integer charge) {
 		super();
 		this.dealId = dealId;
 		this.userId = userId;
@@ -40,6 +42,7 @@ public class ServiceEventEntity {
 		this.start = start;
 		this.end = end;
 		this.location = location;
+		this.charge = charge;
 	}
 
 	public long getId() {
@@ -96,5 +99,13 @@ public class ServiceEventEntity {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public Integer getCharge() {
+		return charge;
+	}
+
+	public void setCharge(Integer charge) {
+		this.charge = charge;
 	}
 }

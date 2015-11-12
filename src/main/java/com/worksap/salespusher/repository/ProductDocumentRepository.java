@@ -9,5 +9,4 @@ import com.worksap.salespusher.entity.ProductDocumentEntity;
 public interface ProductDocumentRepository extends JpaRepository<ProductDocumentEntity,Long>{
 	ProductDocumentEntity findById(long id);
 	List<ProductDocumentEntity> findByProductId(long productId);
-
 }

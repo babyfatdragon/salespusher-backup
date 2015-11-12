@@ -1,7 +1,7 @@
 (function(){
 	angular.module('salespusher.controllers')
-	.controller('HomeCtrl',['$rootScope','$scope','$timeout',"$http",'filterFilter','Product','Company','Customer','Deal','DealEvent','FollowingDeal',
-	                        function($rootScope,$scope,$timeout,$http,filterFilter,Product,Company,Customer,Deal,DealEvent,FollowingDeal){
+	.controller('HomeCtrl',['$rootScope','$scope','$timeout',"$http",'filterFilter','Product','Company','Customer','Deal','DealEvent','FollowingDeal','UserServiceEvent',
+	                        function($rootScope,$scope,$timeout,$http,filterFilter,Product,Company,Customer,Deal,DealEvent,FollowingDeal,UserServiceEvent){
 		$http.get('/resource/').success(function(data){
 			$scope.greeting = data;
 		});
@@ -19,6 +19,13 @@
 		var colors = [,"Navy","Blue","Green","Cyan","Maroon","Olive","Grey","DarkOrchid","DarkGoldenRod","BurlyWood","AliceBlue","Salmon","BlanchedAlmond","LemonChiffon"];
 		/** set a delay for getting $rootScope.currentUser **/
 		$timeout(function(){
+			/** retrieve service(personal) events **/
+			UserServiceEvent.query({userId:$rootScope.currentUser.id}).$promise.then(function(events){
+			    events.forEach(function(evt){
+			    	var event = {id:evt.id,title:evt.title,start:evt.start,end:evt.end,color:'Black',dealId:evt.dealId,userId:evt.userId};
+			    	$scope.events.push(event);							    	
+			    });
+			});
 			FollowingDeal.query({userId:$rootScope.currentUser.id}).$promise.then(function(followingDeals){
 				followingDeals.forEach(function(followingDeal){
 					var color = colors[counter%(colors.length)];
@@ -26,12 +33,11 @@
 					Deal.get({id:followingDeal.dealId}).$promise.then(function(deal){
 						/** retrieve deal's events **/
 						DealEvent.query({dealId:deal.id}).$promise.then(function(events){
-						    for(var i=0;i<events.length;i++){
-						    	var event = {id:events[i].id,title:events[i].title,start:events[i].start,end:events[i].end,color:color,dealId:events[i].dealId};
+							events.forEach(function(evt){
+						    	var event = {id:evt.id,title:evt.title,start:evt.start,end:evt.end,color:color,dealId:evt.dealId};
 						    	$scope.events.push(event);
-						    }
-						});
-						
+							});					
+						});						
 						followingDeal.productId = deal.productId;
 						followingDeal.quantity = deal.quantity;
 						followingDeal.totalPrice = deal.totalPrice;
@@ -56,7 +62,7 @@
 					});	
 				});
 			});
-		},300);
+		},500);
 		
 		/** set a time for retrieve ownDeals and otherDeals **/
 		$timeout(function(){
@@ -75,15 +81,23 @@
 
 	    /* edit on eventClick */
 	    var editOnEventClick = function(calEvent, jsEvent, view){
-	    	DealEvent.get({dealId:calEvent.dealId,id:calEvent.id}).$promise.then(function(event){
-	    		$scope.action="Update";
-	    		$scope.event.id = event.id;
-	    		$scope.event.title = event.title;
-	    		$scope.event.start = event.start;
-	    		$scope.event.end = event.end;
-	    		$scope.event.location = event.location;
-	    		console.log($scope.event);
-			});
+	    	if(calEvent.userId){
+		    	UserServiceEvent.get({userId:calEvent.userId,id:calEvent.id}).$promise.then(function(event){
+		    		$scope.event.id = event.id;
+		    		$scope.event.title = event.title;
+		    		$scope.event.start = event.start;
+		    		$scope.event.end = event.end;
+		    		$scope.event.location = event.location;
+				});
+	    	} else{
+	    		DealEvent.get({dealId:calEvent.dealId,id:calEvent.id}).$promise.then(function(event){
+		    		$scope.event.id = event.id;
+		    		$scope.event.title = event.title;
+		    		$scope.event.start = event.start;
+		    		$scope.event.end = event.end;
+		    		$scope.event.location = event.location;
+				});	
+	    	}
     	};
 
 		var viewOnDoubleClick = function(date, cell) {

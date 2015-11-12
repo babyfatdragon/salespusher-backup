@@ -7,10 +7,14 @@
 				deal: '=',
 				event: '=',
 				action: '=',
+				eventType: "@"
 			},
 			templateUrl: 'templates/directives/sp-event-form.html',
-			controller: ['$rootScope','$scope','$state','$timeout','Company','DealEvent','DealFollower',function($rootScope,$scope,$state,$timeout,Company,DealEvent,DealFollower){
-			    
+			controller: ['$rootScope','$scope','$state','$timeout','Company','DealEvent','DealFollower','User','DealServiceEvent',
+			             function($rootScope,$scope,$state,$timeout,Company,DealEvent,DealFollower,User,DealServiceEvent){
+				User.query().$promise.then(function(users){
+					$scope.users = users;
+				});
 				$scope.event.startDate = new Date();
 				$scope.event.startTime = new Date();
 				$scope.event.endDate = new Date();
@@ -40,7 +44,7 @@
 						/** set default event location to company's address **/
 						$scope.event.location = company.address;
 					});	
-				},300);
+				},500);
 				
 				
 				$scope.ismeridian = true;
@@ -57,11 +61,22 @@
 							new Date($scope.event.endTime).getHours(),
 							new Date($scope.event.endTime).getMinutes());
 					$scope.event.dealId = $scope.deal.id;
-					if($scope.action==='Create'){
-						DealEvent.save($scope.event);
-					} else if($scope.action==='Update'){
-						DealEvent.update({id:$scope.event.id},$scope.event);
+					if($scope.eventType==='Event'){
+						if($scope.action==='Create'){
+							DealEvent.save($scope.event);
+						} else if($scope.action==='Update'){
+							console.log("EVENT UPDATE");
+							DealEvent.update({id:$scope.event.id},$scope.event);
+						}	
+					} else if($scope.eventType==='Service'){
+						if($scope.action==='Create'){
+							DealServiceEvent.save($scope.event);
+						} else if($scope.action==='Update'){
+							console.log("SERVICE EVENT UPDATE");
+							DealServiceEvent.update({id:$scope.event.id},$scope.event);
+						}
 					}
+
 					/** update unread flags for other followers **/
 					DealFollower.query({dealId:$scope.deal.id}).$promise.then(function(followers){
 						for(var i=0;i<followers.length;i++){
@@ -77,15 +92,25 @@
 					$state.reload();
 				}
 				$scope.remove = function(){
-					DealEvent.remove({dealId:$scope.deal.id,id:$scope.event.id}).$promise.then(function(){
-						$state.reload();
-					});
+					if($scope.eventType==='Event'){
+						DealEvent.remove({dealId:$scope.deal.id,id:$scope.event.id}).$promise.then(function(){
+							$state.reload();
+						});		
+					} else if($scope.eventType==='Service'){
+						DealServiceEvent.remove({dealId:$scope.deal.id,id:$scope.event.id}).$promise.then(function(){
+							$state.reload();
+						});	
+					}
 				};
 				
 				$scope.cancel = function(){
-					$rootScope.$broadcast('FORM_CANCELED');
-					console.log($scope.showForm);
-				}
+					$scope.event = {};
+					if($scope.eventType==='Event'){
+						$rootScope.$broadcast('FORM_CANCELED');
+					} else if($scope.eventType==='Service'){
+						$rootScope.$broadcast('SERVICE_FORM_CANCELED');
+					}
+				};
 			
 			}]
 		};
