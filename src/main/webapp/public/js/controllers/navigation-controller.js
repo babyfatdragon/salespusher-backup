@@ -48,6 +48,7 @@
 	    	$http.post('logout', {}).success(function() {
 	    		console.log("logout succeeded");
 	    		$rootScope.authenticated = false;
+	    		$rootScope.currentUser = null;
 	    		$location.path("/");
 	    	})
 	    	.error(function(data) {

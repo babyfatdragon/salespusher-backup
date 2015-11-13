@@ -1,7 +1,7 @@
 (function(){
 	angular.module('salespusher.controllers')
-	.controller('DealShowCtrl',['$rootScope','$scope','$timeout','$state','$stateParams','User','Product','Company','Customer','Deal','DealComment','DealEvent','DealFollower','DealServiceEvent','ServiceDocument','uiCalendarConfig',
-	                            function($rootScope,$scope,$timeout,$state,$stateParams,User,Product,Company,Customer,Deal,DealComment,DealEvent,DealFollower,DealServiceEvent,ServiceDocument,uiCalendarConfig){
+	.controller('DealShowCtrl',['$rootScope','$scope','$timeout','$state','$stateParams','User','Product','Company','Customer','Deal','DealComment','DealEvent','DealFollower','DealServiceEvent','ServiceDocument','DealExpenseClaim','uiCalendarConfig',
+	                            function($rootScope,$scope,$timeout,$state,$stateParams,User,Product,Company,Customer,Deal,DealComment,DealEvent,DealFollower,DealServiceEvent,ServiceDocument,DealExpenseClaim,uiCalendarConfig){
 		$scope.deal = {};
 		$scope.comment = new DealComment();
 		$scope.event = {}; /*used in form*/
@@ -12,9 +12,14 @@
 		$scope.serviceEventSource = {};
 		$scope.serviceEvents = [];
 		$scope.displayServiceEvents = [];
+		$scope.serviceAction = "Create";
 		$scope.followers = [];
 		$scope.isFollow = false;
 		$scope.followObj = {};
+		$scope.expenseClaim = {}; /* used in form */
+		$scope.expenseClaimAction = "Create";
+		$scope.expenseClaims = [];
+		$scope.displayExpenseClaims = [];
     	$scope.itemsByPage = 5;
     	$timeout(function(){
     		User.query().$promise.then(function(users){
@@ -90,6 +95,15 @@
     									$scope.followers.push(follower);
     								});
     							});
+    							
+    							DealExpenseClaim.query({dealId:$stateParams.id}).$promise.then(function(expenseClaims){
+    								expenseClaims.forEach(function(expenseClaim){
+        								var user = $scope.getObjectById($scope.users,expenseClaim.userId);
+        								expenseClaim.userName = user.firstname+" "+user.lastname;
+        								$scope.expenseClaims.push(expenseClaim);
+        								$scope.displayExpenseClaims.push(expenseClaim);
+    								});
+    							});
     						});
     					});
     				});
@@ -101,6 +115,12 @@
 			$scope.showDealForm = true;
     		$rootScope.$broadcast('SHOW_EDIT_DEAL_FORM',{editDeal:{id:dealId}});		
     	};
+    	$scope.editExpenseClaim = function(expenseClaim){
+    		$scope.expenseClaimAction = "Update";
+    		$scope.expenseClaim = expenseClaim;
+    		$scope.showExpenseClaimForm = true;
+    	}
+    	
 		$scope.$on('DEALS_UPDATED',function(events,args){
 			$state.reload();
 		});
@@ -273,11 +293,18 @@
 			$scope.serviceAction = "Create";
 			$scope.showServiceForm = true;
 		}
+		$scope.addExpenseClaim = function(){
+			$scope.expenseClaimAction = "Create";
+			$scope.showExpenseClaimForm = "true";
+		}
 		$scope.$on('FORM_CANCELED',function(event,args){
 			$scope.showForm = false;
 		});
 		$scope.$on('SERVICE_FORM_CANCELED',function(event,args){
 			$scope.showServiceForm = false;
+		});
+		$scope.$on('EXPENSE_CLAIM_FORM_CANCELED',function(event,args){
+			$scope.showExpenseClaimForm = false;
 		});
 		
 		$scope.follow = function(){

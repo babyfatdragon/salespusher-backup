@@ -18,56 +18,58 @@
 		
 		/** css color counter **/
 		var counter = 0;
-		var colors = [,"Navy","Blue","Green","Cyan","Maroon","Olive","Grey","DarkOrchid","DarkGoldenRod","BurlyWood","AliceBlue","Salmon","BlanchedAlmond","LemonChiffon"];
+		var colors = [,"Navy","Blue","Green","Cyan","Maroon","Olive","Grey","DarkOrchid","DarkGoldenRod","BurlyWood","Aqua","Salmon","BlanchedAlmond","LemonChiffon"];
 		/** set a delay for getting $rootScope.currentUser **/
 		$timeout(function(){
-			/** retrieve service(personal) events **/
-			UserServiceEvent.query({userId:$rootScope.currentUser.id}).$promise.then(function(events){
-			    events.forEach(function(evt){
-			    	var event = {id:evt.id,title:evt.title,start:evt.start,end:evt.end,color:'Black',dealId:evt.dealId,userId:evt.userId,charge:evt.charge,location:evt.location};
-			    	$scope.events.push(event);
-			    	$scope.serviceEvents.push(event);
-			    });
-			});
-			FollowingDeal.query({userId:$rootScope.currentUser.id}).$promise.then(function(followingDeals){
-				followingDeals.forEach(function(followingDeal){
-					var color = colors[counter%(colors.length)];
-					counter++;
-					Deal.get({id:followingDeal.dealId}).$promise.then(function(deal){
-						/** retrieve deal's events **/
-						DealEvent.query({dealId:deal.id}).$promise.then(function(events){
-							events.forEach(function(evt){
-						    	var event = {id:evt.id,title:evt.title,start:evt.start,end:evt.end,color:color,dealId:evt.dealId};
-						    	$scope.events.push(event);
-							});					
-						});						
-						followingDeal.productId = deal.productId;
-						followingDeal.quantity = deal.quantity;
-						followingDeal.totalPrice = deal.totalPrice;
-						followingDeal.customerId = deal.customerId;
-						followingDeal.companyId = deal.companyId;
-						followingDeal.dealStatus = deal.dealStatus;
-						Product.get({id:deal.productId}).$promise.then(function(product){
-							followingDeal.productName = product.name;
-							Company.get({id:deal.companyId}).$promise.then(function(company){
-								followingDeal.companyName = company.name;
-								Customer.get({id:deal.customerId}).$promise.then(function(customer){
-									followingDeal.customerName = customer.name;
-									if(followingDeal.isOwner){
-										$scope.ownDeals.push(followingDeal);
-									} else if(!followingDeal.isOwner){
-										$scope.otherDeals.push(followingDeal);
-									}
+			if($rootScope.currentUser!=null){
+				/** retrieve service(personal) events **/
+				UserServiceEvent.query({userId:$rootScope.currentUser.id}).$promise.then(function(events){
+				    events.forEach(function(evt){
+				    	var event = {id:evt.id,title:evt.title,start:evt.start,end:evt.end,color:'Black',dealId:evt.dealId,userId:evt.userId,charge:evt.charge,location:evt.location};
+				    	$scope.events.push(event);
+				    	$scope.serviceEvents.push(event);
+				    });
+				});
+				FollowingDeal.query({userId:$rootScope.currentUser.id}).$promise.then(function(followingDeals){
+					followingDeals.forEach(function(followingDeal){
+						var color = colors[counter%(colors.length)];
+						counter++;
+						Deal.get({id:followingDeal.dealId}).$promise.then(function(deal){
+							/** retrieve deal's events **/
+							DealEvent.query({dealId:deal.id}).$promise.then(function(events){
+								events.forEach(function(evt){
+							    	var event = {id:evt.id,title:evt.title,start:evt.start,end:evt.end,color:color,dealId:evt.dealId};
+							    	$scope.events.push(event);
+								});					
+							});						
+							followingDeal.productId = deal.productId;
+							followingDeal.quantity = deal.quantity;
+							followingDeal.totalPrice = deal.totalPrice;
+							followingDeal.customerId = deal.customerId;
+							followingDeal.companyId = deal.companyId;
+							followingDeal.dealStatus = deal.dealStatus;
+							Product.get({id:deal.productId}).$promise.then(function(product){
+								followingDeal.productName = product.name;
+								Company.get({id:deal.companyId}).$promise.then(function(company){
+									followingDeal.companyName = company.name;
+									Customer.get({id:deal.customerId}).$promise.then(function(customer){
+										followingDeal.customerName = customer.name;
+										if(followingDeal.isOwner){
+											$scope.ownDeals.push(followingDeal);
+										} else if(!followingDeal.isOwner){
+											$scope.otherDeals.push(followingDeal);
+										}
+									});
 								});
 							});
-						});
-						
-					});	
-				});
-			});
+							
+						});	
+					});
+				});	
+			}
 		},500);
 		
-		/** set a time for retrieve ownDeals and otherDeals **/
+		/** set a delay for retrieving ownDeals and otherDeals **/
 		$timeout(function(){
 			/** pagination **/
 			$scope.totalOwnDeals = $scope.ownDeals.length;

@@ -9,4 +9,10 @@
 			'update': {method:'PUT'}
 		});
 	}]);
+	
+	angular.module('salespusher.resources').factory('AllServiceEvent', ['$resource',function UserServiceEventFactory($resource) {  
+		return $resource("/serviceEvents", {}, {
+			'update': {method:'PUT'}
+		});
+	}]);
 })();

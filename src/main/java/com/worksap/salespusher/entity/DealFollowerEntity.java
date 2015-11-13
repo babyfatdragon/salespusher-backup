@@ -27,6 +27,8 @@ public class DealFollowerEntity {
 	private int unreadEvents;
 	@Column(name="unread_files")
 	private int unreadFiles;
+	@Column(name="unread_expense_claims")
+	private int unreadExpenseClaims;
 	@Column(name="is_owner")
 	private int isOwner;
     @Temporal(TemporalType.TIMESTAMP)
@@ -36,13 +38,14 @@ public class DealFollowerEntity {
 	protected DealFollowerEntity() {}
 
 	public DealFollowerEntity(long dealId, long userId, int unreadComments, int unreadEvents, int unreadFiles,
-			int isOwner) {
+			int unreadExpenseClaims, int isOwner) {
 		super();
 		this.dealId = dealId;
 		this.userId = userId;
 		this.unreadComments = unreadComments;
 		this.unreadEvents = unreadEvents;
 		this.unreadFiles = unreadFiles;
+		this.unreadExpenseClaims = unreadExpenseClaims;
 		this.isOwner = isOwner;
 	}
 
@@ -92,6 +95,14 @@ public class DealFollowerEntity {
 
 	public void setUnreadFiles(int unreadFiles) {
 		this.unreadFiles = unreadFiles;
+	}
+
+	public int getUnreadExpenseClaims() {
+		return unreadExpenseClaims;
+	}
+
+	public void setUnreadExpenseClaims(int unreadExpenseClaims) {
+		this.unreadExpenseClaims = unreadExpenseClaims;
 	}
 
 	public int getIsOwner() {

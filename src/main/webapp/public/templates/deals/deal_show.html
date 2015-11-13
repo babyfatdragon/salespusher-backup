@@ -61,6 +61,58 @@
 					<sp-documents deal-id="deal.id"></sp-documents>	
 					<sp-file-upload file-type="Document" upload-url="/files/deal-docs/upload" deal-id="deal.id"></sp-file-upload>
 				</uib-tab>
+				<uib-tab heading="Expense Claims">
+					<table st-set-filter="customFilter" st-table="expenseClaims" st-safe-src="displayExpenseClaims" class="table table-striped">
+						<thead>
+							<tr>
+								<th st-ratio="10" st-sort="title">Title</th>
+								<th st-ratio="10" st-sort="amount">Amount</th>
+								<th st-ratio="10" st-sort="dateIncurred" st-sort-default="reverse">Date Incurred</th>
+								<th st-ratio="10" st-sort="userName">Claimer</th>
+								<th st-ratio="10">Action</th>								
+							</tr>
+							<tr>
+					            <th st-ratio="10">
+					            	<input st-search="title" placeholder="search" class="input-sm form-control" type="search"/>
+					            </th>
+								<th st-ratio="10">
+									<st-number-range predicate="amount" lower="query.lower" higher="query.higher"></st-number-range>
+								</th>
+								<th st-ratio="10">
+									<st-date-range  id="dateIncurred" predicate="dateIncurred" after="query.after" before="query.before"></st-date-range>
+								</th>
+					            <th st-ratio="10">
+					            	<input st-search="userName" placeholder="search" class="input-sm form-control" type="search"/>
+					            </th>
+					            <th st-ratio="10">
+					            </th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="expenseClaim in expenseClaims" ng-show="expenseClaim.id">
+								<td st-ratio="10">{{expenseClaim.title}}</td>
+								<td st-ratio="10">{{expenseClaim.amount | currency}}</td>	
+								<td st-ratio="10">{{expenseClaim.dateIncurred | date:'yyyy/MM/dd'}}</td>			
+								<td st-ratio="10">{{expenseClaim.userName}}</td>		
+								<td st-ratio="10">
+									<button type="button" class="btn btn-sm btn-primary" ng-click="editExpenseClaim(expenseClaim)" uib-popover="Edit" popover-trigger="mouseenter">
+										<i class="glyphicon glyphicon-lg glyphicon-edit"></i>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="5" class="text-center">
+									<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+					<br />
+					<sp-expense-claim-form ng-show="showExpenseClaimForm" deal="deal" expense-claim="expenseClaim" action="expenseClaimAction"></sp-expense-claim-form>		
+					<button type="button" class="btn btn-primary btn-md" ng-click="addExpenseClaim()" ng-hide="showExpenseClaimForm">Create New Expense Claim</button>
+				</uib-tab>
 			</uib-tabset>
 		</div>
 		<div class="row col-md-6">
@@ -76,40 +128,40 @@
 	<hr />
 	<div class="row">
 		<div class="col-md-6">
-		<h3>Services</h3>
-		<table st-set-filter="customFilter" st-table="serviceEvents" st-safe-src="displayServiceEvents" class="table table-striped">
-			<thead>
-				<tr>
-					<th st-ratio="10" st-sort="title">Title</th>
-					<th st-ratio="10" st-sort="end" st-sort-default="reverse">Date</th>			
-					<th st-ratio="10" st-sort="location">Location</th>
-					<th st-ratio="10" st-sort="userName">Assigned To</th>								
-					<th st-ratio="10" st-sort="charge">Charge</th>
-					<th st-ratio="10" st-sort="">Files</th>
-				</tr>		
-			</thead>
-			<tbody>
-				<tr ng-repeat="serviceEvent in serviceEvents" ng-show="serviceEvent.id">
-					<td st-ratio="10">{{serviceEvent.title}}</td>
-					<td st-ratio="10">{{serviceEvent.end | date:'yyyy/MM/dd'}}</td>			
-					<td st-ratio="10">{{serviceEvent.location}}</td>
-					<td st-ratio="10">{{serviceEvent.userName}}</td>		
-					<td st-ratio="10">{{serviceEvent.charge | currency}}</td>
-					<td st-ratio="10">
-						<a ng-repeat="serviceDocument in serviceEvent.serviceDocuments" href="{{getServiceDocumentDirectory(serviceDocument.name)}}">
-				  			<span class="glyphicon glyphicon-file" uib-popover="{{getOriginDocumentName(serviceDocument.name)}}" popover-trigger="mouseenter"></span>
-						</a>
-					</td>
-				</tr>
-			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="5" class="text-center">
-						<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
-					</td>
-				</tr>
-			</tfoot>
-		</table>
+			<h3>Services</h3>
+			<table st-set-filter="customFilter" st-table="serviceEvents" st-safe-src="displayServiceEvents" class="table table-striped">
+				<thead>
+					<tr>
+						<th st-ratio="10" st-sort="title">Title</th>
+						<th st-ratio="10" st-sort="end" st-sort-default="reverse">Date</th>			
+						<th st-ratio="10" st-sort="location">Location</th>
+						<th st-ratio="10" st-sort="userName">Assigned To</th>								
+						<th st-ratio="10" st-sort="charge">Charge</th>
+						<th st-ratio="10" st-sort="">Files</th>
+					</tr>		
+				</thead>
+				<tbody>
+					<tr ng-repeat="serviceEvent in serviceEvents" ng-show="serviceEvent.id">
+						<td st-ratio="10">{{serviceEvent.title}}</td>
+						<td st-ratio="10">{{serviceEvent.end | date:'yyyy/MM/dd'}}</td>			
+						<td st-ratio="10">{{serviceEvent.location}}</td>
+						<td st-ratio="10">{{serviceEvent.userName}}</td>		
+						<td st-ratio="10">{{serviceEvent.charge | currency}}</td>
+						<td st-ratio="10">
+							<a ng-repeat="serviceDocument in serviceEvent.serviceDocuments" href="{{getServiceDocumentDirectory(serviceDocument.name)}}">
+					  			<span class="glyphicon glyphicon-file" uib-popover="{{getOriginDocumentName(serviceDocument.name)}}" popover-trigger="mouseenter"></span>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="5" class="text-center">
+							<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
 		</div>
 		<div class="col-md-6">
 			<div class="row">
