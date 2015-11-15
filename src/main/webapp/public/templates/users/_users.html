@@ -1,0 +1,66 @@
+<ui-view>
+<table st-set-filter="customFilter" st-table="users" st-safe-src="displayUsers" class="table table-striped">
+	<thead>
+		<tr>
+			<th st-ratio="5" st-sort="id" st-sort-default="true">ID</th>
+			<th st-ratio="10" st-sort="username">Username</th>
+			<th st-ratio="5" st-sort="firstname">First Name</th>
+			<th st-ratio="5" st-sort="lastname">Last Name</th>									
+			<th st-ratio="10" st-sort="email">Email</th>			
+			<th st-ratio="10" st-sort="phone">Phone No.</th>
+			<th st-ratio="10" st-sort="role">Role</th>
+			<th st-ratio="10" st-sort="dateCreated">Created At</th>
+			<th st-ratio="5">Actions</th>
+		</tr>
+		<tr>
+			<th st-ratio="5"></th>
+            <th st-ratio="10">
+            	<input st-search="username" placeholder="search" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="5">
+            	<input st-search="firstname" placeholder="search" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="5">
+            	<input st-search="lastname" placeholder="search" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="10">
+            	<input st-search="email" placeholder="search" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="10">
+            	<input st-search="phone" placeholder="search" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="10">
+            	<input st-search="role" placeholder="search" class="input-sm form-control" type="search"/>
+            </th>
+			<th st-ratio="10">
+				<st-date-range  id="created" predicate="dateCreated" after="query.after" before="query.before"></st-date-range>
+			</th>
+			<th st-ratio="5"></th>
+		</tr>		
+	</thead>
+	<tbody>
+		<tr ng-repeat="user in users" ng-show="user.id">
+			<td st-ratio="5">{{user.id}}</td>
+			<td st-ratio="10">{{user.username}}</td>
+			<td st-ratio="5">{{user.firstname}}</td>			
+			<td st-ratio="5">{{user.lastname}}</td>
+			<td st-ratio="10">{{user.email}}</td>
+			<td st-ratio="10">{{user.phone}}</td>
+			<td st-ratio="10">{{user.role}}</td>
+			<td st-ratio="10">{{user.dateCreated | date:'yyyy/MM/dd'}}</td>
+			<td st-ratio="5">
+				<button type="button" class="btn btn-sm btn-primary" href="" uib-popover="Edit" popover-trigger="mouseenter">
+					<i class="glyphicon glyphicon-lg glyphicon-eye-open"></i>
+				</button>
+			</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="5" class="text-center">
+				<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+</ui-view>

@@ -1,0 +1,86 @@
+<div class="row">
+	<form name="eventForm" style="margin-top:20px" class="form col-md-8" ng-submit="eventForm.$valid && submit()" novalidate>
+
+	 	<fieldset class="form-group">
+	    	<label for="start">Start Date Time</label>
+		    <p class="input-group">
+		       	<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" is-open="startDateStatus.opened" ng-model="event.startDate" close-text="Close"/>
+				<span class="input-group-btn">
+				    <button type="button" class="btn btn-default" ng-click="openStart($event)">
+				    	<i class="glyphicon glyphicon-calendar"></i>
+				   	</button>
+			    </span>	    
+			</p>
+	 		<uib-timepicker ng-model="event.startTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>   	
+			    
+	  	</fieldset>
+		<fieldset class="form-group">
+	   		<label for="start">End Date Time</label>
+	    	<p class="input-group">
+	      		<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" is-open="endDateStatus.opened" ng-model="event.endDate" close-text="Close"/>
+				<span class="input-group-btn"> 
+			    	<button type="button" class="btn btn-default" ng-click="openEnd($event)">
+			    		<i class="glyphicon glyphicon-calendar"></i>
+			   		</button>
+	    		</span>
+			</p>
+			<uib-timepicker ng-model="event.endTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>   	
+	 	</fieldset>
+	 	
+	 	<fieldset class="form-group">
+	    	<label for="company">Company</label>
+	       	<ui-select ng-model="event.targetCompany" required>
+			    <ui-select-match>
+			        <span ng-bind="$select.selected.name"></span>
+			    </ui-select-match>
+			    <ui-select-choices repeat="targetCompany in (companies | filter: $select.search)">
+			        <span ng-bind="targetCompany.name"></span>			        
+			    </ui-select-choices>			    
+			</ui-select>
+			
+			<label for="address">Address</label>
+    		<input class="form-control" type="text" id="address" name="address" ng-model="event.targetCompany.address" required/>
+	  	</fieldset>	  	  	
+		<button type="submit" value="Submit" class="btn btn-success btn-md" ng-disabled="!eventForm.$valid">Search</button>
+	</form>
+</div>
+<div class="row">
+	<ui-gmap-google-map center='map.center' zoom='map.zoom' draggable="true">
+        <ui-gmap-marker ng-repeat="marker in markers" coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+    </ui-gmap-google-map>
+</div>
+
+<div class="row" ng-show="startSearching">
+	<table st-table="serviceEvents" st-safe-src="displayServiceEvents" class="table table-striped">
+	<thead>
+		<tr>
+			<th st-ratio="10" st-sort="location">Location</th>
+			<th st-ratio="10" st-sort="userName">Staff</th>
+			<th st-ratio="10" st-sort="start">Start</th>
+			<th st-ratio="10" st-sort="end">End</th>
+			<th st-ratio="10" st-sort="distance.value" st-sort-default>Distance</th>
+			<th st-ratio="10" st-sort="duration.value">Travel Time</th>
+		</tr>	
+	</thead>
+	<tbody>
+		<tr ng-repeat="serviceEvent in serviceEvents" ng-show="serviceEvent.id">
+			<td st-ratio="10">{{serviceEvent.location}}</td>
+			<td st-ratio="10">{{serviceEvent.userName}}</td>
+			<td st-ratio="10">{{serviceEvent.start | date:'HH:mm'}}</td>
+			<td st-ratio="10">{{serviceEvent.end | date:'HH:mm'}}</td>
+			<td st-ratio="10">{{serviceEvent.distance.text}}</td>
+			<td st-ratio="10">{{serviceEvent.duration.text}}</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="5" class="text-center">
+				<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+</div>
+<div style="height:400px">
+	<!-- empty space -->
+</div>

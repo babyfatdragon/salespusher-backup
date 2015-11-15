@@ -27,11 +27,19 @@
 	  	})
 	  	.state('users',{
 	  		url: '/users',
-	  		templateUrl: '/templates/partials/_users.html',
+	  		templateUrl: '/templates/users/_users.html',
 	  		controller: 'UsersCtrl',
 	  		ncyBreadcrumb: {
 	  			label: 'Users',
 	  			parent: 'home'
+	  		}
+	  	})
+	  	.state('users.locator',{
+	  		url: '/locator',
+	  		templateUrl: '/templates/users/user_locator.html',
+	  		controller: 'UserLocatorCtrl',
+	  		ncyBreadcrumb: {
+	  			label: 'Staff Locator',
 	  		}
 	  	})
 	  	/****** product catalog ******/
@@ -191,6 +199,14 @@
   			controller: 'CompanyUpdateCtrl',
 	  		ncyBreadcrumb: {
 	  			label: 'Company Update',
+	  		}
+	  	})
+	  	.state('customerManagement.companyShow',{
+	  		url: '/company/:id/show',
+	  		templateUrl: '/templates/customers/company_show.html',
+  			controller: 'CompanyShowCtrl',
+	  		ncyBreadcrumb: {
+	  			label: '{{company.name}}',
 	  		}
 	  	})
 	  	.state('customerManagement.customer',{

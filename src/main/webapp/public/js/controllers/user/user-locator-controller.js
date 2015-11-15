@@ -1,9 +1,10 @@
 (function(){
-	angular.module('salespusher.controllers').controller('UsersCtrl',['$rootScope','$scope','$timeout','$http','uiGmapGoogleMapApi','User',
-	                                                                  function($rootScope, $scope,$timeout,$http,uiGmapGoogleMapApi,User){
-		$scope.users = User.query();
+	angular.module('salespusher.controllers').controller('UserLocatorCtrl',['$rootScope','$scope','$timeout','$http','uiGmapGoogleMapApi','User','Company',
+	                                                                  function($rootScope, $scope,$timeout,$http,uiGmapGoogleMapApi,User,Company){
+		$scope.companies = Company.query();
 		$scope.event = {};
 		$scope.serviceEvents = new Array();
+		$scope.displayServiceEvents = new Array();
 		$scope.markers = new Array();
 		$scope.startSearching = 0;
 		/** for form usage **/
@@ -86,33 +87,47 @@
 			    	//$scope.map = maps;
 					$scope.map = { center: { latitude: 1.3500, longitude: 103.8000 }, zoom: 12};
 					var origin = "Solaris South Tower, 1 Fusionopolis Walk,Singapore 138628";
-					var destination = "378 Alexandra Road, Singapore 159964";
+					var origins = new Array();
+					var destination = $scope.event.targetCompany.address;
 					var geoCoder =new google.maps.Geocoder();
 					var distanceMatrixservice = new maps.DistanceMatrixService();
-					var codeAddress = function(address,serviceEvent) {
+					var codeAddress = function(address,serviceEvent,isDestination) {
 					    geoCoder.geocode( { 'address': address}, function(results, status) {
 					      if (status == google.maps.GeocoderStatus.OK) {
-								var marker =  {
-							    	      id: serviceEvent.id,
-							    	      coords: {
-							    	        latitude: results[0].geometry.location.lat(),
-							    	        longitude: results[0].geometry.location.lng()
-							    	      },
-							    	      options: {
-							    	    	  draggable: true,
-							    	    	  animation: google.maps.Animation.DROP,
-							    	    	  title: serviceEvent.userName+"\n"+serviceEvent.startTime+"-"+serviceEvent.endTime+"\n"+serviceEvent.location,
-							    	    	  icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-							    	      },
-							    	      events: {
-							    	      }
-							    	    };
-								$scope.markers.push(marker);
+					    	  var iconUrl,markerTitle,markerId;
+					    	  if(isDestination){
+						    	  iconUrl = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+						    	  markerTitle = destination;
+						    	  markerId = 0; 
+					    	  } else{
+					    		  iconUrl = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+						    	  markerTitle = serviceEvent.userName+"\n"+serviceEvent.startTime+"-"+serviceEvent.endTime+"\n"+serviceEvent.location;
+					    	      markerId = serviceEvent.id; 
+					    	  }
+					    	  
+				    	      var marker =  {
+					    	      id: markerId,
+					    	      coords: {
+					    	        latitude: results[0].geometry.location.lat()+0.0005*Math.random(),
+					    	        longitude: results[0].geometry.location.lng()+0.0005*Math.random()
+					    	      },
+					    	      options: {
+					    	    	  draggable: true,
+					    	    	  animation: google.maps.Animation.DROP,
+					    	    	  title: markerTitle,
+					    	    	  icon: iconUrl
+					    	      },
+					    	      events: {
+					    	      }
+					    	    };
+							$scope.markers.push(marker);
 							} else {
 					        alert("Geocode was not successful for the following reason: " + status);
 					      }
 					    });
 					}
+					codeAddress(destination,null,true);
+					
 					/** reset markers **/
 					$scope.markers = [];
 					$scope.serviceEvents.forEach(function(serviceEvent){
@@ -130,27 +145,32 @@
 						if(endMinute<10) endMinute = "0"+endMinute;
 						serviceEvent.startTime = startHour+":"+startMinute;
 						serviceEvent.endTime = endHour+":"+endMinute;
-						codeAddress(serviceEvent.location,serviceEvent);
+						origins.push(serviceEvent.location);
+						codeAddress(serviceEvent.location,serviceEvent,false);
 					});
 				
 					distanceMatrixservice.getDistanceMatrix(
 					  {
-					    origins: [origin],
+					    origins: origins,
 					    destinations: [destination],
 					    travelMode: google.maps.TravelMode.DRIVING,
 					    unitSystem: google.maps.UnitSystem.METRIC,
 					    avoidHighways: false,
 					    avoidTolls: false,
 					  }, function(response,status){
-						  console.log(response.rows[0].elements[0]);
+						  console.log(response);
+						  var i = 0;
+						  $scope.serviceEvents.forEach(function(serviceEvent){
+							  serviceEvent.distance = response.rows[i].elements[0].distance;
+							  serviceEvent.duration = response.rows[i].elements[0].duration;
+							  i++;
+						  });
+						  $scope.displayServiceEvents = $scope.serviceEvents;
 					  });
 			    });
 				/** end of google-maps **/
 			});
 		}
-		
-		
-
 		$scope.getObjectById = function(models,id){
     		if(models.length){
         		var result = $.grep(models, function(element){

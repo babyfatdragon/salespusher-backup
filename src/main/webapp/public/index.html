@@ -21,8 +21,8 @@
 		<script type="text/javascript" src="webjars/textAngular/${textAngular.version}/dist/textAngular-rangy.min.js"></script>
 		<script type="text/javascript" src="webjars/textAngular/${textAngular.version}/dist/textAngular-sanitize.min.js"></script>		
 		<script type="text/javascript" src="webjars/textAngular/${textAngular.version}/dist/textAngular.min.js"></script>
-		<script type="text/javascript" src="webjars/eeh-navigation/${eeh-navigation.version}/dist/eeh-navigation.min.js"></script>
-		<script type="text/javascript" src="webjars/eeh-navigation/${eeh-navigation.version}/dist/eeh-navigation.tpl.min.js"></script>
+		<script type="text/javascript" src="js/vendor/eeh-navigation.min.js"></script>
+		<script type="text/javascript" src="js/vendor/eeh-navigation.tpl.min.js"></script>
 		
 <!-- 		<script type="text/javascript" src="webjars/angular-sanitize/${angular-sanitize.version}/angular-sanitize.min.js"></script> -->
 		<script type="text/javascript" src="webjars/ui-select/${ui-select.version}/dist/select.min.js"></script>
@@ -32,14 +32,12 @@
 		<script type="text/javascript" src="js/vendor/angular-chart.min.js"></script>
 		<!-- calendar -->
 		<script type="text/javascript" src="webjars/moment/2.10.6/min/moment.min.js"></script>
-<!-- 		<script type="text/javascript" src="webjars/angular-ui-calendar/${angular-ui-calendar.version}/src/calendar.js"></script>		 -->
 		<script type="text/javascript" src="js/vendor/calendar.js"></script>		
 		<script type="text/javascript" src="js/vendor/fullcalendar.min.js"></script>
 		
 		<!-- angular-google-maps -->
 		<script type="text/javascript" src="webjars/lodash/2.4.1-6/lodash.min.js"></script>
 		<script type="text/javascript" src="webjars/angular-simple-logger/${angular-simple-logger.version}/dist/angular-simple-logger.min.js"></script>
-<!-- 		<script type="text/javascript" src="webjars/angular-google-maps/${angular-google-maps.version}/angular-google-maps.min.js"></script> -->
 		<script type="text/javascript" src="js/vendor/angular-google-maps.min.js"></script>
 		
 		<link rel="stylesheet" type="text/css" href="css/main.css"></link>
@@ -49,9 +47,8 @@
 		<link rel="stylesheet" type="text/css" href="webjars/bootstrap/${bootstrap.version}/dist/css/bootstrap.min.css"></link>
 		<link rel="stylesheet" type="text/css" href="webjars/font-awesome/${font-awesome.version}/css/font-awesome.min.css"></link>
 		<link rel="stylesheet" type="text/css" href="webjars/textAngular/${textAngular.version}/dist/textAngular.css"></link>
-		<link rel="stylesheet" type="text/css" href="webjars/eeh-navigation/${eeh-navigation.version}/dist/eeh-navigation.css"></link>
 		<link rel="stylesheet" type="text/css" href="webjars/ui-select/${ui-select.version}/dist/select.min.css"></link>
-
+		<link rel="stylesheet" type="text/css" href="css/eeh-navigation.css"></link>
 
 	</head>
 	
@@ -106,7 +103,6 @@
 		<script src="js/controllers/main.js"></script>
 		<script src="js/controllers/home-controller.js"></script>
 		<script src="js/controllers/navigation-controller.js"></script>
-		<script src="js/controllers/users-controller.js"></script>
 		<script src="js/controllers/modal-dialog-controller.js"></script>
 		
 		<script src="js/controllers/catalog/catalog-index-controller.js"></script>
@@ -127,6 +123,7 @@
 		
 		<script src="js/controllers/company/company-create-controller.js"></script>
 		<script src="js/controllers/company/company-update-controller.js"></script>	
+		<script src="js/controllers/company/company-show-controller.js"></script>						
 		<script src="js/controllers/company/company-management-controller.js"></script>				
 
 		<script src="js/controllers/customer/customer-create-controller.js"></script>
@@ -136,6 +133,10 @@
 		
 		<script src="js/controllers/deal/deal-management-controller.js"></script>
 		<script src="js/controllers/deal/deal-show-controller.js"></script>	
+		
+		<script src="js/controllers/user/users-controller.js"></script>
+		<script src="js/controllers/user/user-locator-controller.js"></script>
+		
 				
 		<!-- Directives -->
 		<script src="js/directives/main.js"></script>

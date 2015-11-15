@@ -9,4 +9,5 @@ import com.worksap.salespusher.entity.DealEntity;
 public interface DealRepository extends JpaRepository<DealEntity,Long>{
 	DealEntity findById(long id);
 	List<DealEntity> findByUserId(long userId);
+	List<DealEntity> findByCompanyId(long companyId);
 }

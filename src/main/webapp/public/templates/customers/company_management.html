@@ -33,6 +33,9 @@
 			<td st-ratio="20">{{company.email}}</td>
 			<td st-ratio="20">{{company.address}}</td>
 			<td st-ratio="10">
+				<a ui-sref="customerManagement.companyShow({id:company.id})" type="button" class="btn btn-sm btn-primary"  uib-popover="View {{company.name}}" popover-trigger="mouseenter">
+					<i class="glyphicon glyphicon-lg glyphicon-eye-open"></i>
+				</a>
 				<a ui-sref="customerManagement.companyUpdate({id:company.id})" type="button" class="btn btn-sm btn-primary"  uib-popover="Edit {{company.name}}" popover-trigger="mouseenter">
 					<i class="glyphicon glyphicon-lg glyphicon-edit"></i>
 				</a>

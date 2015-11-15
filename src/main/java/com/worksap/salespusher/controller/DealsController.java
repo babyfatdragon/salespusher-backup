@@ -55,4 +55,17 @@ public class DealsController {
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
 	
+	/** deals by user **/
+	@RequestMapping(value = "/dealsByUser/{userId}", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public List<DealEntity> getDealsByUserId(@PathVariable long userId){
+		return this.dealRepository.findByUserId(userId);
+	}
+	
+	/** deals by company **/
+	@RequestMapping(value = "/dealsByCompany/{companyId}", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public List<DealEntity> getDealsByCompanyId(@PathVariable long companyId){
+		return this.dealRepository.findByCompanyId(companyId);
+	}
 }

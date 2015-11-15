@@ -33,7 +33,6 @@
 		<textAngular.version>1.4.6</textAngular.version>
 		<font-awesome.version>4.4.0</font-awesome.version>
 		<angular-translate.version>2.7.0</angular-translate.version>
-		<eeh-navigation.version>4.1.2</eeh-navigation.version>
 		<angular-sanitize.version>1.4.7</angular-sanitize.version>
 		<ui-select.version>0.13.2</ui-select.version>
 		<angular-ui-calendar.version>1.0.1</angular-ui-calendar.version>
@@ -132,13 +131,13 @@
 		</dependency>
 		<dependency>
 		    <groupId>org.webjars.bower</groupId>
-		    <artifactId>eeh-navigation</artifactId>
-		    <version>${eeh-navigation.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.webjars.bower</groupId>
 		    <artifactId>angular-sanitize</artifactId>
 		    <version>${angular-sanitize.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>angular-translate</artifactId>
+		    <version>${angular-translate.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.webjars.npm</groupId>

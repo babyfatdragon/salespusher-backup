@@ -14,6 +14,7 @@
 			},
 			templateUrl: '/templates/directives/sp-deal-table.html',
 			controller: ['$rootScope','$scope','User','Product','Company','Customer','Deal',function($rootScope,$scope,User,Product,Company,Customer,Deal){
+	
 				User.query().$promise.then(function(users){
 					$scope.users = users;
 					Product.query().$promise.then(function(products){
