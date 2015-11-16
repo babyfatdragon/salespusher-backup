@@ -131,7 +131,7 @@
 		
 		
 	    /* edit on eventClick */
-	    var editOnEventClick = function(calEvent, jsEvent, view){
+	    var editEventOnClick = function(calEvent, jsEvent, view){
 	    	DealEvent.get({dealId:$stateParams.id,id:calEvent.id}).$promise.then(function(event){
 	    		$scope.action="Update";
 	    		$scope.event.id = event.id;
@@ -145,7 +145,7 @@
 	    		console.log($scope.event);
 			});
     	};
-	    var editOnServiceEventClick = function(calEvent, jsEvent, view){
+	    var editServiceEventOnClick = function(calEvent, jsEvent, view){
 	    	console.log("SERVICE DOUBLE CLICK");
 	    	DealServiceEvent.get({dealId:$stateParams.id,id:calEvent.id}).$promise.then(function(event){
 	    		$scope.serviceAction="Update";
@@ -198,18 +198,23 @@
 			});
 		};
 
-		var viewOnDoubleClick = function(date, cell) {
+		var viewEventOnDoubleClick = function(date, cell) {
 			  cell.bind('dblclick', function() {
 		    	  $('#events-calendar').fullCalendar('gotoDate',date);
-		    	  $('#events-calendar').fullCalendar('changeView','agendaDay')
+		    	  $('#events-calendar').fullCalendar('changeView','agendaDay');
+					console.log(date);
+
 	    	  });
 		}
-		var viewOnServiceDoubleClick = function(date, cell) {
+		
+		var viewServiceEventOnDoubleClick = function(date, cell) {
 			  cell.bind('dblclick', function() {
 		    	  $('#serivces-calendar').fullCalendar('gotoDate',date);
-		    	  $('#services-calendar').fullCalendar('changeView','agendaDay')
+		    	  $('#services-calendar').fullCalendar('changeView','agendaDay');
+		    	  console.log(date);
 	    	  });
 		}
+
 	    /* config object */
 	    $scope.uiConfig = {
 	      eventCalendar:{
@@ -221,10 +226,10 @@
 	          center: 'title',
 	          right: 'today prev,next'
 	        },
-	        eventClick: editOnEventClick,
+	        eventClick: editEventOnClick,
 	        eventDrop: updateEventOnDrop,
 	        eventResize: updateEventOnResize,
-	        dayRender: viewOnServiceDoubleClick
+	        dayRender: viewEventOnDoubleClick
 	      },
 	      serviceCalendar:{
 	        height: 400,
@@ -235,10 +240,10 @@
 	          center: 'title',
 	          right: 'today prev,next'
 	        },
-	        eventClick: editOnServiceEventClick,
+	        eventClick: editServiceEventOnClick,
 	        eventDrop: updateServiceEventOnDrop,
 	        eventResize: updateServiceEventOnResize,
-	        dayRender: viewOnDoubleClick
+	        dayRender: viewServiceEventOnDoubleClick
 	      }
 	    };
 		 

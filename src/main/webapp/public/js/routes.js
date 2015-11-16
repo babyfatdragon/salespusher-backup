@@ -42,6 +42,15 @@
 	  			label: 'Staff Locator',
 	  		}
 	  	})
+	  	.state('users.userShow',{
+	  		url: '/:id/show',
+	  		templateUrl: '/templates/users/user_show.html',
+	  		controller: 'UserShowCtrl',
+	  		ncyBreadcrumb: {
+	  			label: 'Staff Profile',
+	  		}
+	  	})
+	  	
 	  	/****** product catalog ******/
 	  	.state('productCatalog',{
 	  		url: '/product_catalog',

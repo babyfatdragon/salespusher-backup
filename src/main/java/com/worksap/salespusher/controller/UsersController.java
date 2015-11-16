@@ -28,7 +28,7 @@ public class UsersController {
 			return this.userRepository.findAll();
 	}
 	
-	@RequestMapping(value = "/users/:id", method = RequestMethod.GET)
+	@RequestMapping(value = "/usersById/{id}", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
 	public UserEntity getUser(@PathVariable long id){
 			return this.userRepository.findOne(id);

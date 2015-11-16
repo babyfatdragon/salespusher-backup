@@ -1,0 +1,122 @@
+<h3>Staff: {{user.firstname}} {{user.lastname}}</h3>
+<br />
+<h4>Deal Records</h4>
+<table st-set-filter="customFilter" st-table="deals" st-safe-src="displayDeals" class="table table-striped">
+	<thead>
+		<tr>
+			<th st-ratio="5" st-sort="id" st-sort-default="reverse">ID</th>
+			<th st-ratio="10" st-sort="productName">Product</th>
+			<th st-ratio="5" st-sort="quantity">Quantity</th>									
+			<th st-ratio="10" st-sort="totalPrice">Total Price</th>
+			<th st-ratio="10" st-sort="companyName">Company</th>
+			<th st-ratio="10" st-sort="dealStatus">Status</th>
+			<th st-ratio="10" st-sort="dateCreated">Open At</th>
+			<th st-ratio="10" st-sort="dateClosed">Closed At</th>
+		</tr>
+		<tr>
+			<th st-ratio="5"></th>
+            <th st-ratio="10">
+            	<input st-search="productName" placeholder="search" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="5">
+            	<input st-search="quantity" placeholder="search" class="input-sm form-control" type="search"/>
+            </th>
+			<th st-ratio="10">
+				<st-number-range predicate="totalPrice" lower="query.lower" higher="query.higher"></st-number-range>
+			</th>
+            <th st-ratio="10">
+            	<input st-search="companyName" ng-value="q" placeholder="search" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="10">
+            	<input st-search="dealStatus" placeholder="search" class="input-sm form-control" type="search"/>
+            </th>
+			<th st-ratio="10">
+				<st-date-range  id="created" predicate="dateCreated" after="query.after" before="query.before"></st-date-range>
+			</th>
+           	<th st-ratio="10">
+				<st-date-range  id="closed" predicate="dateClosed" after="query.after" before="query.before"></st-date-range>
+            </th>
+		</tr>		
+	</thead>
+	<tbody>
+		<tr ng-repeat="deal in deals" ng-show="deal.id">
+			<td st-ratio="5">{{deal.id}}</td>
+			<td st-ratio="10">{{deal.productName}}</td>
+			<td st-ratio="10">{{deal.quantity}}</td>			
+			<td st-ratio="10">{{deal.totalPrice | currency}}</td>
+			<td st-ratio="10">{{deal.companyName}}</td>
+			<td st-ratio="10"><a style="width:100%" ui-sref="dealShow({id:deal.id})" type="button" class="btn btn-md" ng-class="deal.dealStatus==='IN PROGRESS' ? 'btn-warning' : (deal.dealStatus==='WON' ? 'btn-success' : 'btn-danger')">{{deal.dealStatus}}</a></td>
+			<td st-ratio="10">{{deal.dateCreated | date:'yyyy/MM/dd'}}</td>
+			<td st-ratio="10">{{deal.dateClosed | date:'yyyy/MM/dd'}}</td>		
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="5" class="text-center">
+				<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
+			</td>
+		</tr>
+	</tfoot>
+</table>
+
+<div class="row">
+	<div class="col-md-2"><select class="form-control" name='year' ng-model='thisYear' ng-options='year for year in [2013,2014,2015,2016]' required></select></div>
+	<div class="col-md-4"><h4>Sales Amount/Expenses Claimed</h4></div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<canvas id="barChart" class="chart chart-bar" chart-data="barData" chart-labels="barLabels" chart-series="barSeries" chart-click="barOnClick">
+		</canvas>
+	</div>
+</div>
+<br />
+<div class="row">
+	<div class="col-md-6">
+		<div class="panel panel-success">
+			<div class="panel-heading"><b>Yearly Summary</b></div>		
+			<div class="panel-body">
+		  		<ul class="list-group">
+  					<li class="list-group-item">Number of Won Deals: <b>{{wonDeals.length}}</b></li>
+			  		<li class="list-group-item">Number of Lost Deals: <b>{{lostDeals.length}}</b></li>
+					<li class="list-group-item">Sales Amount: <b>{{yearlySalesAmount | currency}}</b></li>
+					<li class="list-group-item">Number of Services Conducted: <b>{{yearlyServices.length}}</b></li>
+					<li class="list-group-item">Total Charge of Services: <b>{{yearlyServicesCharge | currency}}</b></li>
+					<li class="list-group-item">Expenses Claimed: <b>{{yearlyExpenseClaims | currency}}</b></li>
+		  			<li class="list-group-item">
+					    <small><em>Target Amount: $80000</em></small>
+			   	 		<uib-progressbar animate="false" value="15" type="success"><b>15%</b></uib-progressbar>
+					</li>
+		  			<li class="list-group-item">
+			    		<small><em>Allowable Expenses: $80000</em></small>
+				    	<uib-progressbar animate="false" value="15" type="success"><b>15%</b></uib-progressbar>
+					</li>  							
+  				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="panel panel-info">
+			<div class="panel-heading"><b>{{thisMonthText}} Summary</b></div>		
+	 		<div class="panel-body">
+	  			<ul class="list-group">
+					<li class="list-group-item">Number of Won Deals: <b>{{monthlyWonDeals[thisMonth].length}}</b></li>
+				  	<li class="list-group-item">Number of Lost Deals: <b>{{monthlyLostDeals[thisMonth].length}}</b></li>
+					<li class="list-group-item">Sales Amount: <b>{{monthlyAmount[thisMonth] | currency}}</b></li>
+					<li class="list-group-item">Number of Services Conducted: <b>{{monthlyServices[thisMonth].length}}</b></li>
+					<li class="list-group-item">Total Charge of Services: <b>{{monthlyServicesCharge[thisMonth] | currency}}</b></li>
+				  	<li class="list-group-item">Expenses Claimed: <b>{{monthlyExpenseClaims[thisMonth] | currency}}</b></li>  												
+					<li class="list-group-item">
+					    <small><em>Target Amount: $80000</em></small>
+					    <uib-progressbar animate="false" value="15" type="info"><b>15%</b></uib-progressbar>
+					</li>
+		  			<li class="list-group-item">
+				    	<small><em>Allowable Expenses: $80000</em></small>
+				    	<uib-progressbar animate="false" value="15" type="info"><b>15%</b></uib-progressbar>
+					</li>
+				</ul>
+			</div>
+		</div>	
+	</div>
+</div>
+
