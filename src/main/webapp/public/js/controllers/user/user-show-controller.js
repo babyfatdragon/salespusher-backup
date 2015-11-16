@@ -1,9 +1,20 @@
 (function(){
 	angular.module('salespusher.controllers')
-	.controller('UserShowCtrl',['$scope','$timeout','$stateParams','UserById','Product','Company','UserDeal','UserServiceEvent','UserExpenseClaim',
-	                            function($scope,$timeout,$stateParams,UserById,Product,Company,UserDeal,UserServiceEvent,UserExpenseClaim){		
+	.controller('UserShowCtrl',['$scope','$timeout','$stateParams','UserById','Product','Company','UserDeal','UserServiceEvent','UserExpenseClaim','UserMonthlyRecord',
+	                            function($scope,$timeout,$stateParams,UserById,Product,Company,UserDeal,UserServiceEvent,UserExpenseClaim,UserMonthlyRecord){		
+		$scope.itemsByPage = 10;
+		
+		$scope.thisYear = new Date().getFullYear();
+		
+		$scope.thisMonth = new Date().getMonth();
+		
+		$scope.thisMonthText = "Monthly";
+		
 		$scope.deals = new Array();
 		$scope.displayDeals = new Array();
+		$scope.monthlyRecords = new Array();
+		$scope.DisplayMonthlyRecords = new Array();
+			
 		$scope.serviceEvents = UserServiceEvent.query({userId:$stateParams.id});
 		$scope.expenseClaims = UserExpenseClaim.query({userId:$stateParams.id});
 		Company.query().$promise.then(function(companies){
@@ -22,6 +33,12 @@
 						$scope.deals = deals;
 						$scope.displayDeals = [].concat(deals);
 					});
+					UserMonthlyRecord.query({userId:$stateParams.id}).$promise.then(function(monthlyRecords){
+						$scope.monthlyRecords = monthlyRecords;
+						$scope.DisplayMonthlyRecords = [].concat(monthlyRecords);
+						console.log($scope.DisplayMonthlyRecords.length);
+
+					});
 				});
 			});
 		});
@@ -37,29 +54,26 @@
     		}
 		}
 		
-		$scope.itemsByPage = 10;
-		
-		$scope.thisYear = new Date().getFullYear();
-		
-		$scope.thisMonth = new Date().getMonth();
-		
-		$scope.thisMonthText = "Monthly";
-		
-		$scope.dealsThisYear = new Array();
-		$scope.getDealsByYear = function(year){
-			$scope.deals.forEach(function(deal){
-				var dateClosed = new Date(deal.dateClosed);
-				if(dateClosed===null || dateClosed.getFullYear()===year){
-					$scope.dealsThisYear.push(deal);
-				}
-			});
+		/** progress bar **/
+		$scope.getRecordByYearmonth = function(models,year,month){
+	   		if(models.length){
+        		var result = $.grep(models, function(element){
+        			return (new Date(element.yearmonth).getFullYear() === year && new Date(element.yearmonth).getMonth() === month); 
+    			});
+        		if(result.length){
+            		return result[0];
+        		}
+    		}
 		}
+		/** progress bar **/
 		
 		$scope.getDealsByMonth = function(month){
 			$timeout(function(){
 				$scope.deals.forEach(function(deal){
 					var dateCreated = new Date(deal.dateCreated);
 					var dateClosed = new Date(deal.dateClosed);
+					
+					
 					if(dateClosed.getFullYear()===$scope.thisYear && (dateCreated.getMonth()+1===month || dateClosed.getMonth()+1===month)){
 						$scope.monthlyDeals[month-1].push(deal);
 						if(deal.dealStatus==="WON"){
@@ -82,7 +96,6 @@
 					});
 				}
 				
-
 				$scope.serviceEvents.forEach(function(serviceEvent){
 					var endDate = new Date(serviceEvent.end);
 					
@@ -104,7 +117,7 @@
 		}
 		
 		$scope.$watch('thisYear',function(){
-			/** reset data **/
+			/** reset data **/			
 			$scope.wonDeals = new Array();
 
 			$scope.yearlySalesAmount = 0;
@@ -147,21 +160,32 @@
       		];
 			for(var i=1;i<=12;i++){
 				$scope.getDealsByMonth(i);
-			}	
+			}
+			/** yearly,monthly target and expenses **/
+			$timeout(function(){
+				$scope.thisYearTarget=0;
+				$scope.thisYearExpenses=0;
+				for(var i=0;i<12;i++){
+					var mon = $scope.getRecordByYearmonth($scope.DisplayMonthlyRecords,$scope.thisYear,i);
+					if(typeof mon !="undefined"){
+						$scope.thisYearTarget+=mon.salesTarget;
+						$scope.thisYearExpenses+=mon.claimableExpenses;
+					}
+				}
+				$scope.thisYearTargetPercentage = Math.round(100*($scope.yearlySalesAmount+$scope.yearlyServicesCharge)/$scope.thisYearTarget);
+				$scope.thisYearExpensePercentage = Math.round(100*$scope.yearlyExpenseClaims/$scope.thisYearExpenses);
+				$scope.thisMonthRecord = $scope.getRecordByYearmonth($scope.DisplayMonthlyRecords,$scope.thisYear,$scope.thisMonth);
+				if(typeof $scope.thisMonthRecord!="undefined"){
+					$scope.thisMonthTargetPercentage = Math.round(100*($scope.monthlyAmount[$scope.thisMonth]+$scope.monthlyServicesCharge[$scope.thisMonth])/$scope.thisMonthRecord.salesTarget);
+					$scope.thisMonthExpensePercentage = Math.round(100*$scope.monthlyExpenseClaims[$scope.thisMonth]/$scope.thisMonthRecord.claimableExpenses);
+				} else{
+					$scope.thisMonthTargetPercentage = 0;
+					$scope.thisMonthExpensePercentage = 0;
+				}
+					
+			},800);
 		});
 		
-		
-
-		
-		$scope.dealsInProgress = new Array();
-		$scope.getDealsInProgress = function(){
-			$scope.deals.forEach(function(deal){
-				var dateClosed = new Date(deal.dateClosed);
-				if(dateClosed===null){
-					$scope.getDealsInProgress.push(deal);
-				}
-			});
-		}
 		
 		$scope.barLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 		$scope.barSeries = ['Sales Amount', 'Services Charge','Expense Claimed'];
@@ -185,6 +209,53 @@
 		    	}
 		    }
 		}
+		
+		/** monthly records related **/
+		$scope.recordItemsByPage = 3;
 
+		$scope.action='Create';
+		$scope.showMonthlyRecordForm = false;
+		$scope.monthlyRecord = {};
+		$scope.yearmonthStatus = {
+			opened: false
+		};
+		$scope.addMonthlyRecord = function(){
+			$scope.showMonthlyRecordForm = true;
+		}
+		$scope.openYearmonth = function($event) {
+			$scope.yearmonthStatus.opened = true;
+		};
+		$scope.submit = function(){
+			if($scope.action==='Create'){
+				$scope.monthlyRecord.userId = $stateParams.id;
+				var ym = $scope.monthlyRecord.yearmonth;
+				$scope.monthlyRecord.yearmonth = new Date(ym.getFullYear(),ym.getMonth(),1);
+				UserMonthlyRecord.save($scope.monthlyRecord).$promise.then(function(){
+					$scope.monthlyRecords = UserMonthlyRecord.query({userId:$stateParams.id});
+					$scope.DisplayMonthlyRecords = [].concat(monthlyRecords);
+					$scope.showMonthlyRecordForm = false;
+				});
+			} else if($scope.action==='Update'){
+				UserMonthlyRecord.update({id:$scope.monthlyRecord.id},$scope.monthlyRecord).$promise.then(function(){
+					$scope.monthlyRecords = UserMonthlyRecord.query({userId:$stateParams.id});
+					$scope.DisplayMonthlyRecords = [].concat(monthlyRecords);
+					$scope.showMonthlyRecordForm = false;
+				});
+			}
+			$scope.action='Create';
+		}
+		
+		$scope.editMonthlyRecord = function(monthlyRecord){
+			$scope.action='Update';
+			$scope.monthlyRecord = monthlyRecord;
+			$scope.showMonthlyRecordForm = true;
+		}
+		
+		$scope.cancelMonthlyRecordForm = function(){
+			$scope.action='Create';
+			$scope.monthlyRecord = {};
+			$scope.showMonthlyRecordForm = false;
+		};
+		/** monthly records related **/	
 	}]);
 })();

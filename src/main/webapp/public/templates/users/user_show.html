@@ -58,7 +58,7 @@
 		</tr>
 	</tfoot>
 </table>
-
+<br />
 <div class="row">
 	<div class="col-md-2"><select class="form-control" name='year' ng-model='thisYear' ng-options='year for year in [2013,2014,2015,2016]' required></select></div>
 	<div class="col-md-4"><h4>Sales Amount/Expenses Claimed</h4></div>
@@ -68,6 +68,66 @@
 	<div class="col-md-6">
 		<canvas id="barChart" class="chart chart-bar" chart-data="barData" chart-labels="barLabels" chart-series="barSeries" chart-click="barOnClick">
 		</canvas>
+	</div>
+	<div class="col-md-6">
+		<table st-set-filter="customFilter" st-table="monthlyRecords" st-safe-src="DisplayMonthlyRecords" class="table table-striped">
+			<thead>
+				<tr>
+					<th st-ratio="10" st-sort="yearmonth" st-sort-default="reverse">Year Month</th>
+					<th st-ratio="10" st-sort="salesTarget">Sales Target</th>									
+					<th st-ratio="10" st-sort="claimableExpenses">Claimable Expenses</th>
+					<th st-ratio="10">Edit</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="monthlyRecord in monthlyRecords" ng-show="monthlyRecord.id">
+					<td st-ratio="10">{{monthlyRecord.yearmonth | date: 'MMM yyyy'}}</td>
+					<td st-ratio="10">{{monthlyRecord.salesTarget | currency}}</td>			
+					<td st-ratio="10">{{monthlyRecord.claimableExpenses | currency}}</td>
+					<td st-ratio="10">
+						<button type="button" class="btn btn-sm btn-primary" ng-click="editMonthlyRecord(monthlyRecord)" uib-popover="Edit" popover-trigger="mouseenter">
+						<i class="glyphicon glyphicon-lg glyphicon-edit"></i>
+						</button>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="5" class="text-center">
+						<div st-items-by-page="recordItemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		<button type="button" class="btn btn-primary btn-md" ng-hide="showMonthlyRecordForm" ng-click="addMonthlyRecord()" ng-disabled="disableAdd">Create Monthly Target</button>
+		
+		<form name="monthlyRecordForm" class="form" ng-show="showMonthlyRecordForm" ng-submit="monthlyRecordForm.$valid && submit()" novalidate>
+			<div class="row">		 	
+			 	<fieldset class="form-group col-md-4" ng-show="action==='Create'">
+			    	<label for="yearmonth">Year Month</label>
+				    <p class="input-group">
+				       	<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM" is-open="yearmonthStatus.opened" ng-model="monthlyRecord.yearmonth" close-text="Close"/>
+						<span class="input-group-btn"> 
+						    <button type="button" class="btn btn-default" ng-click="openYearmonth($event)">
+						    	<i class="glyphicon glyphicon-calendar"></i>
+						   	</button>
+					    </span>	    
+					</p>
+			  	</fieldset>
+				<fieldset class="form-group col-md-4">
+			    	<label for="salesTarget">Sales Target</label>
+				    <input class="form-control" type="number" id="salesTarget" name="salesTarget" ng-model="monthlyRecord.salesTarget" required/>
+			  	</fieldset>
+			 	<fieldset class="form-group col-md-4">
+			    	<label for="claimableExpenses">Claimable Expenses</label>
+				    <input class="form-control" type="number" id="claimableExpenses" name="claimableExpenses" ng-model="monthlyRecord.claimableExpenses" required/>
+			  	</fieldset>
+			</div>
+		  	<div class="pull-left">
+	  			<button type="submit" value="Submit" class="btn btn-success btn-md" ng-disabled="!monthlyRecordForm.$valid">Save</button>
+				<button type="button" value="Cancel" class="btn btn-default btn-md" ng-click="cancelMonthlyRecordForm()">Cancel</button>
+			</div>
+		</form>
 	</div>
 </div>
 <br />
@@ -84,12 +144,12 @@
 					<li class="list-group-item">Total Charge of Services: <b>{{yearlyServicesCharge | currency}}</b></li>
 					<li class="list-group-item">Expenses Claimed: <b>{{yearlyExpenseClaims | currency}}</b></li>
 		  			<li class="list-group-item">
-					    <small><em>Target Amount: $80000</em></small>
-			   	 		<uib-progressbar animate="false" value="15" type="success"><b>15%</b></uib-progressbar>
+					    <small><em>Target Amount: {{thisYearTarget | currency}}</em></small>
+			   	 		<uib-progressbar animate="false" value="thisYearTargetPercentage" type="success"><b>{{thisYearTargetPercentage}}%</b></uib-progressbar>
 					</li>
 		  			<li class="list-group-item">
-			    		<small><em>Allowable Expenses: $80000</em></small>
-				    	<uib-progressbar animate="false" value="15" type="success"><b>15%</b></uib-progressbar>
+			    		<small><em>Allowable Expenses: {{thisYearExpenses | currency}}</em></small>
+				    	<uib-progressbar animate="false" value="thisYearExpensePercentage" type="success"><b>{{thisYearExpensePercentage}}%</b></uib-progressbar>
 					</li>  							
   				</ul>
 			</div>
@@ -107,16 +167,15 @@
 					<li class="list-group-item">Total Charge of Services: <b>{{monthlyServicesCharge[thisMonth] | currency}}</b></li>
 				  	<li class="list-group-item">Expenses Claimed: <b>{{monthlyExpenseClaims[thisMonth] | currency}}</b></li>  												
 					<li class="list-group-item">
-					    <small><em>Target Amount: $80000</em></small>
-					    <uib-progressbar animate="false" value="15" type="info"><b>15%</b></uib-progressbar>
+					    <small><em>Target Amount: {{thisMonthRecord.salesTarget | currency}}</em></small>
+					    <uib-progressbar animate="false" value="thisMonthTargetPercentage" type="info"><b>{{thisMonthTargetPercentage}}%</b></uib-progressbar>
 					</li>
 		  			<li class="list-group-item">
-				    	<small><em>Allowable Expenses: $80000</em></small>
-				    	<uib-progressbar animate="false" value="15" type="info"><b>15%</b></uib-progressbar>
+				    	<small><em>Allowable Expenses: {{thisMonthRecord.claimableExpenses | currency}}</em></small>
+				    	<uib-progressbar animate="false" value="thisMonthExpensePercentage" type="info"><b>{{thisMonthExpensePercentage}}%</b></uib-progressbar>
 					</li>
 				</ul>
 			</div>
 		</div>	
 	</div>
 </div>
-

@@ -5,14 +5,15 @@ CREATE TABLE IF NOT EXISTS USERS (
   firstname VARCHAR(255) NOT NULL,
   lastname VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL,
+  telephone VARCHAR(255) NOT NULL,
   office_id TINYINT DEFAULT '0',
   role VARCHAR(25) NOT NULL,
   PRIMARY KEY (id)
 );
 TRUNCATE USERS;
-INSERT INTO USERS (username, password, firstname, lastname, email, office_id,role)
-  VALUES ('admin1', 'e00cf25ad42683b3df678c61f42c6bda', 'Michael', 'Jordan', 'admin@worksap.co.jp', 0, 'ADMIN'),
-         ('user1', '24c9e15e52afc47c225b757e7bee1f9d', 'Tim', 'Duncan', 'user001@worksap.co.jp', 1, 'USER');
+INSERT INTO USERS (username, password, firstname, lastname, email,telephone, office_id,role)
+  VALUES ('admin1', 'e00cf25ad42683b3df678c61f42c6bda', 'Michael', 'Jordan', 'admin@worksap.co.jp', 88446633, 0, 'ADMIN'),
+         ('user1', '24c9e15e52afc47c225b757e7bee1f9d', 'Tim', 'Duncan', 'user001@worksap.co.jp', 59761432, 1, 'USER');
          
 CREATE TABLE IF NOT EXISTS OFFICES (
   id INT(11) NOT NULL AUTO_INCREMENT,
@@ -247,3 +248,14 @@ CREATE TABLE IF NOT EXISTS EXPENSE_CLAIMS (
 );
 
 TRUNCATE EXPENSE_CLAIMS;
+
+CREATE TABLE IF NOT EXISTS USER_MONTHLY_RECORDS (
+	id INT(11) NOT NULL AUTO_INCREMENT,
+	user_id INT(11) NOT NULL,
+	yearmonth DATETIME NOT NULL UNIQUE,
+	sales_target INT(11),
+	claimable_expenses INT(11),
+	PRIMARY KEY (id)
+);
+
+TRUNCATE USER_MONTHLY_RECORDS;

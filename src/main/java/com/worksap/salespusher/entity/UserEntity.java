@@ -22,27 +22,26 @@ public class UserEntity {
 	@Column(name="lastname")
 	private String lastname;
 	private String email;
+	private String telephone;
 	@Column(name="office_id")
 	private int office;
 	private String role;
 	
 	protected UserEntity() {}
-	
-	public UserEntity(String username, String password, String firstname, String lastname, String email,int office, String role){
+
+	public UserEntity(String username, String password, String firstname, String lastname, String email,
+			String telephone, int office, String role) {
+		super();
 		this.username = username;
+		this.password = password;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
-		this.password = password;
-		if (password != null) {
-			PasswordHash hash = new PasswordHash();
-			this.password = hash.encode(password);
-		}
-		
+		this.telephone = telephone;
 		this.office = office;
 		this.role = role;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -51,13 +50,22 @@ public class UserEntity {
 		this.id = id;
 	}
 
-	public String getUsername(){
+	public String getUsername() {
 		return username;
 	}
-	
-	public void setUsername(String username){
+
+	public void setUsername(String username) {
 		this.username = username;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String getFirstname() {
 		return firstname;
 	}
@@ -81,13 +89,13 @@ public class UserEntity {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	public String getPassword() {
-		return password;
+
+	public String getTelephone() {
+		return telephone;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 
 	public int getOffice() {
@@ -97,12 +105,12 @@ public class UserEntity {
 	public void setOffice(int office) {
 		this.office = office;
 	}
-	
-	public String getRole(){
+
+	public String getRole() {
 		return role;
 	}
-	
-	public void setRoles(String role){
+
+	public void setRole(String role) {
 		this.role = role;
 	}
 }
