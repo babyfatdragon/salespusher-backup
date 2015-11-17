@@ -1,63 +1,9 @@
 <h3>Staff: {{user.firstname}} {{user.lastname}}</h3>
+<h4><span class="label label-info">email: {{user.email}}</span>
+<span class="label label-info">telephone: {{user.telephone}}</span>
+</h4>
 <br />
-<h4>Deal Records</h4>
-<table st-set-filter="customFilter" st-table="deals" st-safe-src="displayDeals" class="table table-striped">
-	<thead>
-		<tr>
-			<th st-ratio="5" st-sort="id" st-sort-default="reverse">ID</th>
-			<th st-ratio="10" st-sort="productName">Product</th>
-			<th st-ratio="5" st-sort="quantity">Quantity</th>									
-			<th st-ratio="10" st-sort="totalPrice">Total Price</th>
-			<th st-ratio="10" st-sort="companyName">Company</th>
-			<th st-ratio="10" st-sort="dealStatus">Status</th>
-			<th st-ratio="10" st-sort="dateCreated">Open At</th>
-			<th st-ratio="10" st-sort="dateClosed">Closed At</th>
-		</tr>
-		<tr>
-			<th st-ratio="5"></th>
-            <th st-ratio="10">
-            	<input st-search="productName" placeholder="search" class="input-sm form-control" type="search"/>
-            </th>
-            <th st-ratio="5">
-            	<input st-search="quantity" placeholder="search" class="input-sm form-control" type="search"/>
-            </th>
-			<th st-ratio="10">
-				<st-number-range predicate="totalPrice" lower="query.lower" higher="query.higher"></st-number-range>
-			</th>
-            <th st-ratio="10">
-            	<input st-search="companyName" ng-value="q" placeholder="search" class="input-sm form-control" type="search"/>
-            </th>
-            <th st-ratio="10">
-            	<input st-search="dealStatus" placeholder="search" class="input-sm form-control" type="search"/>
-            </th>
-			<th st-ratio="10">
-				<st-date-range  id="created" predicate="dateCreated" after="query.after" before="query.before"></st-date-range>
-			</th>
-           	<th st-ratio="10">
-				<st-date-range  id="closed" predicate="dateClosed" after="query.after" before="query.before"></st-date-range>
-            </th>
-		</tr>		
-	</thead>
-	<tbody>
-		<tr ng-repeat="deal in deals" ng-show="deal.id">
-			<td st-ratio="5">{{deal.id}}</td>
-			<td st-ratio="10">{{deal.productName}}</td>
-			<td st-ratio="10">{{deal.quantity}}</td>			
-			<td st-ratio="10">{{deal.totalPrice | currency}}</td>
-			<td st-ratio="10">{{deal.companyName}}</td>
-			<td st-ratio="10"><a style="width:100%" ui-sref="dealShow({id:deal.id})" type="button" class="btn btn-md" ng-class="deal.dealStatus==='IN PROGRESS' ? 'btn-warning' : (deal.dealStatus==='WON' ? 'btn-success' : 'btn-danger')">{{deal.dealStatus}}</a></td>
-			<td st-ratio="10">{{deal.dateCreated | date:'yyyy/MM/dd'}}</td>
-			<td st-ratio="10">{{deal.dateClosed | date:'yyyy/MM/dd'}}</td>		
-		</tr>
-	</tbody>
-	<tfoot>
-		<tr>
-			<td colspan="5" class="text-center">
-				<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
-			</td>
-		</tr>
-	</tfoot>
-</table>
+<br />
 <br />
 <div class="row">
 	<div class="col-md-2"><select class="form-control" name='year' ng-model='thisYear' ng-options='year for year in [2013,2014,2015,2016]' required></select></div>
@@ -76,7 +22,7 @@
 					<th st-ratio="10" st-sort="yearmonth" st-sort-default="reverse">Year Month</th>
 					<th st-ratio="10" st-sort="salesTarget">Sales Target</th>									
 					<th st-ratio="10" st-sort="claimableExpenses">Claimable Expenses</th>
-					<th st-ratio="10">Edit</th>
+					<th st-ratio="10" ng-show="authority==='ADMIN'">Edit</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -84,7 +30,7 @@
 					<td st-ratio="10">{{monthlyRecord.yearmonth | date: 'MMM yyyy'}}</td>
 					<td st-ratio="10">{{monthlyRecord.salesTarget | currency}}</td>			
 					<td st-ratio="10">{{monthlyRecord.claimableExpenses | currency}}</td>
-					<td st-ratio="10">
+					<td st-ratio="10" ng-show="authority==='ADMIN'">
 						<button type="button" class="btn btn-sm btn-primary" ng-click="editMonthlyRecord(monthlyRecord)" uib-popover="Edit" popover-trigger="mouseenter">
 						<i class="glyphicon glyphicon-lg glyphicon-edit"></i>
 						</button>
@@ -99,7 +45,7 @@
 				</tr>
 			</tfoot>
 		</table>
-		<button type="button" class="btn btn-primary btn-md" ng-hide="showMonthlyRecordForm" ng-click="addMonthlyRecord()" ng-disabled="disableAdd">Create Monthly Target</button>
+		<button type="button" class="btn btn-primary btn-md" ng-hide="showMonthlyRecordForm || authority!='ADMIN'" ng-click="addMonthlyRecord()" ng-disabled="disableAdd">Create Monthly Target</button>
 		
 		<form name="monthlyRecordForm" class="form" ng-show="showMonthlyRecordForm" ng-submit="monthlyRecordForm.$valid && submit()" novalidate>
 			<div class="row">		 	
@@ -179,3 +125,72 @@
 		</div>	
 	</div>
 </div>
+
+<h4>Deal Records</h4>
+<table st-set-filter="customFilter" st-table="deals" st-safe-src="displayDeals" class="table table-striped">
+	<thead>
+		<tr>
+			<th st-ratio="5" st-sort="id" st-sort-default="reverse">ID</th>
+			<th st-ratio="10" st-sort="productName">Product</th>
+			<th st-ratio="5" st-sort="quantity">Quantity</th>									
+			<th st-ratio="10" st-sort="totalPrice">Total Price</th>
+			<th st-ratio="10" st-sort="companyName">Company</th>
+			<th st-ratio="10" st-sort="dealStatus">Status</th>
+			<th st-ratio="10" st-sort="dateCreated">Open At</th>
+			<th st-ratio="10" st-sort="dateClosed">Closed At</th>
+		</tr>
+		<tr>
+			<th st-ratio="5"></th>
+			<th st-ratio="10"></th>
+			<th st-ratio="5"></th>									
+			<th st-ratio="10">{{filteredTotalAmount | currency}}</th>
+			<th st-ratio="10"></th>			
+			<th st-ratio="10"></th>
+			<th st-ratio="10"></th>
+			<th st-ratio="10"></th>
+		</tr>
+		<tr>
+			<th st-ratio="5"></th>
+            <th st-ratio="10">
+            	<input st-search="productName" placeholder="search" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="5">
+            	<input st-search="quantity" placeholder="search" class="input-sm form-control" type="search"/>
+            </th>
+			<th st-ratio="10">
+				<st-number-range predicate="totalPrice" lower="query.lower" higher="query.higher"></st-number-range>
+			</th>
+            <th st-ratio="10">
+            	<input st-search="companyName" ng-value="q" placeholder="search" class="input-sm form-control" type="search"/>
+            </th>
+            <th st-ratio="10">
+            	<input st-search="dealStatus" placeholder="search" class="input-sm form-control" type="search"/>
+            </th>
+			<th st-ratio="10">
+				<st-date-range  id="created" predicate="dateCreated" after="query.after" before="query.before"></st-date-range>
+			</th>
+           	<th st-ratio="10">
+				<st-date-range  id="closed" predicate="dateClosed" after="query.after" before="query.before"></st-date-range>
+            </th>
+		</tr>		
+	</thead>
+	<tbody>
+		<tr ng-repeat="deal in deals" ng-show="deal.id">
+			<td st-ratio="5">{{deal.id}}</td>
+			<td st-ratio="10">{{deal.productName}}</td>
+			<td st-ratio="10">{{deal.quantity}}</td>			
+			<td st-ratio="10">{{deal.totalPrice | currency}}</td>
+			<td st-ratio="10">{{deal.companyName}}</td>
+			<td st-ratio="10"><a style="width:100%" ui-sref="dealShow({id:deal.id})" type="button" class="btn btn-md" ng-class="deal.dealStatus==='IN PROGRESS' ? 'btn-warning' : (deal.dealStatus==='WON' ? 'btn-success' : 'btn-danger')">{{deal.dealStatus}}</a></td>
+			<td st-ratio="10">{{deal.dateCreated | date:'yyyy/MM/dd'}}</td>
+			<td st-ratio="10">{{deal.dateClosed | date:'yyyy/MM/dd'}}</td>		
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="5" class="text-center">
+				<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
+			</td>
+		</tr>
+	</tfoot>
+</table>

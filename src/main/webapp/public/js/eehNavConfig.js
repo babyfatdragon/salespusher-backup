@@ -9,6 +9,11 @@
 	        iconClass: 'glyphicon-home',    
 	        href: '#/home'
 	    })
+	    .menuItem('spSidebar.companyOverview', {
+	        text: 'Company Overview',
+	        iconClass: 'glyphicon-dashboard',    
+	        href: '#/companyOverview'
+	    })
 	    .menuItem('spSidebar.user',{
 	    	text: 'Staff',
 	    	iconClass: 'glyphicon-user',

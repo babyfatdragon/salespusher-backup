@@ -1,9 +1,10 @@
 (function(){
 	angular.module('salespusher.controllers')
-	.controller('DealShowCtrl',['$rootScope','$scope','$timeout','$state','$stateParams','User','Product','Company','Customer','Deal','DealComment','DealEvent','DealFollower','DealServiceEvent','ServiceDocument','DealExpenseClaim','uiCalendarConfig',
-	                            function($rootScope,$scope,$timeout,$state,$stateParams,User,Product,Company,Customer,Deal,DealComment,DealEvent,DealFollower,DealServiceEvent,ServiceDocument,DealExpenseClaim,uiCalendarConfig){
+	.controller('DealShowCtrl',['$rootScope','$scope','$timeout','$state','$stateParams','filterFilter','User','Product','Company','Customer','Deal','DealComment','DealEvent','DealFollower','DealServiceEvent','ServiceDocument','DealExpenseClaim','uiCalendarConfig',
+	                            function($rootScope,$scope,$timeout,$state,$stateParams,filterFilter,User,Product,Company,Customer,Deal,DealComment,DealEvent,DealFollower,DealServiceEvent,ServiceDocument,DealExpenseClaim,uiCalendarConfig){
 		$scope.deal = {};
 		$scope.comment = new DealComment();
+		$scope.comments = new Array();
 		$scope.event = {}; /*used in form*/
 		$scope.serviceEvent = {}; /*used in form*/
 		$scope.action = "Create";
@@ -34,6 +35,8 @@
     							
     							var product = $scope.getObjectById($scope.products,deal.productId);
     							deal.productName = product.name;
+    							deal.categoryOneId = product.categoryOneId;
+    							deal.categoryTwoId = product.categoryTwoId;
     							var customer = $scope.getObjectById($scope.customers,deal.customerId);
     							deal.customerName = customer.name;
     							var company = $scope.getObjectById($scope.companies,customer.companyId);
@@ -48,8 +51,8 @@
     									comments[i].userName = user.firstname+" "+user.lastname;
     								}
     								$scope.comments = comments;
-    								/* pagination */
-    								$scope.totalItems = $scope.comments.length;
+    								/** pagination **/
+    								$scope.totalItems = comments.length;
     								$scope.currentPage = 1;
     								$scope.pageCapacity = 5;
     								$scope.noOfPages = Math.ceil($scope.totalItems / $scope.pageCapacity);
@@ -337,5 +340,12 @@
 		$scope.getOriginDocumentName = function(fileName){
 			return fileName.substr(fileName.indexOf("-")+1);
 		}
+		
+		$scope.$watch('searchComments', function (newVal, oldVal) {
+			$scope.filtered = filterFilter($scope.comments, newVal);
+			$scope.totalItems = $scope.filtered.length;
+			$scope.noOfPages = Math.ceil($scope.totalItems / $scope.pageCapacity);
+			$scope.currentPage = 1;
+		}, true);
 	}]);
 })();

@@ -1,0 +1,51 @@
+<div ng-show="authority!='ADMIN'">
+<h2>Only Admin Accounts are allowed to view this page</h2>
+</div>
+<div ng-show="authority==='ADMIN'">
+    <div class="row">
+		<div class="col-md-2"><select class="form-control" name='year' ng-model='thisYear' ng-options='year for year in [2013,2014,2015,2016]' required></select></div>
+		<div class="col-md-4"><h4>Sales Amount/Expenses Claimed</h4></div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-6">
+			<canvas id="barChart" class="chart chart-bar" chart-data="barData" chart-labels="barLabels" chart-series="barSeries" chart-click="barOnClick">
+			</canvas>
+		</div>
+		<div class="col-md-6">
+		</div>
+	</div>
+	<br />
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-success">
+				<div class="panel-heading"><b>Yearly Summary</b></div>		
+				<div class="panel-body">
+			  		<ul class="list-group">
+	  					<li class="list-group-item">Number of Won Deals: <b>{{wonDeals.length}}</b></li>
+				  		<li class="list-group-item">Number of Lost Deals: <b>{{lostDeals.length}}</b></li>
+						<li class="list-group-item">Sales Amount: <b>{{yearlySalesAmount | currency}}</b></li>
+						<li class="list-group-item">Number of Services Conducted: <b>{{yearlyServices.length}}</b></li>
+						<li class="list-group-item">Total Charge of Services: <b>{{yearlyServicesCharge | currency}}</b></li>
+						<li class="list-group-item">Expenses Claimed: <b>{{yearlyExpenseClaims | currency}}</b></li> 							
+	  				</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-info">
+				<div class="panel-heading"><b>{{thisMonthText}} Summary</b></div>		
+		 		<div class="panel-body">
+		  			<ul class="list-group">
+						<li class="list-group-item">Number of Won Deals: <b>{{monthlyWonDeals[thisMonth].length}}</b></li>
+					  	<li class="list-group-item">Number of Lost Deals: <b>{{monthlyLostDeals[thisMonth].length}}</b></li>
+						<li class="list-group-item">Sales Amount: <b>{{monthlyAmount[thisMonth] | currency}}</b></li>
+						<li class="list-group-item">Number of Services Conducted: <b>{{monthlyServices[thisMonth].length}}</b></li>
+						<li class="list-group-item">Total Charge of Services: <b>{{monthlyServicesCharge[thisMonth] | currency}}</b></li>
+					  	<li class="list-group-item">Expenses Claimed: <b>{{monthlyExpenseClaims[thisMonth] | currency}}</b></li>  												
+					</ul>
+				</div>
+			</div>	
+		</div>
+	</div>
+</div>

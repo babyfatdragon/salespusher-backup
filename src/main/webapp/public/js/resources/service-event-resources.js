@@ -10,7 +10,7 @@
 		});
 	}]);
 	angular.module('salespusher.resources').factory('AllServiceEvent', ['$resource',function UserServiceEventFactory($resource) {  
-		return $resource("/serviceEvents", {}, {
+		return $resource("/serviceEvents/:id", {id:'@id'}, {
 			'update': {method:'PUT'}
 		});
 	}]);

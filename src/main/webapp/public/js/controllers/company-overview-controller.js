@@ -1,7 +1,9 @@
 (function(){
 	angular.module('salespusher.controllers')
-	.controller('UserShowCtrl',['$scope','$state','$timeout','$stateParams','UserById','Product','Company','UserDeal','UserServiceEvent','UserExpenseClaim','UserMonthlyRecord',
-	                            function($scope,$state,$timeout,$stateParams,UserById,Product,Company,UserDeal,UserServiceEvent,UserExpenseClaim,UserMonthlyRecord){		
+	.controller('CompanyOverviewCtrl',['$rootScope','$scope','$timeout',"$http",'filterFilter','Product','Company','Customer','Deal','DealEvent','FollowingDeal','AllServiceEvent','UserExpenseClaim',
+	                        function($rootScope,$scope,$timeout,$http,filterFilter,Product,Company,Customer,Deal,DealEvent,FollowingDeal,AllServiceEvent,UserExpenseClaim){
+		
+		/** expenses, panels & chart **/
 		$scope.itemsByPage = 10;
 		
 		$scope.thisYear = new Date().getFullYear();
@@ -9,59 +11,19 @@
 		$scope.thisMonth = new Date().getMonth();
 		
 		$scope.thisMonthText = "Monthly";
-		
-		$scope.deals = new Array();
-		$scope.displayDeals = new Array();
 		$scope.monthlyRecords = new Array();
 		$scope.DisplayMonthlyRecords = new Array();
 			
-		$scope.serviceEvents = UserServiceEvent.query({userId:$stateParams.id});
-		$scope.expenseClaims = UserExpenseClaim.query({userId:$stateParams.id});
-		Company.query().$promise.then(function(companies){
-			$scope.companies = companies;
-			Product.query().$promise.then(function(products){
-				$scope.products = products;
-				UserById.get({id:$stateParams.id}).$promise.then(function(user){
-					$scope.user = user;
-					UserDeal.query({userId:$stateParams.id}).$promise.then(function(deals){
-						for(var i=0;i<deals.length;i++){
-							var product = $scope.getObjectById($scope.products,deals[i].productId);
-							deals[i].productName = product.name;
-							var company = $scope.getObjectById($scope.companies,deals[i].companyId);
-							deals[i].companyName = company.name;
-						}
-						$scope.deals = deals;
-						$scope.displayDeals = [].concat(deals);
-					});
-					UserMonthlyRecord.query({userId:$stateParams.id}).$promise.then(function(monthlyRecords){
-						$scope.monthlyRecords = monthlyRecords;
-						$scope.DisplayMonthlyRecords = [].concat(monthlyRecords);
-						console.log($scope.DisplayMonthlyRecords.length);
+		$scope.serviceEvents = new Array();
+		$scope.expenseClaims = new Array();
+		/** expenses, panels & chart **/
+		
 
-					});
-				});
-			});
-		});
-		
-		$scope.$watch('deals',function(){
-			$scope.filteredTotalAmount = 0;
-			$scope.deals.forEach(function(deal){
-				$scope.filteredTotalAmount+=deal.totalPrice;
-			});
-			console.log($scope.filteredTotalAmount);
-		});
-		
-		$scope.getObjectById = function(models,id){
-    		if(models.length){
-        		var result = $.grep(models, function(element){
-        			return element.id === id; 
-    			});
-        		if(result.length){
-            		return result[0];
-        		}
-    		}
-		}
-		
+		Deal.query().$promise.then(function(deals){						
+			$scope.deals = deals;
+		});	
+
+
 		/** progress bar **/
 		$scope.getRecordByYearmonth = function(models,year,month){
 	   		if(models.length){
@@ -74,14 +36,11 @@
     		}
 		}
 		/** progress bar **/
-		
 		$scope.getDealsByMonth = function(month){
 			$timeout(function(){
 				$scope.deals.forEach(function(deal){
 					var dateCreated = new Date(deal.dateCreated);
 					var dateClosed = new Date(deal.dateClosed);
-					
-					
 					if(dateClosed.getFullYear()===$scope.thisYear && (dateCreated.getMonth()+1===month || dateClosed.getMonth()+1===month)){
 						$scope.monthlyDeals[month-1].push(deal);
 						if(deal.dealStatus==="WON"){
@@ -121,7 +80,7 @@
 						$scope.yearlyExpenseClaims+=expenseClaim.amount;
 					}
 				});
-			},500);
+			},800);
 		}
 		
 		$scope.$watch('thisYear',function(){
@@ -228,56 +187,6 @@
 		
 		/** monthly records related **/
 		$scope.recordItemsByPage = 3;
-
-		$scope.action='Create';
-		$scope.showMonthlyRecordForm = false;
-		$scope.monthlyRecord = {};
-		$scope.yearmonthStatus = {
-			opened: false
-		};
-		$scope.addMonthlyRecord = function(){
-			$scope.showMonthlyRecordForm = true;
-		}
-		$scope.openYearmonth = function($event) {
-			$scope.yearmonthStatus.opened = true;
-		};
-		$scope.submit = function(){
-			if($scope.action==='Create'){
-				$scope.monthlyRecord.userId = $stateParams.id;
-				var ym = $scope.monthlyRecord.yearmonth;
-				$scope.monthlyRecord.yearmonth = new Date(ym.getFullYear(),ym.getMonth(),1);
-				UserMonthlyRecord.save($scope.monthlyRecord).$promise.then(function(){
-/*					UserMonthlyRecord.query({userId:$stateParams.id}).$promise.then(function(monthlyRecords){
-						$scope.monthlyRecords = monthlyRecords;
-						$scope.DisplayMonthlyRecords = [].concat(monthlyRecords);
-					});
-					$scope.showMonthlyRecordForm = false;*/
-					$state.reload();
-				});
-			} else if($scope.action==='Update'){
-				UserMonthlyRecord.update({id:$scope.monthlyRecord.id},$scope.monthlyRecord).$promise.then(function(){
-/*					UserMonthlyRecord.query({userId:$stateParams.id}).$promise.then(function(monthlyRecords){
-						$scope.monthlyRecords = monthlyRecords;
-						$scope.DisplayMonthlyRecords = [].concat(monthlyRecords);
-					});
-					$scope.showMonthlyRecordForm = false;*/
-					$state.reload();
-				});
-			}
-			$scope.action='Create';
-		}
-		
-		$scope.editMonthlyRecord = function(monthlyRecord){
-			$scope.action='Update';
-			$scope.monthlyRecord = monthlyRecord;
-			$scope.showMonthlyRecordForm = true;
-		}
-		
-		$scope.cancelMonthlyRecordForm = function(){
-			$scope.action='Create';
-			$scope.monthlyRecord = {};
-			$scope.showMonthlyRecordForm = false;
-		};
 		/** monthly records related **/	
 	}]);
 })();

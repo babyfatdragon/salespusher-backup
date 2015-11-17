@@ -14,7 +14,8 @@
 			},
 			templateUrl: '/templates/directives/sp-deal-table.html',
 			controller: ['$rootScope','$scope','User','Product','Company','Customer','Deal',function($rootScope,$scope,User,Product,Company,Customer,Deal){
-	
+				$scope.deals = new Array();
+				$scope.displayDeals = new Array();
 				User.query().$promise.then(function(users){
 					$scope.users = users;
 					Product.query().$promise.then(function(products){
@@ -40,6 +41,14 @@
 							});
 						});
 					});
+				});
+				
+				$scope.$watch('deals',function(){
+					$scope.filteredTotalAmount = 0;
+					$scope.deals.forEach(function(deal){
+						$scope.filteredTotalAmount+=deal.totalPrice;
+					});
+					console.log($scope.filteredTotalAmount);
 				});
 
 		    	$scope.itemsByPage = 10;

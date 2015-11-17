@@ -1,6 +1,8 @@
 <div>
 	<div class="row">
-		<span style="font-size:200%">Opportunity: <a>{{deal.productName}}</a> <i>for</i> <a>{{deal.customerName}}</a>@<a>{{deal.companyName}}</a>
+		<span style="font-size:200%">Opportunity: <a ui-sref="product({categoryOneId:deal.categoryOneId,categoryTwoId:deal.categoryTwoId,id:deal.productId})">{{deal.productName}}</a> <i>for</i> 
+		<a ui-sref="customerManagement.customerShow({id:deal.customerId})">{{deal.customerName}}</a>@
+		<a ui-sref="customerManagement.companyShow({id:deal.companyId})">{{deal.companyName}}</a>
 		<button class="btn btn-danger" ng-show="isFollow" ng-click="unfollow()">Unfollow</button>	
 		<button class="btn btn-primary" ng-show="!isFollow" ng-click="follow()">Follow</button>			
 		</span>
@@ -45,7 +47,9 @@
 		<div class="row col-md-6" style="margin-right:30px">
 			<uib-tabset justified="true">
 				<uib-tab heading="Comments">
-					<div ng-repeat="comment in comments | orderBy:'-id' | startFrom:(currentPage-1)*pageCapacity | limitTo:pageCapacity" style="border:1px solid;border-color:#ddd;margin-bottom:20px">
+					<br />
+			  		<div><label>Search:</label> <input type="text" ng-model="searchComments" /></div>				
+					<div ng-repeat="comment in comments | orderBy:'-id' | filter:searchComments | startFrom:(currentPage-1)*pageCapacity | limitTo:pageCapacity" style="border:1px solid;border-color:#ddd;margin-bottom:20px">
 						<div class="comment-header" style="background-color:#F7F7F7;color:#767676;height:22px">
 							<span style="font-weight:bold">&nbsp;{{comment.userName}}</span><span>&nbsp;commented at {{comment.dateCreated | date:'MMM d, y h:mm:ss a'}}</span>
 						</div>

@@ -68,7 +68,7 @@
 
 		<div class="container-full">
 			<div style="margin-bottom:0px" ncy-breadcrumb></div>
-			<eeh-navigation-sidebar search-input-is-visible="false" menu-name="'spSidebar'">
+			<eeh-navigation-sidebar search-input-is-visible="false" sidebar-is-collapsed="true" menu-name="'spSidebar'">
 			    <ui-view></ui-view>
 			</eeh-navigation-sidebar>
 		</div>
@@ -79,6 +79,31 @@
 		<script src="js/eehNavConfig.js"></script>
 		<script src="js/googleMapsConfig.js"></script>			
 
+				
+		<!-- Directives -->
+		<script src="js/directives/main.js"></script>		
+		<script src="js/directives/smart-table/st-ratio.js"></script>					
+		<script src="js/directives/smart-table/st-page-select.js"></script>	
+		<script src="js/directives/smart-table/st-date-range.js"></script>								
+		<script src="js/directives/smart-table/st-number-range.js"></script>	
+		
+		<script src="js/directives/sp-product-card.js"></script>
+		<script src="js/directives/sp-ng-thumb.js"></script>	
+		<script src="js/directives/sp-file-upload.js"></script>
+		<script src="js/directives/sp-product-form.js"></script>
+		<script src="js/directives/sp-product-images.js"></script>
+		<script src="js/directives/sp-documents.js"></script>
+		<script src="js/directives/sp-catalog-form.js"></script>
+		<script src="js/directives/sp-category-form.js"></script>				
+		<script src="js/directives/sp-product-videos.js"></script>
+		<script src="js/directives/sp-company-form.js"></script>
+		<script src="js/directives/sp-customer-form.js"></script>
+		<script src="js/directives/sp-deal-table.js"></script>
+		<script src="js/directives/sp-deal-form.js"></script>
+		<script src="js/directives/sp-comment-form.js"></script>
+		<script src="js/directives/sp-event-form.js"></script>
+		<script src="js/directives/sp-expense-claim-form.js"></script>
+		
 		<!-- Resources -->
 		<script src="js/resources/main.js"></script>		
 		<script src="js/resources/user-resources.js"></script>
@@ -103,6 +128,7 @@
 		<!-- Controllers -->
 		<script src="js/controllers/main.js"></script>
 		<script src="js/controllers/home-controller.js"></script>
+		<script src="js/controllers/company-overview-controller.js"></script>
 		<script src="js/controllers/navigation-controller.js"></script>
 		<script src="js/controllers/modal-dialog-controller.js"></script>
 		
@@ -139,31 +165,8 @@
 		<script src="js/controllers/user/user-locator-controller.js"></script>
 		<script src="js/controllers/user/user-show-controller.js"></script>
 		
-				
-		<!-- Directives -->
-		<script src="js/directives/main.js"></script>
-		<script src="js/directives/sp-product-card.js"></script>
-		<script src="js/directives/sp-ng-thumb.js"></script>	
-		<script src="js/directives/sp-file-upload.js"></script>
-		<script src="js/directives/sp-product-form.js"></script>
-		<script src="js/directives/sp-product-images.js"></script>
-		<script src="js/directives/sp-documents.js"></script>
-		<script src="js/directives/sp-catalog-form.js"></script>
-		<script src="js/directives/sp-category-form.js"></script>				
-		<script src="js/directives/sp-product-videos.js"></script>
-		<script src="js/directives/sp-company-form.js"></script>
-		<script src="js/directives/sp-customer-form.js"></script>
-		<script src="js/directives/sp-deal-table.js"></script>
-		<script src="js/directives/sp-deal-form.js"></script>
-		<script src="js/directives/sp-comment-form.js"></script>
-		<script src="js/directives/sp-event-form.js"></script>
-		<script src="js/directives/sp-expense-claim-form.js"></script>
-		
-		<script src="js/directives/smart-table/st-ratio.js"></script>					
-		<script src="js/directives/smart-table/st-page-select.js"></script>	
-		<script src="js/directives/smart-table/st-date-range.js"></script>								
-		<script src="js/directives/smart-table/st-number-range.js"></script>								
-		
+
+								
 		<!--  Filters -->
 		<script src="js/filters/main.js"></script>
 		<script src="js/filters/startFrom-filter.js"></script>

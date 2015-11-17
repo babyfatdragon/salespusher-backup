@@ -1,6 +1,8 @@
 (function(){
 	angular.module('salespusher.controllers')
 	.controller('CompanyShowCtrl',['$scope','$stateParams','User','Product','Company','CompanyDeal',function($scope,$stateParams,User,Product,Company,CompanyDeal){		
+		$scope.deals = new Array();
+		$scope.displayDeals = new Array();
 		User.query().$promise.then(function(users){
 			$scope.users = users;
 			Product.query().$promise.then(function(products){
@@ -19,6 +21,14 @@
 					});
 				});
 			});
+		});
+		
+		$scope.$watch('deals',function(){
+			$scope.filteredTotalAmount = 0;
+			$scope.deals.forEach(function(deal){
+				$scope.filteredTotalAmount+=deal.totalPrice;
+			});
+			console.log($scope.filteredTotalAmount);
 		});
 		
 		$scope.getObjectById = function(models,id){

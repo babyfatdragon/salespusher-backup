@@ -7,7 +7,7 @@
 			<th st-ratio="5" st-sort="firstname">First Name</th>
 			<th st-ratio="5" st-sort="lastname">Last Name</th>									
 			<th st-ratio="10" st-sort="email">Email</th>			
-			<th st-ratio="10" st-sort="phone">Phone No.</th>
+			<th st-ratio="10" st-sort="telephone">Phone No.</th>
 			<th st-ratio="10" st-sort="role">Role</th>
 			<th st-ratio="10" st-sort="dateCreated">Created At</th>
 			<th st-ratio="5">Actions</th>
@@ -27,7 +27,7 @@
             	<input st-search="email" placeholder="search" class="input-sm form-control" type="search"/>
             </th>
             <th st-ratio="10">
-            	<input st-search="phone" placeholder="search" class="input-sm form-control" type="search"/>
+            	<input st-search="telephone" placeholder="search" class="input-sm form-control" type="search"/>
             </th>
             <th st-ratio="10">
             	<input st-search="role" placeholder="search" class="input-sm form-control" type="search"/>
@@ -45,7 +45,7 @@
 			<td st-ratio="5">{{user.firstname}}</td>			
 			<td st-ratio="5">{{user.lastname}}</td>
 			<td st-ratio="10">{{user.email}}</td>
-			<td st-ratio="10">{{user.phone}}</td>
+			<td st-ratio="10">{{user.telephone}}</td>
 			<td st-ratio="10">{{user.role}}</td>
 			<td st-ratio="10">{{user.dateCreated | date:'yyyy/MM/dd'}}</td>
 			<td st-ratio="5">
@@ -63,5 +63,4 @@
 		</tr>
 	</tfoot>
 </table>
-<ui-view>
-</ui-view>
+<ui-view></ui-view>

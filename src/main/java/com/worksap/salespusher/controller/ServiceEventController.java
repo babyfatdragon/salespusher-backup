@@ -27,6 +27,7 @@ public class ServiceEventController {
 	public ServiceEventController(ServiceEventRepository serviceEventRepository) {
 		this.serviceEventRepository = serviceEventRepository;
 	}
+	
 	/** find by deal id **/
 	@RequestMapping(value = "/serviceEventsByDeal/{dealId}/events", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
@@ -42,7 +43,7 @@ public class ServiceEventController {
 	
 	@RequestMapping(value = "/serviceEventsByDeal/{dealId}/events/{id}", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
-	public ServiceEventEntity getServiceEvent(@PathVariable long id){
+	public ServiceEventEntity getServiceEventByDealId(@PathVariable long id){
 		return this.serviceEventRepository.findOne(id);
 	}
 	

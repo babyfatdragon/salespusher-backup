@@ -16,6 +16,15 @@
 	  			label: 'Home'
 	  		}
 	  	})
+	  	.state('companyOverview',{
+	  		url: '/companyOverview',
+	  		templateUrl: '/templates/partials/company_overview.html',
+	  		controller: 'CompanyOverviewCtrl',
+	  		ncyBreadcrumb: {
+	  			label: 'Company Overview',
+	  			parent: 'home'
+	  		}
+	  	})
 	  	.state('login',{
 	  		url: '/login',
 	  		templateUrl : '/templates/partials/_login.html',
@@ -27,7 +36,7 @@
 	  	})
 	  	.state('users',{
 	  		url: '/users',
-	  		templateUrl: '/templates/users/_users.html',
+	  		templateUrl: '/templates/partials/_users.html',
 	  		controller: 'UsersCtrl',
 	  		ncyBreadcrumb: {
 	  			label: 'Users',

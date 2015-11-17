@@ -59,14 +59,14 @@
 			<th st-ratio="10" st-sort="userName">Staff</th>
 			<th st-ratio="10" st-sort="start">Start</th>
 			<th st-ratio="10" st-sort="end">End</th>
-			<th st-ratio="10" st-sort="distance.value" st-sort-default>Distance</th>
+			<th st-ratio="10" st-sort="distance.value" st-sort-default="true">Distance</th>
 			<th st-ratio="10" st-sort="duration.value">Travel Time</th>
 		</tr>	
 	</thead>
 	<tbody>
 		<tr ng-repeat="serviceEvent in serviceEvents" ng-show="serviceEvent.id">
 			<td st-ratio="10">{{serviceEvent.location}}</td>
-			<td st-ratio="10">{{serviceEvent.userName}}</td>
+			<td st-ratio="10"><a ui-sref="users.userShow({id:serviceEvent.userId})">{{serviceEvent.userName}}</a></td>
 			<td st-ratio="10">{{serviceEvent.start | date:'HH:mm'}}</td>
 			<td st-ratio="10">{{serviceEvent.end | date:'HH:mm'}}</td>
 			<td st-ratio="10">{{serviceEvent.distance.text}}</td>
