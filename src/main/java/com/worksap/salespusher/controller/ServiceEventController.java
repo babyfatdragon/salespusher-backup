@@ -87,10 +87,16 @@ public class ServiceEventController {
 		
 		Date fromDate = sdf.parse(from);
 		Date toDate = sdf.parse(to);
-		System.out.println(from);
-		System.out.println(to);
-		System.out.println(fromDate);
-		System.out.println(toDate);
 		return this.serviceEventRepository.findByEndBetween(fromDate,toDate);
+	}
+	
+	@RequestMapping(value = "/serviceEvents/findByStartTimeRange", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")	
+	public List<ServiceEventEntity> getServiceEventsByStart(@RequestParam("from") String from,@RequestParam("to") String to) throws ParseException{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		
+		Date fromDate = sdf.parse(from);
+		Date toDate = sdf.parse(to);
+		return this.serviceEventRepository.findByStartBetween(fromDate,toDate);
 	}
 }

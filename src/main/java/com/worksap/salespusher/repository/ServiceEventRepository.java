@@ -12,4 +12,5 @@ public interface ServiceEventRepository extends JpaRepository<ServiceEventEntity
 	List<ServiceEventEntity> findByDealId(long dealId);
 	List<ServiceEventEntity> findByUserId(long userId);
 	List<ServiceEventEntity> findByEndBetween(Date from,Date to);
+	List<ServiceEventEntity> findByStartBetween(Date from,Date to);
 }

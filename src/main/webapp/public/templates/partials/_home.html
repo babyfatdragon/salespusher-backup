@@ -1,6 +1,7 @@
-<ui-view>
-<h1>Dashboard</h1>
 <div ng-show="authenticated">
+<h4>Welcome, {{currentUser.firstname}} {{currentUser.lastname}}!</h4>
+<h1>Dashboard</h1>
+			
 	<div class="row">
 		<div class="col-md-12">		
 			<div class="col-md-6">
@@ -100,8 +101,7 @@
 	<hr />
 	<br />
 	
-
-    <div class="row">
+   	<div class="row">
 		<div class="col-md-2"><select class="form-control" name='year' ng-model='thisYear' ng-options='year for year in [2013,2014,2015,2016]' required></select></div>
 		<div class="col-md-4"><h4>Sales Amount/Expenses Claimed</h4></div>
 	</div>
@@ -118,6 +118,7 @@
 						<th st-ratio="10" st-sort="yearmonth" st-sort-default="reverse">Year Month</th>
 						<th st-ratio="10" st-sort="salesTarget">Sales Target</th>									
 						<th st-ratio="10" st-sort="claimableExpenses">Claimable Expenses</th>
+						<th st-ratio="10" st-sort="comment">Comment</th>						
 					</tr>
 				</thead>
 				<tbody>
@@ -125,6 +126,7 @@
 						<td st-ratio="10">{{monthlyRecord.yearmonth | date: 'MMM yyyy'}}</td>
 						<td st-ratio="10">{{monthlyRecord.salesTarget | currency}}</td>			
 						<td st-ratio="10">{{monthlyRecord.claimableExpenses | currency}}</td>
+						<td st-ratio="10" ng-bind-html="monthlyRecord.comment"></td>					
 					</tr>
 				</tbody>
 				<tfoot>
@@ -189,6 +191,5 @@
 </div>
 
 <div ng-show="!authenticated">
-	<p>Login to see your greeting</p>
+	<h3>Please Login to use Sales Pusher</h3>
 </div>
-</ui-view>

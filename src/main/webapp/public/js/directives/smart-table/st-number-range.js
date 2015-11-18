@@ -5,8 +5,8 @@
             restrict: 'E',
             require: '^stTable',
             scope: {
-                lower: '=',
-                higher: '='
+/*                lower: '=',
+                higher: '='*/
             },
             templateUrl: '/templates/directives/smart-table/st-number-range.html',
             link: function (scope, element, attr, table) {

@@ -1,6 +1,9 @@
 (function(){
 	angular.module('salespusher.controllers').controller('UserLocatorCtrl',['$rootScope','$scope','$timeout','$http','uiGmapGoogleMapApi','User','Company',
 	                                                                  function($rootScope, $scope,$timeout,$http,uiGmapGoogleMapApi,User,Company){
+
+		$scope.usersCopy = new Array();
+
 		$scope.companies = Company.query();
 		$scope.event = {};
 		$scope.serviceEvents = new Array();
@@ -34,7 +37,8 @@
 		/** end of for form usage **/
 		
 		$scope.submit = function(){
-
+			//angular.copy($scope.users, $scope.usersCopy);
+			$scope.usersCopy = $scope.users;
 			var fromYear = $scope.event.startDate.getFullYear();
 			var fromMonth = $scope.event.startDate.getMonth() + 1;
 			if(fromMonth<10){
@@ -132,6 +136,14 @@
 					$scope.markers = [];
 					$scope.serviceEvents.forEach(function(serviceEvent){
 						var user = $scope.getObjectById($scope.users,serviceEvent.userId);
+					    /** eliminate user whose event starts within the time range from users **/
+						for(var i=0;i<$scope.usersCopy.length;i++){
+							if($scope.usersCopy[i].id===user.id){
+								$scope.usersCopy.splice(i, 1);
+								break;
+							}
+						}
+					    /** eliminate user whose event starts within the time range from users **/
 						serviceEvent.userName = user.firstname + " " + user.lastname;
 						var start = new Date(serviceEvent.start);
 						var end = new Date(serviceEvent.end);
@@ -169,6 +181,31 @@
 					  });
 			    });
 				/** end of google-maps **/
+			    /** eliminate user whose event starts within the time range from users **/
+			    $http.get('/serviceEvents/findByStartTimeRange',{
+					params:{
+						from: from,
+						to: to
+					}
+				}).success(function(events){
+					if(events.length){
+						console.log("BKSY");
+						events.forEach(function(event){
+							var user = $scope.getObjectById($scope.users,event.userId);
+							if(user!=null){
+								for(var i=0;i<$scope.usersCopy.length;i++){
+									if($scope.usersCopy[i].id===user.id){
+										$scope.usersCopy.splice(i, 1);
+										break;
+									}
+								}
+							}
+						});	
+					}	
+					console.log($scope.usersCopy);
+					$scope.displayUsersCopy = $scope.usersCopy;
+				});
+			    /** eliminate user whose event starts within the time range from users **/
 			});
 		}
 		$scope.getObjectById = function(models,id){

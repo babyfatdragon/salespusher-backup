@@ -22,6 +22,7 @@
 					<th st-ratio="10" st-sort="yearmonth" st-sort-default="reverse">Year Month</th>
 					<th st-ratio="10" st-sort="salesTarget">Sales Target</th>									
 					<th st-ratio="10" st-sort="claimableExpenses">Claimable Expenses</th>
+					<th st-ratio="10" st-sort="comment">Comment</th>					
 					<th st-ratio="10" ng-show="authority==='ADMIN'">Edit</th>
 				</tr>
 			</thead>
@@ -30,6 +31,7 @@
 					<td st-ratio="10">{{monthlyRecord.yearmonth | date: 'MMM yyyy'}}</td>
 					<td st-ratio="10">{{monthlyRecord.salesTarget | currency}}</td>			
 					<td st-ratio="10">{{monthlyRecord.claimableExpenses | currency}}</td>
+					<td st-ratio="10" ng-bind-html="monthlyRecord.comment"></td>					
 					<td st-ratio="10" ng-show="authority==='ADMIN'">
 						<button type="button" class="btn btn-sm btn-primary" ng-click="editMonthlyRecord(monthlyRecord)" uib-popover="Edit" popover-trigger="mouseenter">
 						<i class="glyphicon glyphicon-lg glyphicon-edit"></i>
@@ -67,6 +69,10 @@
 			 	<fieldset class="form-group col-md-4">
 			    	<label for="claimableExpenses">Claimable Expenses</label>
 				    <input class="form-control" type="number" id="claimableExpenses" name="claimableExpenses" ng-model="monthlyRecord.claimableExpenses" required/>
+			  	</fieldset>
+				<fieldset class="form-group col-md-12">
+    				<label for="benefits">Comment</label>
+					<text-angular ng-model="monthlyRecord.comment"></text-angular>
 			  	</fieldset>
 			</div>
 		  	<div class="pull-left">

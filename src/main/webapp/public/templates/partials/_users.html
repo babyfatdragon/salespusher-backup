@@ -9,6 +9,8 @@
 			<th st-ratio="10" st-sort="email">Email</th>			
 			<th st-ratio="10" st-sort="telephone">Phone No.</th>
 			<th st-ratio="10" st-sort="role">Role</th>
+			<th st-ratio="10" st-sort="monthlyAmount">Monthly Amount</th>
+			<th st-ratio="10" st-sort="yearlyAmount">Yearly Amount</th>			
 			<th st-ratio="10" st-sort="dateCreated">Created At</th>
 			<th st-ratio="5">Actions</th>
 		</tr>
@@ -32,6 +34,12 @@
             <th st-ratio="10">
             	<input st-search="role" placeholder="search" class="input-sm form-control" type="search"/>
             </th>
+         	<th st-ratio="10">
+				<st-number-range predicate="monthlyAmount" lower="query.lower" higher="query.higher"></st-number-range>
+			</th>
+			<th st-ratio="10">
+				<st-number-range predicate="yearlyAmount" lower="query.lower" higher="query.higher"></st-number-range>
+			</th>
 			<th st-ratio="10">
 				<st-date-range  id="created" predicate="dateCreated" after="query.after" before="query.before"></st-date-range>
 			</th>
@@ -47,6 +55,8 @@
 			<td st-ratio="10">{{user.email}}</td>
 			<td st-ratio="10">{{user.telephone}}</td>
 			<td st-ratio="10">{{user.role}}</td>
+			<td st-ratio="10">{{user.monthlyAmount}}</td>			
+			<td st-ratio="10">{{user.yearlyAmount}}</td>
 			<td st-ratio="10">{{user.dateCreated | date:'yyyy/MM/dd'}}</td>
 			<td st-ratio="5">
 				<button type="button" class="btn btn-sm btn-primary" ui-sref="users.userShow({id:user.id})" uib-popover="Edit" popover-trigger="mouseenter">

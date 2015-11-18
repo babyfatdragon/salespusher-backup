@@ -7,7 +7,7 @@
 				if (data.name) {
 					$rootScope.authenticated = true;
 		        	/* set $rootScope authority */
-					if(typeof $rootScope.currentUser==='undefined'){
+					if(typeof $rootScope.currentUser==='undefined' || $rootScope.currentUser===null){
 						$http.get('/user', {}).success(function(user){
 			        		$rootScope.authority = user.authorities[0].authority;
 			        		User.get({username:user.name}).$promise.then(function(currentUser){
@@ -52,6 +52,7 @@
 	    		console.log("logout succeeded");
 	    		$rootScope.authenticated = false;
 	    		$rootScope.currentUser = null;
+	    		console.log($rootScope.currentUser);
 	    		$location.path("/");
 	    	})
 	    	.error(function(data) {

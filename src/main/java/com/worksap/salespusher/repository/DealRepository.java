@@ -1,5 +1,6 @@
 package com.worksap.salespusher.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +11,6 @@ public interface DealRepository extends JpaRepository<DealEntity,Long>{
 	DealEntity findById(long id);
 	List<DealEntity> findByUserId(long userId);
 	List<DealEntity> findByCompanyId(long companyId);
+	List<DealEntity> findByDateClosedBetween(Date from,Date to);
+	List<DealEntity> findByUserIdAndDateClosedBetween(long userId,Date from,Date to);
 }

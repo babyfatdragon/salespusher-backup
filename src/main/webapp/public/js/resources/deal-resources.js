@@ -14,4 +14,14 @@
 			'update': {method:'PUT'}
 		});
 	}]);
+	angular.module('salespusher.resources').factory('MonthlyDeal', ['$resource',function MonthlyDealFactory($resource) {  
+		return $resource("/monthlyDeals/:month/users/:userId", {month:'@month',userId:'@userId'}, {
+			'update': {method:'PUT'}
+		});
+	}]);
+	angular.module('salespusher.resources').factory('YearlyDeal', ['$resource',function YearlyDealFactory($resource) {  
+		return $resource("/yearlyDeals/:year/users/:userId", {year:'@year',userId:'@userId'}, {
+			'update': {method:'PUT'}
+		});
+	}]);
 })();

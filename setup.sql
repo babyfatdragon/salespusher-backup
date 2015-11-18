@@ -12,8 +12,14 @@ CREATE TABLE IF NOT EXISTS USERS (
 );
 TRUNCATE USERS;
 INSERT INTO USERS (username, password, firstname, lastname, email,telephone, office_id,role)
-  VALUES ('admin1', 'e00cf25ad42683b3df678c61f42c6bda', 'Michael', 'Jordan', 'admin@worksap.co.jp', 88446633, 0, 'ADMIN'),
-         ('user1', '24c9e15e52afc47c225b757e7bee1f9d', 'Tim', 'Duncan', 'user001@worksap.co.jp', 59761432, 1, 'USER');
+  VALUES ('admin1', 'e00cf25ad42683b3df678c61f42c6bda', 'Albert', 'Smith', 'alberts@worksap.co.jp', '89234472', 0, 'ADMIN'),
+         ('admin2', 'c84258e9c39059a89ab77d846ddab909', 'Betty', 'Johnson', 'bettyj@worksap.co.jp', '79761432', 0, 'ADMIN'),
+      	 ('user1', '24c9e15e52afc47c225b757e7bee1f9d', 'Charles', 'Brown', 'charlesb@worksap.co.jp', '83171310', 0, 'USER'),
+      	 ('user2', '7e58d63b60197ceb55a1c487989a3720', 'Dave', 'Miller', 'dave@worksap.co.jp', '92234154', 0, 'USER'),
+      	 ('user3', '92877af70a45fd6a2ed7fe81e1236b78', 'Edward', 'Taylor', 'edtaylor@worksap.co.jp', '75437108', 0, 'USER'),
+      	 ('user4', '3f02ebe3d7929b091e3d8ccfde2f3bc6', 'Fred', 'Thompson', 'fred@worksap.co.jp', '84298022', 0, 'USER'),
+      	 ('user5', '0a791842f52a0acfbb3a783378c066b8', 'Gary', 'White', 'gary@worksap.co.jp', '73317434', 0, 'USER'),
+      	 ('user6', 'affec3b64cf90492377a8114c86fc093', 'Helen', 'Martin', 'helenm@worksap.co.jp', '73317434', 0, 'USER');
          
 CREATE TABLE IF NOT EXISTS OFFICES (
   id INT(11) NOT NULL AUTO_INCREMENT,
@@ -28,60 +34,15 @@ CREATE TABLE IF NOT EXISTS PRODUCTS (
 	product_name VARCHAR(255) NOT NULL,
 	first_category TINYINT NOT NULL,
 	second_category TINYINT NOT NULL,
-	overview TEXT,
-	benefits TEXT,
-	cases TEXT,
-	technology TEXT,
-	specification TEXT,
+	overview MEDIUMTEXT,
+	benefits MEDIUMTEXT,
+	cases MEDIUMTEXT,
+	technology MEDIUMTEXT,
+	specification MEDIUMTEXT,
 	price INT(11),
 	PRIMARY KEY (id)
 );
 TRUNCATE PRODUCTS;
-INSERT INTO PRODUCTS (product_name,first_category,second_category,overview,benefits,cases,technology,specification,price) VALUES 
-('Discovery XR656 Plus',1,1,'Discovery* XR656 Plus lets you enjoy productivity and workflow benefits thanks to FlashPad*, 
-a wireless detector that was designed—from the beginning—for advanced digital imaging. 
-Our suite of advanced clinical capabilities helps you address complex clinical needs while differentiating your facility from others. ',
-'',
-'',
-'Advance your clinical capabilities
-FlashPad Digital radiography detector 
-Gain control over your workflow
-Service you can count on!',
-'',
-250000),
-('Definium 5000',1,2,
-'The Definium 5000 is a compact and versatile digital radiography system. 
-It’s well-suited for the demands of high-volume imaging, especially in treatment centers where space is at a premium, 
-such as orthopedic and sports medicine facilities, physician offices, satellite offices and stand-alone imaging centers. 
-It’s an affordable digital solution in a compact system.',
-'',
-'',
-'Amorphous silicon non-tiled digital detector with cesium iodide scintillator
-Patient-side collimator and technique controls with digital display (e.g. mA, kVp, mAs)
-Patient-side automated positioning selection
-Patient-side selection of pre-programmed U-arm positions
-High DQE for excellent image quality and dose efficiency',
-'The Definium 5000 digital radiographic imaging system is designed as a compact, 
-digital imaging system for use in hospital emergency departments, 
-orthopedic centers, and to support most general radiology applications. 
-It provides excellent image quality, image manipulation and dose reporting. 
-These features help make the system reliable and easy to use while providing high-quality radiographic images in a digital environment.',
-225000),
-('Discovery PET/CT 610',2,3,
-'GE Healthcare is proud to announce that the Discovery* PET/CT 610 has achieved an absolute sensitivity of 10.0 cps/kBq, 
-the highest level found on any scanner on the market.1 Sensitivity is one of GE’s critical foundations of PET/CT imaging, 
-and this double-digit measurement represents a critical milestone. It means the system is designed to deliver fast and detailed scans at low dose.',
-'',
-'',
-'Innovations with a 40-mm detector at 0.35-sec rotation speed.
-Up to 60% lower CO2 emissions using the energy saving mode.
-Advanced applications to help clinicians make a fast and confident diagnosis.
-ASiR2 technology may allow for reduced mA in the acquisition of diagnostic images.
-Simplified workflow for quick and streamlined operation.
-Scalable, modular design for ease of service.
-128-slice axial overlapped reconstruction for improved Z-axis visualization compared to non-overlapped reconstruction.',
-'',
-350000);
 
 CREATE TABLE IF NOT EXISTS PRODUCT_IMAGES (
 	id INT(11) NOT NULL AUTO_INCREMENT,
@@ -115,7 +76,7 @@ CREATE TABLE IF NOT EXISTS CATEGORYONE (
 	PRIMARY KEY (id)
 );
 TRUNCATE CATEGORYONE;
-INSERT INTO CATEGORYONE (name) VALUES ('Radiography'), ('PET/CT');
+INSERT INTO CATEGORYONE (name) VALUES ('Accessories and Supplies'),('Bone Health'),('Magnetic Resonance Imaging'),('PET/CT'),('Radiography'),('Ultrasound');
 
 
 CREATE TABLE IF NOT EXISTS CATEGORYTWO (
@@ -125,7 +86,13 @@ CREATE TABLE IF NOT EXISTS CATEGORYTWO (
 	PRIMARY KEY (id)
 );
 TRUNCATE CATEGORYTWO;
-INSERT INTO CATEGORYTWO (name,categoryone_id) VALUES ('Fixed RAD Systems',1), ('Mobile X-Ray Systems',1), ('PET/CT Scanners',2);
+INSERT INTO CATEGORYTWO (name,categoryone_id) VALUES 
+('Ultrasound Accessories & Supplies',1), ('MR Accessories & Supplies',1), ('CT & PET/CT Accessories & Supplies',1),('X-ray Accessories & Supplies',1),
+('DXA for Bone Health',2),
+('MR Systems',3),
+('PET/CT Scanners',4),('PET/CT Applications',4),
+('Fixed RAD Systems',5),('Mobile X-Ray Systems',5),
+('Ultrasound Products',6);
 
 CREATE TABLE IF NOT EXISTS COMPANIES (
 	id INT(11) NOT NULL AUTO_INCREMENT,
@@ -138,6 +105,11 @@ CREATE TABLE IF NOT EXISTS COMPANIES (
 	PRIMARY KEY (id)
 );
 TRUNCATE COMPANIES;
+INSERT INTO COMPANIES (name,telephone,email,address) VALUES
+('Alexandra Hospital','63793150','enquiry@alexhosp.com.sg','378 Alexandra Road Singapore 159964'),
+('Changi General Hospital','67888833','feedback@cgh.com.sg','2 Simei Street 3 Singapore 529889'),
+('National University Hospital','67795555','NUH_Enquiries@nuhs.edu.sg','5 Lower Kent Ridge Rd Singapore 119074'),
+('Singapore General Hospital','62223322','sghenquiry@sgh.com.sg','Outram Rd Singapore 169608');
 
 CREATE TABLE IF NOT EXISTS CUSTOMERS (
 	id INT(11) NOT NULL AUTO_INCREMENT,
@@ -154,6 +126,11 @@ CREATE TABLE IF NOT EXISTS CUSTOMERS (
 	PRIMARY KEY (id)
 );
 TRUNCATE CUSTOMERS;
+INSERT INTO CUSTOMERS (name,gender,company_id,department,position,telephone,email,address) VALUES
+('Zack Li','Male',1,'Bone Department','Head','65931752','zack@alexhosp.com.sg','378 Alexandra Road Singapore 159964'),
+('Doris Wu','Female',2,'General Surgery','Physician','90712493','dorisw@cgh.com.sg','2 Simei Street 3 Singapore 529889'),
+('Tony Davis','Male',3,'Emergency','Head','84021939','tonyd@nuhs.edu.sg','5 Lower Kent Ridge Rd Singapore 119074'),
+('May Wong','Female',4,'Diagnostic imaging','Vice Head','97524138','maywong@sgh.com.sg','Outram Rd Singapore 169608');
 
 CREATE TABLE IF NOT EXISTS DEALS (
 	id INT(11) NOT NULL AUTO_INCREMENT,
@@ -255,6 +232,7 @@ CREATE TABLE IF NOT EXISTS USER_MONTHLY_RECORDS (
 	yearmonth DATETIME NOT NULL UNIQUE,
 	sales_target INT(11),
 	claimable_expenses INT(11),
+	comment MEDIUMTEXT,
 	PRIMARY KEY (id)
 );
 CREATE UNIQUE INDEX user_yearmonth ON USER_MONTHLY_RECORDS (user_id, yearmonth);

@@ -125,6 +125,7 @@
 		}
 		
 		$scope.$watch('thisYear',function(){
+			console.log($scope.thisYear);
 			/** reset data **/			
 			$scope.wonDeals = new Array();
 
@@ -256,11 +257,6 @@
 				});
 			} else if($scope.action==='Update'){
 				UserMonthlyRecord.update({id:$scope.monthlyRecord.id},$scope.monthlyRecord).$promise.then(function(){
-/*					UserMonthlyRecord.query({userId:$stateParams.id}).$promise.then(function(monthlyRecords){
-						$scope.monthlyRecords = monthlyRecords;
-						$scope.DisplayMonthlyRecords = [].concat(monthlyRecords);
-					});
-					$scope.showMonthlyRecordForm = false;*/
 					$state.reload();
 				});
 			}

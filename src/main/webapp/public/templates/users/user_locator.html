@@ -1,6 +1,6 @@
 <h3>Staff Locator</h3>
 <div class="row">
-	<form name="eventForm" style="margin-top:20px" class="form col-md-8" ng-submit="eventForm.$valid && submit()" novalidate>
+	<form name="eventForm" style="margin-top:20px" class="form col-md-6" ng-submit="eventForm.$valid && submit()" novalidate>
 
 	 	<fieldset class="form-group">
 	    	<label for="start">Start Date Time</label>
@@ -52,35 +52,60 @@
 </div>
 
 <div class="row" ng-show="startSearching">
-	<table st-table="serviceEvents" st-safe-src="displayServiceEvents" class="table table-striped">
-	<thead>
-		<tr>
-			<th st-ratio="10" st-sort="location">Location</th>
-			<th st-ratio="10" st-sort="userName">Staff</th>
-			<th st-ratio="10" st-sort="start">Start</th>
-			<th st-ratio="10" st-sort="end">End</th>
-			<th st-ratio="10" st-sort="distance.value" st-sort-default="true">Distance</th>
-			<th st-ratio="10" st-sort="duration.value">Travel Time</th>
-		</tr>	
-	</thead>
-	<tbody>
-		<tr ng-repeat="serviceEvent in serviceEvents" ng-show="serviceEvent.id">
-			<td st-ratio="10">{{serviceEvent.location}}</td>
-			<td st-ratio="10"><a ui-sref="users.userShow({id:serviceEvent.userId})">{{serviceEvent.userName}}</a></td>
-			<td st-ratio="10">{{serviceEvent.start | date:'HH:mm'}}</td>
-			<td st-ratio="10">{{serviceEvent.end | date:'HH:mm'}}</td>
-			<td st-ratio="10">{{serviceEvent.distance.text}}</td>
-			<td st-ratio="10">{{serviceEvent.duration.text}}</td>
-		</tr>
-	</tbody>
-	<tfoot>
-		<tr>
-			<td colspan="5" class="text-center">
-				<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
-			</td>
-		</tr>
-	</tfoot>
-</table>
+	<div class="col-md-6">
+		<table st-table="serviceEvents" st-safe-src="displayServiceEvents" class="table table-striped">
+			<thead>
+				<tr>
+					<th st-ratio="10" st-sort="location">Location</th>
+					<th st-ratio="10" st-sort="userName">Staff</th>
+					<th st-ratio="10" st-sort="start">Start</th>
+					<th st-ratio="10" st-sort="end">End</th>
+					<th st-ratio="10" st-sort="distance.value" st-sort-default="true">Distance</th>
+					<th st-ratio="10" st-sort="duration.value">Travel Time</th>
+				</tr>	
+			</thead>
+			<tbody>
+				<tr ng-repeat="serviceEvent in serviceEvents" ng-show="serviceEvent.id">
+					<td st-ratio="10">{{serviceEvent.location}}</td>
+					<td st-ratio="10"><a ui-sref="users.userShow({id:serviceEvent.userId})">{{serviceEvent.userName}}</a></td>
+					<td st-ratio="10">{{serviceEvent.start | date:'HH:mm'}}</td>
+					<td st-ratio="10">{{serviceEvent.end | date:'HH:mm'}}</td>
+					<td st-ratio="10">{{serviceEvent.distance.text}}</td>
+					<td st-ratio="10">{{serviceEvent.duration.text}}</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="5" class="text-center">
+						<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	<div class="col-md-2">
+	<table st-table="usersCopy" st-safe-src="displayUsersCopy" class="table table-striped">
+			<thead>
+				<tr>
+					<th st-ratio="10" st-sort="firstname+' '+lastname">Staff at Office</th>
+				</tr>	
+			</thead>
+			<tbody>
+				<tr ng-repeat="userCopy in usersCopy" ng-show="userCopy.id">
+					<td st-ratio="10"><a ui-sref="users.userShow({id:userCopy.id})">{{userCopy.firstname}} {{userCopy.lastname}}</a></td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="5" class="text-center">
+						<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	
+	
 </div>
 <div style="height:400px">
 	<!-- empty space -->
