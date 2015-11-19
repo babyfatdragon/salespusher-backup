@@ -1,9 +1,16 @@
 <div ng-show="authenticated">
 <h4>Welcome, {{currentUser.firstname}} {{currentUser.lastname}}!</h4>
 <h1>Dashboard</h1>
-			
+	
 	<div class="row">
-		<div class="col-md-12">		
+		<div class="col-md-12">
+			<div class="col-md-12">
+				<button type="button" class="btn btn-primary btn-md" ng-click="add()" ng-disabled="disableAdd" ng-hide="hideAdd">Create New Deal</button>
+				<sp-deal-form action="action" deal="deal" ng-show="show"></sp-deal-form>	
+			</div>
+			<br />
+			<br />			
+			<br />					
 			<div class="col-md-6">
 				<div class="panel panel-primary">
 			  		<div class="panel-heading">Own Deals</div>
@@ -154,11 +161,11 @@
 						<li class="list-group-item">Expenses Claimed: <b>{{yearlyExpenseClaims | currency}}</b></li>
 			  			<li class="list-group-item">
 						    <small><em>Target Amount: {{thisYearTarget | currency}}</em></small>
-				   	 		<uib-progressbar animate="false" value="thisYearTargetPercentage" type="success"><b>{{thisYearTargetPercentage}}%</b></uib-progressbar>
+				   	 		<uib-progressbar animate="true" value="thisYearTargetPercentage" type="success"><b>{{thisYearTargetPercentage}}%</b></uib-progressbar>
 						</li>
 			  			<li class="list-group-item">
 				    		<small><em>Allowable Expenses: {{thisYearExpenses | currency}}</em></small>
-					    	<uib-progressbar animate="false" value="thisYearExpensePercentage" type="success"><b>{{thisYearExpensePercentage}}%</b></uib-progressbar>
+					    	<uib-progressbar animate="true" value="thisYearExpensePercentage" type="success"><b>{{thisYearExpensePercentage}}%</b></uib-progressbar>
 						</li>  							
 	  				</ul>
 				</div>
@@ -177,11 +184,11 @@
 					  	<li class="list-group-item">Expenses Claimed: <b>{{monthlyExpenseClaims[thisMonth] | currency}}</b></li>  												
 						<li class="list-group-item">
 						    <small><em>Target Amount: {{thisMonthRecord.salesTarget | currency}}</em></small>
-						    <uib-progressbar animate="false" value="thisMonthTargetPercentage" type="info"><b>{{thisMonthTargetPercentage}}%</b></uib-progressbar>
+						    <uib-progressbar animate="true" value="thisMonthTargetPercentage" type="info"><b>{{thisMonthTargetPercentage}}%</b></uib-progressbar>
 						</li>
 			  			<li class="list-group-item">
 					    	<small><em>Allowable Expenses: {{thisMonthRecord.claimableExpenses | currency}}</em></small>
-					    	<uib-progressbar animate="false" value="thisMonthExpensePercentage" type="info"><b>{{thisMonthExpensePercentage}}%</b></uib-progressbar>
+					    	<uib-progressbar animate="true" value="thisMonthExpensePercentage" type="info"><b>{{thisMonthExpensePercentage}}%</b></uib-progressbar>
 						</li>
 					</ul>
 				</div>
@@ -191,5 +198,5 @@
 </div>
 
 <div ng-show="!authenticated">
-	<h3>Please Login to use Sales Pusher</h3>
+	<h3>Please Login to Use Sales Pusher</h3>
 </div>

@@ -145,6 +145,8 @@
 						}
 					    /** eliminate user whose event starts within the time range from users **/
 						serviceEvent.userName = user.firstname + " " + user.lastname;
+						serviceEvent.userEmail = user.email;
+						serviceEvent.userTelephone = user.telephone;
 						var start = new Date(serviceEvent.start);
 						var end = new Date(serviceEvent.end);
 						var startHour = start.getHours();

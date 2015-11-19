@@ -29,7 +29,7 @@
 	 	</fieldset>
 	 	
 	 	<fieldset class="form-group">
-	    	<label for="company">Company</label>
+	    	<label for="company">Requesting Company</label>
 	       	<ui-select ng-model="event.targetCompany" required>
 			    <ui-select-match>
 			        <span ng-bind="$select.selected.name"></span>
@@ -57,7 +57,9 @@
 			<thead>
 				<tr>
 					<th st-ratio="10" st-sort="location">Location</th>
-					<th st-ratio="10" st-sort="userName">Staff</th>
+					<th st-ratio="20" st-sort="userName">Staff</th>
+					<th st-ratio="10" st-sort="userEmail">Email</th>
+					<th st-ratio="10" st-sort="userTelephone">Telephone</th>					
 					<th st-ratio="10" st-sort="start">Start</th>
 					<th st-ratio="10" st-sort="end">End</th>
 					<th st-ratio="10" st-sort="distance.value" st-sort-default="true">Distance</th>
@@ -67,7 +69,9 @@
 			<tbody>
 				<tr ng-repeat="serviceEvent in serviceEvents" ng-show="serviceEvent.id">
 					<td st-ratio="10">{{serviceEvent.location}}</td>
-					<td st-ratio="10"><a ui-sref="users.userShow({id:serviceEvent.userId})">{{serviceEvent.userName}}</a></td>
+					<td st-ratio="20"><a ui-sref="users.userShow({id:serviceEvent.userId})">{{serviceEvent.userName}}</a></td>
+					<td st-ratio="10">{{serviceEvent.userEmail}}</td>
+					<td st-ratio="10">{{serviceEvent.userTelephone}}</td>
 					<td st-ratio="10">{{serviceEvent.start | date:'HH:mm'}}</td>
 					<td st-ratio="10">{{serviceEvent.end | date:'HH:mm'}}</td>
 					<td st-ratio="10">{{serviceEvent.distance.text}}</td>
@@ -83,16 +87,20 @@
 			</tfoot>
 		</table>
 	</div>
-	<div class="col-md-2">
+	<div class="col-md-6">
 	<table st-table="usersCopy" st-safe-src="displayUsersCopy" class="table table-striped">
 			<thead>
 				<tr>
-					<th st-ratio="10" st-sort="firstname+' '+lastname">Staff at Office</th>
+					<th st-ratio="20" st-sort="firstname+' '+lastname">Staff at Office</th>
+					<th st-ratio="10" st-sort="userEmail">Email</th>
+					<th st-ratio="10" st-sort="userTelephone">Telephone</th>
 				</tr>	
 			</thead>
 			<tbody>
 				<tr ng-repeat="userCopy in usersCopy" ng-show="userCopy.id">
-					<td st-ratio="10"><a ui-sref="users.userShow({id:userCopy.id})">{{userCopy.firstname}} {{userCopy.lastname}}</a></td>
+					<td st-ratio="20"><a ui-sref="users.userShow({id:userCopy.id})">{{userCopy.firstname}} {{userCopy.lastname}}</a></td>
+					<td st-ratio="10">{{userCopy.email}}</td>
+					<td st-ratio="10">{{userCopy.telephone}}</td>
 				</tr>
 			</tbody>
 			<tfoot>
@@ -104,7 +112,9 @@
 			</tfoot>
 		</table>
 	</div>
-	
+	<br />
+	<p><a type="button" ui-sref="customerManagement.companyShow({id:event.targetCompany.id})" class="btn btn-primary btn-md" ng-disabled="!eventForm.$valid">Go To Company Page</a></p>
+			
 	
 </div>
 <div style="height:400px">

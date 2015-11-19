@@ -124,6 +124,17 @@
 			},500);
 		}
 		
+		$scope.$watch('thisMonth',function(){
+				$scope.thisMonthRecord = $scope.getRecordByYearmonth($scope.DisplayMonthlyRecords,$scope.thisYear,$scope.thisMonth);
+				if(typeof $scope.thisMonthRecord != "undefined"){
+					$scope.thisMonthTargetPercentage = Math.round(100*($scope.monthlyAmount[$scope.thisMonth]+$scope.monthlyServicesCharge[$scope.thisMonth])/$scope.thisMonthRecord.salesTarget);
+					$scope.thisMonthExpensePercentage = Math.round(100*$scope.monthlyExpenseClaims[$scope.thisMonth]/$scope.thisMonthRecord.claimableExpenses);
+				} else{
+					$scope.thisMonthTargetPercentage = 0;
+					$scope.thisMonthExpensePercentage = 0;
+				}
+		});
+		
 		$scope.$watch('thisYear',function(){
 			console.log($scope.thisYear);
 			/** reset data **/			

@@ -1,7 +1,7 @@
 (function(){
 	angular.module('salespusher.controllers')
-	.controller('HomeCtrl',['$rootScope','$scope','$timeout',"$http",'filterFilter','Product','Company','Customer','Deal','DealEvent','FollowingDeal','UserServiceEvent','UserExpenseClaim','UserMonthlyRecord',
-	                        function($rootScope,$scope,$timeout,$http,filterFilter,Product,Company,Customer,Deal,DealEvent,FollowingDeal,UserServiceEvent,UserExpenseClaim,UserMonthlyRecord){
+	.controller('HomeCtrl',['$rootScope','$scope','$timeout','$state',"$http",'filterFilter','Product','Company','Customer','Deal','DealEvent','FollowingDeal','UserServiceEvent','UserExpenseClaim','UserMonthlyRecord',
+	                        function($rootScope,$scope,$timeout,$state,$http,filterFilter,Product,Company,Customer,Deal,DealEvent,FollowingDeal,UserServiceEvent,UserExpenseClaim,UserMonthlyRecord){
 		$scope.eventSource = {};
 		$scope.events = [];
 		$scope.numOfDisplayedServiceEvents = 3;
@@ -10,7 +10,17 @@
 		$scope.numOfDisplayedOwnDeals = 3;
 		$scope.otherDeals = [];
 		$scope.numOfDisplayedOtherDeals = 3;
-		
+		/** create deal **/
+    	$scope.add = function(){
+    		$scope.action = "Create";
+    		$scope.hideAdd = true;
+    		$rootScope.$broadcast('SHOW_ADD_DEAL_FORM');
+    	}
+    	
+		$scope.$on('DEALS_UPDATED',function(events,args){
+			$state.reload();
+		});
+    	/** create deal **/
 		/** expenses, panels & chart **/
 		$scope.itemsByPage = 10;
 		$scope.thisYear = new Date().getFullYear();
@@ -227,6 +237,19 @@
 			$scope.ServiceEventsNoOfPages = Math.ceil($scope.totalServiceEvents / $scope.pageCapacity);
 			$scope.serviceEventsCurrentPage = 1;
 		}, true);
+		
+		
+		$scope.$watch('thisMonth',function(){
+			$scope.thisMonthRecord = $scope.getRecordByYearmonth($scope.DisplayMonthlyRecords,$scope.thisYear,$scope.thisMonth);
+			if(typeof $scope.thisMonthRecord != "undefined"){
+				$scope.thisMonthTargetPercentage = Math.round(100*($scope.monthlyAmount[$scope.thisMonth]+$scope.monthlyServicesCharge[$scope.thisMonth])/$scope.thisMonthRecord.salesTarget);
+				$scope.thisMonthExpensePercentage = Math.round(100*$scope.monthlyExpenseClaims[$scope.thisMonth]/$scope.thisMonthRecord.claimableExpenses);
+			} else{
+				$scope.thisMonthTargetPercentage = 0;
+				$scope.thisMonthExpensePercentage = 0;
+			}
+		});
+		
 		$scope.$watch('thisYear', function(newVal,oldVal){
 			/** reset data **/
 			console.log($scope.thisYear);

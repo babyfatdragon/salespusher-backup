@@ -58,6 +58,7 @@
 				}
 				$scope.cancel = function(){
 					$scope.show = false;
+					$scope.hideAdd = false;
 		    		$rootScope.$broadcast('UPDATE_CANCELED');
 				}
 				

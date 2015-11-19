@@ -165,6 +165,23 @@
 	    		console.log($scope.serviceEvent);
 			});
     	};
+    	
+    	$scope.editServiceEvent = function(serviceEventId){
+	    	DealServiceEvent.get({dealId:$stateParams.id,id:serviceEventId}).$promise.then(function(event){
+	    		$scope.serviceAction="Update";
+	    		$scope.serviceEvent.id = event.id;
+	    		$scope.serviceEvent.title = event.title;
+	    		$scope.serviceEvent.userId = event.userId;
+	    		$scope.serviceEvent.startDate = event.start;
+	    		$scope.serviceEvent.startTime = event.start;
+	    		$scope.serviceEvent.endDate = event.end;
+	    		$scope.serviceEvent.endTime = event.end;
+	    		$scope.serviceEvent.location = event.location;
+	    		$scope.serviceEvent.charge = event.charge;
+	    		$scope.showServiceForm = true;
+	    		console.log($scope.serviceEvent);
+			});
+    	}
 
 		/* update on Drop */
 		var updateEventOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){

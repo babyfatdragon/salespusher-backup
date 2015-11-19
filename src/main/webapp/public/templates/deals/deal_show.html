@@ -142,6 +142,7 @@
 						<th st-ratio="10" st-sort="userName">Assigned To</th>								
 						<th st-ratio="10" st-sort="charge">Charge</th>
 						<th st-ratio="10" st-sort="">Files</th>
+						<th st-ratio="10" st-sort="">Edit</th>
 					</tr>		
 				</thead>
 				<tbody>
@@ -149,12 +150,17 @@
 						<td st-ratio="10">{{serviceEvent.title}}</td>
 						<td st-ratio="10">{{serviceEvent.end | date:'yyyy/MM/dd'}}</td>			
 						<td st-ratio="10">{{serviceEvent.location}}</td>
-						<td st-ratio="10">{{serviceEvent.userName}}</td>		
+						<td st-ratio="10">{{serviceEvent.userName}}</td>
 						<td st-ratio="10">{{serviceEvent.charge | currency}}</td>
 						<td st-ratio="10">
 							<a ng-repeat="serviceDocument in serviceEvent.serviceDocuments" href="{{getServiceDocumentDirectory(serviceDocument.name)}}">
 					  			<span class="glyphicon glyphicon-file" uib-popover="{{getOriginDocumentName(serviceDocument.name)}}" popover-trigger="mouseenter"></span>
 							</a>
+						</td>
+						<td st-ratio="10">
+							<button type="button" class="btn btn-sm btn-primary" ng-click="editServiceEvent(serviceEvent.id)" uib-popover="Edit" popover-trigger="mouseenter">
+								<i class="glyphicon glyphicon-lg glyphicon-edit"></i>
+							</button>
 						</td>
 					</tr>
 				</tbody>
