@@ -1,7 +1,11 @@
 (function(){
 	angular.module('salespusher.controllers')
-	.controller('DealShowCtrl',['$rootScope','$scope','$timeout','$state','$stateParams','filterFilter','User','Product','Company','Customer','Deal','DealComment','DealEvent','DealFollower','DealServiceEvent','ServiceDocument','DealExpenseClaim','uiCalendarConfig',
-	                            function($rootScope,$scope,$timeout,$state,$stateParams,filterFilter,User,Product,Company,Customer,Deal,DealComment,DealEvent,DealFollower,DealServiceEvent,ServiceDocument,DealExpenseClaim,uiCalendarConfig){
+	.controller('DealShowCtrl',['$rootScope','$scope','$timeout','$state','$stateParams','filterFilter','User','Product',
+	                            'Company','Customer','Deal','DealComment','DealEvent','DealFollower','DealServiceEvent','ServiceDocument',
+	                            'DealExpenseClaim','uiCalendarConfig','DealFollowRequest',
+	                            function($rootScope,$scope,$timeout,$state,$stateParams,filterFilter,User,Product,
+	                            		Company,Customer,Deal,DealComment,DealEvent,DealFollower,DealServiceEvent,ServiceDocument,
+	                            		DealExpenseClaim,uiCalendarConfig,DealFollowRequest){
 		$scope.deal = {};
 		$scope.comment = new DealComment();
 		$scope.comments = new Array();
@@ -22,9 +26,34 @@
 		$scope.expenseClaims = [];
 		$scope.displayExpenseClaims = [];
     	$scope.itemsByPage = 5;
+    	/** follow request **/
+    	$scope.followRequest = {};
+    	$scope.followRequest.inviteeIds = new Array();
+    	$scope.usersCopy = new Array();
+    	
+    	$scope.cancel = function(){
+			console.log("wahaha");
+    		$scope.followRequest.inviteeIds = [];
+    	};
+    	$scope.invite = function(){
+    		console.log($scope.followRequest.inviteeIds);
+    		$scope.followRequest.inviteeIds.forEach(function(inviteeId){
+    			var invitee = new DealFollowRequest();
+    			invitee.dealId=$scope.deal.id;
+    			invitee.userId=$rootScope.currentUser.id;
+    			invitee.inviteeId=inviteeId;
+    			invitee.isResponded = 0;
+    			DealFollowRequest.save(invitee).$promise.then(function(){
+    			});
+    		});
+    		$scope.followRequest.inviteeIds = [];
+    	};
+    	
+    	/** follow request **/
     	$timeout(function(){
     		User.query().$promise.then(function(users){
     			$scope.users = users;
+    			$scope.usersCopy = users;
     			Product.query().$promise.then(function(products){
     				$scope.products = products;
     				Company.query().$promise.then(function(companies){
@@ -96,6 +125,15 @@
     									var user = $scope.getObjectById($scope.users,follower.userId);
     									follower.userName = user.firstname+" "+user.lastname;
     									$scope.followers.push(follower);
+    									
+    									if(user!=null){
+    										for(var i=0;i<$scope.usersCopy.length;i++){
+    											if($scope.usersCopy[i].id===user.id){
+    												$scope.usersCopy.splice(i, 1);
+    												break;
+    											}
+    										}
+    									}
     								});
     							});
     							

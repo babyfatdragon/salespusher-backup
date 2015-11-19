@@ -1,3 +1,4 @@
+
 <div>
 	<div class="row">
 		<span style="font-size:200%">Opportunity: <a ui-sref="product({categoryOneId:deal.categoryOneId,categoryTwoId:deal.categoryTwoId,id:deal.productId})">{{deal.productName}}</a> <i>for</i> 
@@ -41,6 +42,20 @@
 		</div>
 		<button type="button" class="btn btn-primary btn-md pull-right" ng-click="editDeal(deal.id)" ng-hide="showDealForm">Edit</button>
 		<sp-deal-form deal="deal" ng-show="showDealForm"></sp-deal-form>	
+	</div>
+	<div class="row">
+ 		<div class="col-md-2">
+		 	<fieldset class="form-group">
+	 			<ui-select multiple ng-model="followRequest.inviteeIds" theme="select2" ng-disabled="disabled" style="width: 300px;">
+				    <ui-select-match placeholder="Invite Followers">{{$item.firstname}} {{$item.lastname}}</ui-select-match>
+				    <ui-select-choices repeat="userCopy.id as userCopy in usersCopy | filter:$select.search">
+			      	{{userCopy.firstname}} {{userCopy.lastname}}
+				    </ui-select-choices>
+			  	</ui-select>
+  			</fieldset>
+	  		<button type="button" class="btn btn-primary btn-md" ng-click="invite()">Invite</button>
+ 		</div>
+ 		 		
 	</div>
 	<hr />
 	<div class="row">

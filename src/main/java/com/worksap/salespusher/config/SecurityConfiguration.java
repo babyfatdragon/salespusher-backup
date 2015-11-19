@@ -32,7 +32,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http
 		.formLogin().and()
 		.authorizeRequests()
-		.antMatchers("/index.html", "/templates/partials/_home.html", "/templates/partials/_login.html", "/templates/partials/_pagination.html","/templates/partials/_users.html", "/").permitAll().anyRequest()
+		.antMatchers("/index.html", "/templates/partials/_home.html", "/templates/partials/_login.html",
+				"/templates/partials/_pagination.html","/templates/partials/_users.html","/templates/directives/sp-deal-form.html" ,"/").permitAll().anyRequest()
 		.authenticated().and()
 		.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
 		.csrf().csrfTokenRepository(csrfTokenRepository());

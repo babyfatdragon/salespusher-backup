@@ -6,13 +6,6 @@
 			templateUrl: '/templates/directives/sp-deal-form.html',
 			controller: ['$rootScope','$scope','Product','Company','Customer','Deal','DealFollower',
 			             function($rootScope,$scope,Product,Company,Customer,Deal,DealFollower){
-				Product.query().$promise.then(function(products){
-					$scope.products = products;
-				});
-				
-				Customer.query().$promise.then(function(customers){
-					$scope.customers = customers;
-				});
 				
 				$scope.$on('SHOW_ADD_DEAL_FORM',function(events,args){
 					$scope.show = true;

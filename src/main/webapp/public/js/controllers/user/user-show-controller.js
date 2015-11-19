@@ -1,7 +1,9 @@
 (function(){
 	angular.module('salespusher.controllers')
-	.controller('UserShowCtrl',['$scope','$state','$timeout','$stateParams','UserById','Product','Company','UserDeal','UserServiceEvent','UserExpenseClaim','UserMonthlyRecord',
-	                            function($scope,$state,$timeout,$stateParams,UserById,Product,Company,UserDeal,UserServiceEvent,UserExpenseClaim,UserMonthlyRecord){		
+	.controller('UserShowCtrl',['$scope','$state','$timeout','$stateParams','UserById','Product','Company','UserDeal',
+	                            'UserServiceEvent','UserExpenseClaim','UserMonthlyRecord',
+	                            function($scope,$state,$timeout,$stateParams,UserById,Product,Company,UserDeal,
+	                            		UserServiceEvent,UserExpenseClaim,UserMonthlyRecord){		
 		$scope.itemsByPage = 10;
 		
 		$scope.thisYear = new Date().getFullYear();

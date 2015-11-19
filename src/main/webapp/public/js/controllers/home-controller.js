@@ -1,7 +1,11 @@
 (function(){
 	angular.module('salespusher.controllers')
-	.controller('HomeCtrl',['$rootScope','$scope','$timeout','$state',"$http",'filterFilter','Product','Company','Customer','Deal','DealEvent','FollowingDeal','UserServiceEvent','UserExpenseClaim','UserMonthlyRecord',
-	                        function($rootScope,$scope,$timeout,$state,$http,filterFilter,Product,Company,Customer,Deal,DealEvent,FollowingDeal,UserServiceEvent,UserExpenseClaim,UserMonthlyRecord){
+	.controller('HomeCtrl',['$rootScope','$scope','$timeout','$state',"$http",'filterFilter','UserById','Product',
+	                        'Company','Customer','Deal','DealEvent','DealFollower','FollowingDeal','UserServiceEvent',
+	                        'UserExpenseClaim','UserMonthlyRecord','DealFollowRequest',
+	                        function($rootScope,$scope,$timeout,$state,$http,filterFilter,UserById,Product,
+	                        		Company,Customer,Deal,DealEvent,DealFollower,FollowingDeal,UserServiceEvent,
+	                        		UserExpenseClaim,UserMonthlyRecord,DealFollowRequest){
 		$scope.eventSource = {};
 		$scope.events = [];
 		$scope.numOfDisplayedServiceEvents = 3;
@@ -36,12 +40,35 @@
 		$scope.expenseClaims = new Array();
 		/** expenses, panels & chart **/
 		
+		/** follow requests **/
+		$scope.followRequests = new Array();
+		$scope.follow = function(followRequest){
+			var follower = new DealFollower();
+			follower.dealId = followRequest.dealId;
+			follower.userId = $rootScope.currentUser.id;
+			DealFollower.save(follower).$promise.then(function(follower){
+				followRequest.isResponded = 1;
+				followRequest.$update();
+			});
+		}
+		$scope.notFollow = function(followRequest){
+			followRequest.$delete();
+		}
+		/** follow requests **/
+		
 		/** css color counter **/
 		var counter = 0;
 		var colors = [,"Navy","Blue","Green","Cyan","Maroon","Olive","Grey","DarkOrchid","DarkGoldenRod","BurlyWood","Aqua","Salmon","BlanchedAlmond","LemonChiffon"];
 		/** set a delay for getting $rootScope.currentUser **/
 		$timeout(function(){
-			if($rootScope.currentUser!=null){
+			if($rootScope.currentUser!=null && typeof $rootScope.currentUser!='undefined'){
+				Product.query().$promise.then(function(products){
+					$scope.products = products;
+				});
+				
+				Customer.query().$promise.then(function(customers){
+					$scope.customers = customers;
+				});
 				UserExpenseClaim.query({userId:$rootScope.currentUser.id}).$promise.then(function(expenseClaims){
 					$scope.expenseClaims = expenseClaims;
 				});
@@ -92,7 +119,14 @@
 						});	
 					});
 				});
-
+				DealFollowRequest.query({inviteeId:$rootScope.currentUser.id}).$promise.then(function(followRequests){
+					followRequests.forEach(function(followRequest){
+						UserById.get({id:followRequest.userId}).$promise.then(function(user){
+							followRequest.inviterName = user.firstname+" "+user.lastname; 
+						});
+					});
+					$scope.followRequests = followRequests;
+				});
 				UserMonthlyRecord.query({userId:$rootScope.currentUser.id}).$promise.then(function(monthlyRecords){
 					$scope.monthlyRecords = monthlyRecords;
 					$scope.DisplayMonthlyRecords = [].concat($scope.monthlyRecords);
