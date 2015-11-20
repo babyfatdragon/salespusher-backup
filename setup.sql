@@ -258,7 +258,7 @@ CREATE TABLE IF NOT EXISTS DEAL_REQUESTS (
 	requestee_id INT(11) NOT NULL,
 	request_message MEDIUMTEXT,
 	response_message MEDIUMTEXT,
-	type VARCHAR(255),
+	request_type VARCHAR(255),
 	is_complete TINYINT DEFAULT '0',
 	PRIMARY KEY(id)
 );

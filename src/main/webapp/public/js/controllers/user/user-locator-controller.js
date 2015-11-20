@@ -37,8 +37,8 @@
 		/** end of for form usage **/
 		
 		$scope.submit = function(){
-			//angular.copy($scope.users, $scope.usersCopy);
-			$scope.usersCopy = $scope.users;
+			angular.copy($scope.users, $scope.usersCopy);
+			//$scope.usersCopy = $scope.users;
 			var fromYear = $scope.event.startDate.getFullYear();
 			var fromMonth = $scope.event.startDate.getMonth() + 1;
 			if(fromMonth<10){

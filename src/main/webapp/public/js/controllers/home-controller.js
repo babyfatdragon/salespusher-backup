@@ -2,18 +2,19 @@
 	angular.module('salespusher.controllers')
 	.controller('HomeCtrl',['$rootScope','$scope','$timeout','$state',"$http",'filterFilter','UserById','Product',
 	                        'Company','Customer','Deal','DealEvent','DealFollower','FollowingDeal','UserServiceEvent',
-	                        'UserExpenseClaim','UserMonthlyRecord','DealFollowRequest',
+	                        'UserExpenseClaim','UserMonthlyRecord','DealFollowRequest','DealRequestByRequesteeId',
 	                        function($rootScope,$scope,$timeout,$state,$http,filterFilter,UserById,Product,
 	                        		Company,Customer,Deal,DealEvent,DealFollower,FollowingDeal,UserServiceEvent,
-	                        		UserExpenseClaim,UserMonthlyRecord,DealFollowRequest){
+	                        		UserExpenseClaim,UserMonthlyRecord,DealFollowRequest,DealRequestByRequesteeId){
 		$scope.eventSource = {};
-		$scope.events = [];
+		$scope.events = new Array();
 		$scope.numOfDisplayedServiceEvents = 3;
 		$scope.event = {};
-		$scope.ownDeals = [];
+		$scope.ownDeals = new Array();
 		$scope.numOfDisplayedOwnDeals = 3;
-		$scope.otherDeals = [];
+		$scope.otherDeals = new Array();;
 		$scope.numOfDisplayedOtherDeals = 3;
+		
 		/** create deal **/
     	$scope.add = function(){
     		$scope.action = "Create";
@@ -25,17 +26,16 @@
 			$state.reload();
 		});
     	/** create deal **/
+		
 		/** expenses, panels & chart **/
 		$scope.itemsByPage = 10;
 		$scope.thisYear = new Date().getFullYear();
 		$scope.years = [{name:2013},{name:2014},{name:2015},{name:2016}];
 		
 		$scope.thisMonth = new Date().getMonth();
-		
 		$scope.thisMonthText = "Monthly";
 		$scope.monthlyRecords = new Array();
 		$scope.DisplayMonthlyRecords = new Array();
-			
 		$scope.serviceEvents = new Array();
 		$scope.expenseClaims = new Array();
 		/** expenses, panels & chart **/
@@ -49,12 +49,17 @@
 			DealFollower.save(follower).$promise.then(function(follower){
 				followRequest.isResponded = 1;
 				followRequest.$update();
+	    		$state.go('dealShow',({id:followRequest.dealId}));
 			});
 		}
 		$scope.notFollow = function(followRequest){
 			followRequest.$delete();
 		}
 		/** follow requests **/
+		/** deal requests **/
+		$scope.dealRequests = new Array();
+
+		/** deal requests **/
 		
 		/** css color counter **/
 		var counter = 0;
@@ -119,6 +124,10 @@
 						});	
 					});
 				});
+				UserMonthlyRecord.query({userId:$rootScope.currentUser.id}).$promise.then(function(monthlyRecords){
+					$scope.monthlyRecords = monthlyRecords;
+					$scope.DisplayMonthlyRecords = [].concat($scope.monthlyRecords);
+				});
 				DealFollowRequest.query({inviteeId:$rootScope.currentUser.id}).$promise.then(function(followRequests){
 					followRequests.forEach(function(followRequest){
 						UserById.get({id:followRequest.userId}).$promise.then(function(user){
@@ -127,12 +136,16 @@
 					});
 					$scope.followRequests = followRequests;
 				});
-				UserMonthlyRecord.query({userId:$rootScope.currentUser.id}).$promise.then(function(monthlyRecords){
-					$scope.monthlyRecords = monthlyRecords;
-					$scope.DisplayMonthlyRecords = [].concat($scope.monthlyRecords);
+				DealRequestByRequesteeId.query({requesteeId:$rootScope.currentUser.id}).$promise.then(function(dealRequests){
+					dealRequests.forEach(function(dealRequest){
+						UserById.get({id:dealRequest.userId}).$promise.then(function(user){
+							dealRequest.requesterName = user.firstname+" "+user.lastname; 
+						});
+					});
+					$scope.dealRequests = dealRequests;
 				});
 			}
-		},1000);
+		},800);
 		
 		/** set a delay for retrieving ownDeals and otherDeals **/
 		$timeout(function(){
@@ -151,8 +164,6 @@
 			/** end of pagination **/
 		},1000);
 		
-		
-
 	    /* edit on eventClick */
 	    var editOnEventClick = function(calEvent, jsEvent, view){
 	    	if(calEvent.userId){
@@ -286,31 +297,18 @@
 		
 		$scope.$watch('thisYear', function(newVal,oldVal){
 			/** reset data **/
-			console.log($scope.thisYear);
 			$scope.wonDeals = new Array();
-
 			$scope.yearlySalesAmount = 0;
-			
 			$scope.lostDeals = new Array();
-			
 			$scope.monthlyDeals = new Array(12);
-
 			$scope.monthlyWonDeals = new Array();
-			
 			$scope.monthlyLostDeals = new Array();
-
 			$scope.monthlyAmount = new Array(12);
-			
 			$scope.monthlyServices = new Array(12);
-			
 			$scope.yearlyServices = new Array();
-			
 			$scope.monthlyServicesCharge = new Array(12);
-			
 			$scope.yearlyServicesCharge = 0;
-			
 			$scope.monthlyExpenseClaims = new Array(12);
-			
 			$scope.yearlyExpenseClaims = 0;
 			
 			for(var i=0;i<12;i++){
@@ -360,7 +358,6 @@
 					$scope.thisMonthExpensePercentage = 0;
 				}
 			},1500);
-
 		});
 		
 		/** progress bar **/
@@ -441,9 +438,6 @@
 			    	default: break;
 		    	}
 		    }
-		}
-		$scope.change = function(){
-			console.log($scope.thisYear);
 		}
 	}]);
 })();

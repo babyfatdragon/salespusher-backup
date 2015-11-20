@@ -4,8 +4,8 @@
 		return{
 			strict: 'E',
 			templateUrl: '/templates/directives/sp-deal-form.html',
-			controller: ['$rootScope','$scope','Product','Company','Customer','Deal','DealFollower',
-			             function($rootScope,$scope,Product,Company,Customer,Deal,DealFollower){
+			controller: ['$rootScope','$scope','$state','Product','Company','Customer','Deal','DealFollower',
+			             function($rootScope,$scope,$state,Product,Company,Customer,Deal,DealFollower){
 				
 				$scope.$on('SHOW_ADD_DEAL_FORM',function(events,args){
 					$scope.show = true;
@@ -35,6 +35,7 @@
 								follower.isOwner = 1;
 								DealFollower.save(follower);
 					    		$rootScope.$broadcast('DEALS_UPDATED');
+					    		$state.go('dealShow',({id:deal.id}));
 							});		
 						} 
 						else if($scope.action==="Update"){

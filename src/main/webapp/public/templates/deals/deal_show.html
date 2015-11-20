@@ -54,6 +54,7 @@
 			  	</ui-select>
   			</fieldset>
 	  		<button type="button" class="btn btn-primary btn-md" ng-click="invite()">Invite</button>
+			 <button type="button" class="btn btn-warning btn-md" ng-click="emptyInvitees()">Empty</button>
  		</div>
  		 		
 	</div>
@@ -74,6 +75,65 @@
 					</div>
 					<uib-pagination total-items="totalItems" items-per-page="pageCapacity" max-size="noOfPages" ng-model="currentPage" ng-show="comments.length"></uib-pagination>
 					<sp-comment-form deal="deal" comment="comment"></sp-comment-form>
+				</uib-tab>
+				<uib-tab heading="Requests">
+					<table st-set-filter="customFilter" st-table="dealRequests" st-safe-src="displayDealRequests" class="table table-striped">
+						<thead>
+							<tr>
+								<th st-ratio="10" st-sort="requesterName">Requester</th>
+								<th st-ratio="10" st-sort="requesteeName">Requestee</th>
+								<th st-ratio="10" st-sort="requestType">Type</th>								
+								<th st-ratio="10" st-sort="requestMessage">Request</th>
+								<th st-ratio="10" st-sort="requestResponse">Response</th>								
+								<th st-ratio="10" st-sort=isComplete>Is Complete</th>
+								<th st-ratio="10">Action</th>								
+							</tr>
+<!-- 							<tr>
+					            <th st-ratio="10">
+					            	<input st-search="title" placeholder="search" class="input-sm form-control" type="search"/>
+					            </th>
+								<th st-ratio="10">
+									<st-number-range predicate="amount" lower="query.lower" higher="query.higher"></st-number-range>
+								</th>
+								<th st-ratio="10">
+									<st-date-range  id="dateIncurred" predicate="dateIncurred" after="query.after" before="query.before"></st-date-range>
+								</th>
+					            <th st-ratio="10">
+					            	<input st-search="userName" placeholder="search" class="input-sm form-control" type="search"/>
+					            </th>
+					            <th st-ratio="10">
+					            </th>
+							</tr> -->
+						</thead>
+						<tbody>
+							<tr ng-repeat="dealRequest in dealRequests" ng-show="dealRequest.id">
+								<td st-ratio="10">{{dealRequest.requesterName}}</td>							
+								<td st-ratio="10">{{dealRequest.requesteeName}}</td>
+								<td st-ratio="10">{{dealRequest.requestType}}</td>	
+								<td st-ratio="10" ng-bind-html="dealRequest.requestMessage"></td>
+								<td st-ratio="10" ng-bind-html="dealRequest.responseMessage"></td>			
+								<td st-ratio="10">{{dealRequest.isCompleteText}}</td>		
+								<td st-ratio="10">
+									<button type="button" class="btn btn-sm btn-primary" ng-show="(dealRequest.isComplete===0 && currentUser.id===dealRequest.userId) || currentUser.id===dealRequest.requesteeId" ng-click="editDealRequest(dealRequest)" uib-popover="Edit" popover-trigger="mouseenter">
+										<i class="glyphicon glyphicon-lg glyphicon-edit"></i>
+									</button>
+									<button type="button" class="btn btn-sm btn-success" ng-show="currentUser.id===dealRequest.requesteeId && dealRequest.isComplete===0" ng-click="markAsComplete(dealRequest)" uib-popover="Mark Done" popover-trigger="mouseenter">
+										<i class="glyphicon glyphicon-lg glyphicon-ok"></i>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="5" class="text-center">
+									<div st-items-by-page="itemsByPage" st-pagination="" st-template="templates/partials/_pagination.html"></div>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+					<br />
+					<sp-deal-request-form ng-show="showDealRequestForm" deal="deal" deal-request="dealRequest" action="dealRequestAction" usage="dealRequest.usage"></sp-deal-request-form>		
+					<button type="button" class="btn btn-primary btn-md" ng-click="addDealRequest()" ng-hide="showDealRequestForm">Make A Request</button>
 				</uib-tab>
 				
 				<uib-tab heading="Documents">

@@ -20,9 +20,9 @@ public class DealRequestEntity {
 	@Column(name="requestee_id")
 	private long requesteeId;
 	@Column(name="request_message")
-	private long requestMessage;
+	private String requestMessage;
 	@Column(name="response_message")
-	private long responseMessage;
+	private String responseMessage;
 	@Column(name="request_type")
 	private String requestType;
 	@Column(name="is_complete")
@@ -30,7 +30,7 @@ public class DealRequestEntity {
 	
 	protected DealRequestEntity() {}
 
-	public DealRequestEntity(long dealId, long userId, long requesteeId, long requestMessage, long responseMessage,
+	public DealRequestEntity(long dealId, long userId, long requesteeId, String requestMessage, String responseMessage,
 			String requestType, int isComplete) {
 		super();
 		this.dealId = dealId;
@@ -74,19 +74,19 @@ public class DealRequestEntity {
 		this.requesteeId = requesteeId;
 	}
 
-	public long getRequestMessage() {
+	public String getRequestMessage() {
 		return requestMessage;
 	}
 
-	public void setRequestMessage(long requestMessage) {
+	public void setRequestMessage(String requestMessage) {
 		this.requestMessage = requestMessage;
 	}
 
-	public long getResponseMessage() {
+	public String getResponseMessage() {
 		return responseMessage;
 	}
 
-	public void setResponseMessage(long responseMessage) {
+	public void setResponseMessage(String responseMessage) {
 		this.responseMessage = responseMessage;
 	}
 

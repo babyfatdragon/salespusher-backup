@@ -2,10 +2,10 @@
 	angular.module('salespusher.controllers')
 	.controller('DealShowCtrl',['$rootScope','$scope','$timeout','$state','$stateParams','filterFilter','User','Product',
 	                            'Company','Customer','Deal','DealComment','DealEvent','DealFollower','DealServiceEvent','ServiceDocument',
-	                            'DealExpenseClaim','uiCalendarConfig','DealFollowRequest',
+	                            'DealExpenseClaim','uiCalendarConfig','DealFollowRequest','DealRequestByDealId',
 	                            function($rootScope,$scope,$timeout,$state,$stateParams,filterFilter,User,Product,
 	                            		Company,Customer,Deal,DealComment,DealEvent,DealFollower,DealServiceEvent,ServiceDocument,
-	                            		DealExpenseClaim,uiCalendarConfig,DealFollowRequest){
+	                            		DealExpenseClaim,uiCalendarConfig,DealFollowRequest,DealRequestByDealId){
 		$scope.deal = {};
 		$scope.comment = new DealComment();
 		$scope.comments = new Array();
@@ -24,6 +24,9 @@
 		$scope.expenseClaim = {}; /* used in form */
 		$scope.expenseClaimAction = "Create";
 		$scope.expenseClaims = [];
+		$scope.dealRequests = new Array();
+		$scope.displayDealRequests = new Array();
+
 		$scope.displayExpenseClaims = [];
     	$scope.itemsByPage = 5;
     	/** follow request **/
@@ -31,8 +34,7 @@
     	$scope.followRequest.inviteeIds = new Array();
     	$scope.usersCopy = new Array();
     	
-    	$scope.cancel = function(){
-			console.log("wahaha");
+    	$scope.emptyInvitees = function(){
     		$scope.followRequest.inviteeIds = [];
     	};
     	$scope.invite = function(){
@@ -48,12 +50,14 @@
     		});
     		$scope.followRequest.inviteeIds = [];
     	};
+
     	
     	/** follow request **/
     	$timeout(function(){
     		User.query().$promise.then(function(users){
     			$scope.users = users;
-    			$scope.usersCopy = users;
+    			console.log("users: "+users.length);
+    			angular.copy(users,$scope.usersCopy);
     			Product.query().$promise.then(function(products){
     				$scope.products = products;
     				Company.query().$promise.then(function(companies){
@@ -77,7 +81,7 @@
     							DealComment.query({dealId:$stateParams.id}).$promise.then(function(comments){
     								for(var i=0;i<comments.length;i++){
     									var user = $scope.getObjectById($scope.users,comments[i].userId);
-    									comments[i].userName = user.firstname+" "+user.lastname;
+    									if(user!=null) comments[i].userName = user.firstname+" "+user.lastname;
     								}
     								$scope.comments = comments;
     								/** pagination **/
@@ -145,6 +149,27 @@
         								$scope.displayExpenseClaims.push(expenseClaim);
     								});
     							});
+    							DealRequestByDealId.query({dealId:$stateParams.id}).$promise.then(function(dealRequests){
+    								dealRequests.forEach(function(dealRequest){
+        								var user = $scope.getObjectById($scope.users,dealRequest.requesteeId);
+        								if(user!=null) dealRequest.requesteeName = user.firstname+" "+user.lastname;
+        								var user = $scope.getObjectById($scope.users,dealRequest.userId);
+        								if(user!=null) dealRequest.requesterName = user.firstname+" "+user.lastname;
+        								if(dealRequest.isComplete){
+        									dealRequest.isCompleteText = "YES";
+        								} else{
+        									dealRequest.isCompleteText = "NO";
+        								}
+            							if($rootScope.currentUser.id===dealRequest.userId){
+            								dealRequest.usage = "Request";
+            							}
+            							if($rootScope.currentUser.id===dealRequest.requesteeId){
+            								dealRequest.usage = "Response";
+            							}
+        								$scope.dealRequests.push(dealRequest);
+        								$scope.displayDealRequests.push(dealRequest);
+    								});
+    							});
     						});
     					});
     				});
@@ -160,6 +185,33 @@
     		$scope.expenseClaimAction = "Update";
     		$scope.expenseClaim = expenseClaim;
     		$scope.showExpenseClaimForm = true;
+    	}
+    	$scope.editDealRequest = function(dealRequest){
+    		$scope.dealRequestAction = "Update";
+    		$scope.dealRequest = dealRequest;
+    		$scope.showDealRequestForm = true;
+    	}
+    	
+    	$scope.markAsComplete = function(dealRequest){
+    		$scope.dealRequest = dealRequest;
+    		$scope.dealRequest.isComplete = 1;
+    		$scope.dealRequest.$update().then(function(){
+    			$scope.dealRequests = new Array();
+    			$scope.displayDealRequests = new Array();
+    			DealRequestByDealId.query({dealId:$stateParams.id}).$promise.then(function(dealRequests){
+					dealRequests.forEach(function(dealRequest){
+						var user = $scope.getObjectById($scope.users,dealRequest.requesteeId);
+						dealRequest.requesteeName = user.firstname+" "+user.lastname;
+						if(dealRequest.isComplete){
+							dealRequest.isCompleteText = "YES";
+						} else{
+							dealRequest.isCompleteText = "NO";
+						}
+						$scope.dealRequests.push(dealRequest);
+						$scope.displayDealRequests.push(dealRequest);
+					});
+				});
+    		});
     	}
     	
 		$scope.$on('DEALS_UPDATED',function(events,args){
@@ -360,6 +412,14 @@
 			$scope.expenseClaimAction = "Create";
 			$scope.showExpenseClaimForm = "true";
 		}
+		
+		$scope.addDealRequest = function(){
+			$scope.dealRequest = {};
+			$scope.dealRequest.usage="Request";
+			$scope.dealRequestAction = "Create";
+			$scope.showDealRequestForm = true;
+		}
+		
 		$scope.$on('FORM_CANCELED',function(event,args){
 			$scope.showForm = false;
 		});
@@ -369,7 +429,9 @@
 		$scope.$on('EXPENSE_CLAIM_FORM_CANCELED',function(event,args){
 			$scope.showExpenseClaimForm = false;
 		});
-		
+		$scope.$on('DEAL_REQUEST_FORM_CANCELED',function(event,args){
+			$scope.showDealRequestForm = false;
+		});			
 		$scope.follow = function(){
 			var follower = new DealFollower();
 			follower.dealId = $scope.deal.id;
