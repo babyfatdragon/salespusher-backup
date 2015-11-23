@@ -50,7 +50,6 @@
     		$scope.followRequest.inviteeIds = [];
     	};
 
-    	
     	/** follow request **/
     	$timeout(function(){
     		User.query().$promise.then(function(users){
@@ -172,117 +171,101 @@
 		
 	    /* edit on eventClick */
 	    var editEventOnClick = function(calEvent, jsEvent, view){
-	    	DealEvent.get({dealId:$stateParams.id,id:calEvent.id}).$promise.then(function(event){
-	    		$scope.action="Update";
-	    		$scope.event.id = event.id;
-	    		$scope.event.title = event.title;
-	    		$scope.event.startDate = event.start;
-	    		$scope.event.startTime = event.start;
-	    		$scope.event.endDate = event.end;
-	    		$scope.event.endTime = event.end;
-	    		$scope.event.location = event.location;
-	    		$scope.showForm = true;
-	    		console.log($scope.event);
-			});
+	    	if(typeof calEvent.charge!='undefined'){
+		    	DealServiceEvent.get({dealId:$stateParams.id,id:calEvent.id}).$promise.then(function(event){
+		    		$scope.serviceAction="Update";
+		    		$scope.serviceEvent.id = event.id;
+		    		$scope.serviceEvent.title = event.title;
+		    		$scope.serviceEvent.userId = event.userId;
+		    		$scope.serviceEvent.startDate = event.start;
+		    		$scope.serviceEvent.startTime = event.start;
+		    		$scope.serviceEvent.endDate = event.end;
+		    		$scope.serviceEvent.endTime = event.end;
+		    		$scope.serviceEvent.location = event.location;
+		    		$scope.serviceEvent.charge = event.charge;
+		    		$scope.showServiceForm = true;
+		    		console.log($scope.serviceEvent);
+				});
+	    	} else{
+	   			DealEvent.get({dealId:$stateParams.id,id:calEvent.id}).$promise.then(function(event){
+		    		$scope.action="Update";
+		    		$scope.event.id = event.id;
+		    		$scope.event.title = event.title;
+		    		$scope.event.startDate = event.start;
+		    		$scope.event.startTime = event.start;
+		    		$scope.event.endDate = event.end;
+		    		$scope.event.endTime = event.end;
+		    		$scope.event.location = event.location;
+			    	$scope.showForm = true;
+		    		console.log($scope.event);
+				});
+	    	}
     	};
-	    var editServiceEventOnClick = function(calEvent, jsEvent, view){
-	    	console.log("SERVICE DOUBLE CLICK");
-	    	DealServiceEvent.get({dealId:$stateParams.id,id:calEvent.id}).$promise.then(function(event){
-	    		$scope.serviceAction="Update";
-	    		$scope.serviceEvent.id = event.id;
-	    		$scope.serviceEvent.title = event.title;
-	    		$scope.serviceEvent.userId = event.userId;
-	    		$scope.serviceEvent.startDate = event.start;
-	    		$scope.serviceEvent.startTime = event.start;
-	    		$scope.serviceEvent.endDate = event.end;
-	    		$scope.serviceEvent.endTime = event.end;
-	    		$scope.serviceEvent.location = event.location;
-	    		$scope.serviceEvent.charge = event.charge;
-	    		$scope.showServiceForm = true;
-	    		console.log($scope.serviceEvent);
-			});
-    	};
-    	
-    	$scope.editServiceEvent = function(serviceEventId){
-	    	DealServiceEvent.get({dealId:$stateParams.id,id:serviceEventId}).$promise.then(function(event){
-	    		$scope.serviceAction="Update";
-	    		$scope.serviceEvent.id = event.id;
-	    		$scope.serviceEvent.title = event.title;
-	    		$scope.serviceEvent.userId = event.userId;
-	    		$scope.serviceEvent.startDate = event.start;
-	    		$scope.serviceEvent.startTime = event.start;
-	    		$scope.serviceEvent.endDate = event.end;
-	    		$scope.serviceEvent.endTime = event.end;
-	    		$scope.serviceEvent.location = event.location;
-	    		$scope.serviceEvent.charge = event.charge;
-	    		$scope.showServiceForm = true;
-	    		console.log($scope.serviceEvent);
-			});
-    	}
-
 		/* update on Drop */
 		var updateEventOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
-			DealEvent.get({dealId:$stateParams.id,id:event.id}).$promise.then(function(draggedEvent){
-				draggedEvent.start = event.start;
-				draggedEvent.end = event.end;
-				draggedEvent.$update();
-				console.log(event);
-			});
-	    };
-		var updateServiceEventOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
-			DealServiceEvent.get({dealId:$stateParams.id,id:event.id}).$promise.then(function(draggedEvent){
-				draggedEvent.start = event.start;
-				draggedEvent.end = event.end;
-				draggedEvent.$update();
-				console.log(event);
-			});
+			if(typeof event.charge!='undefined'){
+				DealServiceEvent.get({dealId:$stateParams.id,id:event.id}).$promise.then(function(draggedEvent){
+					draggedEvent.start = event.start;
+					draggedEvent.end = event.end;
+					draggedEvent.$update();
+					console.log(event);
+				});
+			} else{
+				DealEvent.get({dealId:$stateParams.id,id:event.id}).$promise.then(function(draggedEvent){
+					draggedEvent.start = event.start;
+					draggedEvent.end = event.end;
+					draggedEvent.$update();
+					console.log(event);
+				});
+			}
+
 	    };
 	    /* update on Resize */
 	    var updateEventOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
-			DealEvent.get({dealId:$stateParams.id,id:event.id}).$promise.then(function(draggedEvent){
-				draggedEvent.start = event.start;
-				draggedEvent.end = event.end;
-				draggedEvent.$update();
-				console.log(event);
-			});
-		};
-	    var updateServiceEventOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
-	    	DealServiceEvent.get({dealId:$stateParams.id,id:event.id}).$promise.then(function(draggedEvent){
-				draggedEvent.start = event.start;
-				draggedEvent.end = event.end;
-				draggedEvent.$update();
-				console.log(event);
-			});
-		};
+			if(typeof event.charge!='undefined'){
+		    	DealServiceEvent.get({dealId:$stateParams.id,id:event.id}).$promise.then(function(draggedEvent){
+					draggedEvent.start = event.start;
+					draggedEvent.end = event.end;
+					draggedEvent.$update();
+					console.log(event);
+				});
+			} else{
+				DealEvent.get({dealId:$stateParams.id,id:event.id}).$promise.then(function(draggedEvent){
+					draggedEvent.start = event.start;
+					draggedEvent.end = event.end;
+					draggedEvent.$update();
+					console.log(event);
+				});
+			}
 
+		};
 		var viewEventOnDoubleClick = function(date, cell) {
 			  cell.bind('dblclick', function() {
 		    	  $('#events-calendar').fullCalendar('gotoDate',date);
 		    	  $('#events-calendar').fullCalendar('changeView','agendaDay');
-              	  $('#events-calendar').fullCalendar('removeEvents');
-
 					console.log(date);
-
 	    	  });
 		}
 		
-		var viewServiceEventOnDoubleClick = function(date, cell) {
-			  cell.bind('dblclick', function() {
-		    	  $('#serivces-calendar').fullCalendar('gotoDate',date);
-		    	  $('#services-calendar').fullCalendar('changeView','agendaDay');
-		    	  console.log(date);
-	    	  });
-		}
 	    /* event source that calls a function on every view switch */
 	    $scope.eventsF = function (start, end, timezone, callback) {
 	      var s = new Date(start).getTime() / 1000;
 	      var e = new Date(end).getTime() / 1000;
 	      var m = new Date(start).getMonth();
 	      var events = [{title: 'Feed Me ' + m,start: s + (50000),end: s + (100000),allDay: false, className: ['customFeed']}];
-	      callback(events);
+	      //callback(events);
 	    };
-	    $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
-	    $scope.serviceEventSources = [$scope.displayServiceEvents, $scope.serviceEventSource, $scope.eventsF];
+	    $scope.eventSource = {
+	    	events: $scope.events,
+	    	eventDataTransform: $scope.eventsF,
+	    };
+	    $scope.serviceEventSource = {
+	    	events: $scope.displayServiceEvents,
+	    	eventDataTransform: $scope.eventsF,
+	    	color: 'red'
+	    };
+	    $scope.eventSources = [$scope.eventSource,$scope.serviceEventSource];
+	    $scope.serviceEventSources = [$scope.serviceEventSource];
 
 	    /* config object */
 	    $scope.uiConfig = {
@@ -291,36 +274,40 @@
 	        timezone: 'local',
 	        editable: true,
             customButtons: {
-		        myCustomButton: {
-		            text: 'Services',
+		        serviceButton: {
+		            text: 'Show Services',
 		            click: function() {
-		            	console.log("e");
+		            	$('#events-calendar').fullCalendar('removeEvents');
+		            	$('#events-calendar').fullCalendar('addEventSource',$scope.displayServiceEvents);
 		            }
-		        }
+		        },
+		        eventButton: {
+		            text: 'Show Events',
+		            click: function() {
+		            	$('#events-calendar').fullCalendar('removeEvents');
+		            	$('#events-calendar').fullCalendar('addEventSource',$scope.events);
+		            }
+		        },
+		        allButton: {
+		            text: 'Show All',
+		            click: function() {
+		            	console.log("jkl");
+		            	$('#events-calendar').fullCalendar('removeEvents');
+		            	$('#events-calendar').fullCalendar('addEventSource',$scope.events);
+		            	$('#events-calendar').fullCalendar('addEventSource',$scope.displayServiceEvents);
+		            	console.log($scope.eventSources);
+		            }
+		        },
 		    },
 	        header:{
-	          left: 'month agendaWeek agendaDay myCustomButton',
+	          left: 'month agendaWeek agendaDay today',
 	          center: 'title',
-	          right: 'today prev,next'
+	          right: 'eventButton serviceButton allButton prev,next'
 	        },
 	        eventClick: editEventOnClick,
 	        eventDrop: updateEventOnDrop,
 	        eventResize: updateEventOnResize,
 	        dayRender: viewEventOnDoubleClick
-	      },
-	      serviceCalendar:{
-	        height: 400,
-	        timezone: 'local',
-	        editable: true,
-	        header:{
-	          left: 'month agendaWeek agendaDay',
-	          center: 'title',
-	          right: 'today prev,next'
-	        },
-	        eventClick: editServiceEventOnClick,
-	        eventDrop: updateServiceEventOnDrop,
-	        eventResize: updateServiceEventOnResize,
-	        dayRender: viewServiceEventOnDoubleClick
 	      }
 	    };
 		 
@@ -336,14 +323,12 @@
 			$scope.expenseClaimAction = "Create";
 			$scope.showExpenseClaimForm = "true";
 		}
-		
 		$scope.addDealRequest = function(){
 			$scope.dealRequest = {};
 			$scope.dealRequest.usage="Request";
 			$scope.dealRequestAction = "Create";
 			$scope.showDealRequestForm = true;
 		}
-
 		$scope.editDeal = function(dealId){
 			$scope.showDealForm = true;
     		$rootScope.$broadcast('SHOW_EDIT_DEAL_FORM',{editDeal:{id:dealId}});		
@@ -358,6 +343,22 @@
     		$scope.dealRequest = dealRequest;
     		$scope.showDealRequestForm = true;
     	}
+		$scope.follow = function(){
+			var follower = new DealFollower();
+			follower.dealId = $scope.deal.id;
+			follower.userId = $rootScope.currentUser.id;
+			DealFollower.save(follower).$promise.then(function(follower){
+				$scope.followObj = follower;
+				$scope.isFollow = true;
+			});
+		}
+		$scope.unfollow = function(){
+			if($scope.followObj!=null){
+				$scope.followObj.$remove().then(function(){
+					$scope.isFollow = false;
+				});
+			}
+		}
     	
     	$scope.markAsComplete = function(dealRequest){
     		$scope.dealRequest = dealRequest;
@@ -412,23 +413,6 @@
 		$scope.$on('DEAL_REQUEST_FORM_CANCELED',function(event,args){
 			$scope.showDealRequestForm = false;
 		});			
-		$scope.follow = function(){
-			var follower = new DealFollower();
-			follower.dealId = $scope.deal.id;
-			follower.userId = $rootScope.currentUser.id;
-			DealFollower.save(follower).$promise.then(function(follower){
-				$scope.followObj = follower;
-				$scope.isFollow = true;
-			});
-		}
-		
-		$scope.unfollow = function(){
-			if($scope.followObj!=null){
-				$scope.followObj.$remove().then(function(){
-					$scope.isFollow = false;
-				});
-			}
-		}
 
 		$scope.getObjectById = function(models,id){
     		if(models.length){
