@@ -15,7 +15,7 @@
 		});
 	}]);
 	angular.module('salespusher.resources').factory('MonthlyDeal', ['$resource',function MonthlyDealFactory($resource) {  
-		return $resource("/monthlyDeals/:month/users/:userId", {month:'@month',userId:'@userId'}, {
+		return $resource("/monthlyDeals/year/:year/month/:month/users/:userId", {year:'@year',month:'@month',userId:'@userId'}, {
 			'update': {method:'PUT'}
 		});
 	}]);

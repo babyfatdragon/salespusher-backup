@@ -11,7 +11,7 @@
 						}
 					});
 				});
-				MonthlyDeal.query({month:new Date().getMonth(),userId:user.id}).$promise.then(function(monthlyDeals){
+				MonthlyDeal.query({year:new Date().getFullYear(),month:new Date().getMonth(),userId:user.id}).$promise.then(function(monthlyDeals){
 					user.monthlyAmount = 0;
 					monthlyDeals.forEach(function(deal){
 						if(deal.dealStatus==="WON"){

@@ -1,24 +1,47 @@
 (function(){
 	angular.module('salespusher.controllers')
-	.controller('UserShowCtrl',['$scope','$state','$timeout','$stateParams','UserById','Product','Company','UserDeal',
-	                            'UserServiceEvent','UserExpenseClaim','UserMonthlyRecord',
-	                            function($scope,$state,$timeout,$stateParams,UserById,Product,Company,UserDeal,
-	                            		UserServiceEvent,UserExpenseClaim,UserMonthlyRecord){		
+	.controller('UserShowCtrl',['$scope','$state','$timeout','$stateParams','UserById','Product','Company','UserDeal','MonthlyDeal',
+	                            'UserServiceEvent','MonthlyUserServiceEvent','MonthlyUserExpenseClaim','UserMonthlyRecord',
+	                            function($scope,$state,$timeout,$stateParams,UserById,Product,Company,UserDeal,MonthlyDeal,
+	                            		UserServiceEvent,MonthlyUserServiceEvent,MonthlyUserExpenseClaim,UserMonthlyRecord){		
 		$scope.itemsByPage = 10;
-		
-		$scope.thisYear = new Date().getFullYear();
-		
-		$scope.thisMonth = new Date().getMonth();
-		
-		$scope.thisMonthText = "Monthly";
+		$scope.thisYear = 1970;
+		$scope.thisMonth = 12;
 		
 		$scope.deals = new Array();
 		$scope.displayDeals = new Array();
 		$scope.monthlyRecords = new Array();
 		$scope.DisplayMonthlyRecords = new Array();
 			
+		$scope.barLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+		$scope.barSeries = ['Sales Amount', 'Services Charge','Expense Claimed'];
+		$scope.barData = [
+		    [0,0,0,0,0,0,0,0,0,0,0,0],
+		    [0,0,0,0,0,0,0,0,0,0,0,0],
+		    [0,0,0,0,0,0,0,0,0,0,0,0],
+	    ];
+		$scope.barOnClick = function(points, evt){
+		    if(typeof points[0] != "undefined"){
+		    	switch(points[0].label){
+			    	case 'Jan':$scope.thisMonth = 0; $scope.thisMonthText = $scope.barLabels[0]; break;
+			    	case 'Feb':$scope.thisMonth = 1; $scope.thisMonthText = $scope.barLabels[1]; break;
+			    	case 'Mar':$scope.thisMonth = 2; $scope.thisMonthText = $scope.barLabels[2]; break;
+			    	case 'Apr':$scope.thisMonth = 3; $scope.thisMonthText = $scope.barLabels[3]; break;
+			    	case 'May':$scope.thisMonth = 4; $scope.thisMonthText = $scope.barLabels[4]; break;
+			    	case 'Jun':$scope.thisMonth = 5; $scope.thisMonthText = $scope.barLabels[5]; break;
+			    	case 'Jul':$scope.thisMonth = 6; $scope.thisMonthText = $scope.barLabels[6]; break;
+			    	case 'Aug':$scope.thisMonth = 7; $scope.thisMonthText = $scope.barLabels[7]; break;
+			    	case 'Sep':$scope.thisMonth = 8; $scope.thisMonthText = $scope.barLabels[8]; break;
+			    	case 'Oct':$scope.thisMonth = 9; $scope.thisMonthText = $scope.barLabels[9]; break;
+			    	case 'Nov':$scope.thisMonth = 10; $scope.thisMonthText = $scope.barLabels[10]; break;
+			    	case 'Dec':$scope.thisMonth = 11; $scope.thisMonthText = $scope.barLabels[11]; break;
+			    	default: break;
+		    	}
+		    }
+		}
+
 		$scope.serviceEvents = UserServiceEvent.query({userId:$stateParams.id});
-		$scope.expenseClaims = UserExpenseClaim.query({userId:$stateParams.id});
+
 		Company.query().$promise.then(function(companies){
 			$scope.companies = companies;
 			Product.query().$promise.then(function(products){
@@ -38,8 +61,10 @@
 					UserMonthlyRecord.query({userId:$stateParams.id}).$promise.then(function(monthlyRecords){
 						$scope.monthlyRecords = monthlyRecords;
 						$scope.DisplayMonthlyRecords = [].concat(monthlyRecords);
-						console.log($scope.DisplayMonthlyRecords.length);
-
+						/* when monthly records ready, start fetch data*/
+						$scope.thisYear = new Date().getFullYear();
+						$scope.thisMonth = new Date().getMonth();
+						$scope.thisMonthText = $scope.barLabels[$scope.thisMonth];	
 					});
 				});
 			});
@@ -50,7 +75,6 @@
 			$scope.deals.forEach(function(deal){
 				$scope.filteredTotalAmount+=deal.totalPrice;
 			});
-			console.log($scope.filteredTotalAmount);
 		});
 		
 		$scope.getObjectById = function(models,id){
@@ -63,8 +87,85 @@
         		}
     		}
 		}
+		$scope.$watch('thisYear', function(newVal,oldVal){
+			/** reset data **/
+			$scope.yearlySalesAmount = 0;
+			$scope.yearlyServicesCharge = 0;
+			$scope.yearlyExpenseClaims = 0;
+			$scope.thisYearTarget=0;
+			$scope.thisYearExpenses=0;
+
+			$scope.wonDeals = new Array();
+			$scope.lostDeals = new Array();
+			$scope.yearlyServices = new Array();
+			$scope.monthlyDeals = new Array(12);
+			$scope.monthlyWonDeals = new Array(12);
+			$scope.monthlyLostDeals = new Array(12);
+			$scope.monthlyAmount = new Array(12);
+			$scope.monthlyServices = new Array(12);
+			$scope.monthlyServicesCharge = new Array(12);
+			$scope.monthlyExpenseClaims = new Array(12);
+			for(var month=0;month<12;month++){
+				$scope.getDealsByMonth(month);
+			}
+			$scope.barData = [
+			    $scope.monthlyAmount,
+			    $scope.monthlyServicesCharge,
+			    $scope.monthlyExpenseClaims,
+			];
+			$scope.thisMonthRecord = $scope.getRecordByYearmonth($scope.DisplayMonthlyRecords,$scope.thisYear,$scope.thisMonth);
+		});
+
+		$scope.$watch('thisMonth',function(){
+			$scope.thisMonthRecord = $scope.getRecordByYearmonth($scope.DisplayMonthlyRecords,$scope.thisYear,$scope.thisMonth);
+		});
 		
-		/** progress bar **/
+		$scope.getDealsByMonth = function(month){
+			$scope.monthlyDeals[month] = new Array();			
+			$scope.monthlyWonDeals[month] = new Array();
+			$scope.monthlyLostDeals[month] = new Array();
+			$scope.monthlyAmount[month]= 0;
+			$scope.monthlyServices[month] = new Array();
+			$scope.monthlyServicesCharge[month] = 0;
+			$scope.monthlyExpenseClaims[month] = 0;
+
+			var mon = $scope.getRecordByYearmonth($scope.DisplayMonthlyRecords,$scope.thisYear,month);
+			if(typeof mon != 'undefined'){
+				$scope.thisYearTarget+=mon.salesTarget;
+				$scope.thisYearExpenses+=mon.claimableExpenses;
+			}
+			MonthlyDeal.query({year:$scope.thisYear,month:month,userId:$stateParams.id}).$promise.then(function(deals){
+				$scope.monthlyDeals[month].push(deals);
+				deals.forEach(function(deal){
+					if(deal.dealStatus==='WON'){
+						$scope.wonDeals.push(deal);
+						$scope.monthlyWonDeals[month].push(deal);
+						$scope.monthlyAmount[month]+=deal.totalPrice;
+						$scope.yearlySalesAmount+=deal.totalPrice;
+					}
+					if(deal.dealStatus==='LOST'){
+						$scope.lostDeals.push(deal);
+						$scope.monthlyLostDeals[month].push(deal);
+					}
+
+				});						
+			});
+			MonthlyUserServiceEvent.query({year:$scope.thisYear,month:month,userId:$stateParams.id}).$promise.then(function(serviceEvents){
+				$scope.yearlyServices.push(serviceEvents);
+				$scope.monthlyServices[month].push(serviceEvents);
+				serviceEvents.forEach(function(serviceEvent){
+					$scope.monthlyServicesCharge[month]+=serviceEvent.charge;
+					$scope.yearlyServicesCharge+=serviceEvent.charge;
+				});
+			});
+			MonthlyUserExpenseClaim.query({year:$scope.thisYear,month:month,userId:$stateParams.id}).$promise.then(function(expenseClaims){
+				expenseClaims.forEach(function(expenseClaim){
+					$scope.monthlyExpenseClaims[month]+=expenseClaim.amount;
+					$scope.yearlyExpenseClaims+=expenseClaim.amount;
+				});
+			});
+		}
+
 		$scope.getRecordByYearmonth = function(models,year,month){
 	   		if(models.length){
         		var result = $.grep(models, function(element){
@@ -75,171 +176,6 @@
         		}
     		}
 		}
-		/** progress bar **/
-		
-		$scope.getDealsByMonth = function(month){
-			$timeout(function(){
-				$scope.deals.forEach(function(deal){
-					var dateCreated = new Date(deal.dateCreated);
-					var dateClosed = new Date(deal.dateClosed);
-					
-					
-					if(dateClosed.getFullYear()===$scope.thisYear && (dateCreated.getMonth()+1===month || dateClosed.getMonth()+1===month)){
-						$scope.monthlyDeals[month-1].push(deal);
-						if(deal.dealStatus==="WON"){
-							$scope.wonDeals.push(deal);
-							$scope.monthlyWonDeals[month-1].push(deal);
-						}
-						if(deal.dealStatus==="LOST"){
-							$scope.lostDeals.push(deal);
-							$scope.monthlyLostDeals[month-1].push(deal);
-						}
-					}
-				});
-				
-				if($scope.monthlyWonDeals[month-1]===null){
-				} else{
-					$scope.monthlyWonDeals[month-1].forEach(function(deal){
-						$scope.monthlyAmount[month-1]+=deal.totalPrice;
-						$scope.yearlySalesAmount+=deal.totalPrice;
-						
-					});
-				}
-				
-				$scope.serviceEvents.forEach(function(serviceEvent){
-					var endDate = new Date(serviceEvent.end);
-					
-					if(endDate.getFullYear()===$scope.thisYear && endDate.getMonth()+1===month){
-						$scope.yearlyServices.push(serviceEvent);
-						$scope.monthlyServices[month-1].push(serviceEvent);
-						$scope.monthlyServicesCharge[month-1]+=serviceEvent.charge;
-						$scope.yearlyServicesCharge+=serviceEvent.charge;
-					}
-				});
-				$scope.expenseClaims.forEach(function(expenseClaim){
-					var dateIncurred = new Date(expenseClaim.dateIncurred);
-					if(dateIncurred.getFullYear()===$scope.thisYear && dateIncurred.getMonth()+1===month){
-						$scope.monthlyExpenseClaims[month-1]+=expenseClaim.amount;
-						$scope.yearlyExpenseClaims+=expenseClaim.amount;
-					}
-				});
-			},500);
-		}
-		
-		$scope.$watch('thisMonth',function(){
-				$scope.thisMonthRecord = $scope.getRecordByYearmonth($scope.DisplayMonthlyRecords,$scope.thisYear,$scope.thisMonth);
-				if(typeof $scope.thisMonthRecord != "undefined"){
-					$scope.thisMonthTargetPercentage = Math.round(100*($scope.monthlyAmount[$scope.thisMonth]+$scope.monthlyServicesCharge[$scope.thisMonth])/$scope.thisMonthRecord.salesTarget);
-					$scope.thisMonthExpensePercentage = Math.round(100*$scope.monthlyExpenseClaims[$scope.thisMonth]/$scope.thisMonthRecord.claimableExpenses);
-				} else{
-					$scope.thisMonthTargetPercentage = 0;
-					$scope.thisMonthExpensePercentage = 0;
-				}
-		});
-		
-		$scope.$watch('thisYear',function(){
-			console.log($scope.thisYear);
-			/** reset data **/			
-			$scope.wonDeals = new Array();
-
-			$scope.yearlySalesAmount = 0;
-			
-			$scope.lostDeals = new Array();
-			
-			$scope.monthlyDeals = new Array(12);
-
-			$scope.monthlyWonDeals = new Array();
-			
-			$scope.monthlyLostDeals = new Array();
-
-			$scope.monthlyAmount = new Array(12);
-			
-			$scope.monthlyServices = new Array(12);
-			
-			$scope.yearlyServices = new Array();
-			
-			$scope.monthlyServicesCharge = new Array(12);
-			
-			$scope.yearlyServicesCharge = 0;
-			
-			$scope.monthlyExpenseClaims = new Array(12);
-			
-			$scope.yearlyExpenseClaims = 0;
-			
-			for(var i=0;i<12;i++){
-				$scope.monthlyDeals[i] = new Array();
-				$scope.monthlyWonDeals[i] = new Array();
-				$scope.monthlyLostDeals[i] = new Array();
-				$scope.monthlyAmount[i] = 0;
-				$scope.monthlyServices[i] = new Array();
-				$scope.monthlyServicesCharge[i] = 0;
-				$scope.monthlyExpenseClaims[i] = 0;
-			}
-			$scope.barData = [
-      		    $scope.monthlyAmount,
-      		    $scope.monthlyServicesCharge,
-      		    $scope.monthlyExpenseClaims,
-      		];
-			for(var i=1;i<=12;i++){
-				$scope.getDealsByMonth(i);
-			}
-			/** yearly,monthly target and expenses **/
-			$timeout(function(){
-				$scope.thisYearTarget=0;
-				$scope.thisYearExpenses=0;
-				for(var i=0;i<12;i++){
-					var mon = $scope.getRecordByYearmonth($scope.DisplayMonthlyRecords,$scope.thisYear,i);
-					if(typeof mon !="undefined"){
-						$scope.thisYearTarget+=mon.salesTarget;
-						$scope.thisYearExpenses+=mon.claimableExpenses;
-					}
-				}
-				if($scope.thisYearTarget!= 0){
-					$scope.thisYearTargetPercentage = Math.round(100*($scope.yearlySalesAmount+$scope.yearlyServicesCharge)/$scope.thisYearTarget);
-				} else{
-					$scope.thisYearTargetPercentage = 0;
-				}
-				if($scope.thisYearExpenses != 0){
-					$scope.thisYearExpensePercentage = Math.round(100*$scope.yearlyExpenseClaims/$scope.thisYearExpenses);
-				} else{
-					$scope.thisYearExpensePercentage = 0;
-				}
-				$scope.thisMonthRecord = $scope.getRecordByYearmonth($scope.DisplayMonthlyRecords,$scope.thisYear,$scope.thisMonth);
-				if(typeof $scope.thisMonthRecord != "undefined"){
-					$scope.thisMonthTargetPercentage = Math.round(100*($scope.monthlyAmount[$scope.thisMonth]+$scope.monthlyServicesCharge[$scope.thisMonth])/$scope.thisMonthRecord.salesTarget);
-					$scope.thisMonthExpensePercentage = Math.round(100*$scope.monthlyExpenseClaims[$scope.thisMonth]/$scope.thisMonthRecord.claimableExpenses);
-				} else{
-					$scope.thisMonthTargetPercentage = 0;
-					$scope.thisMonthExpensePercentage = 0;
-				}
-					
-			},800);
-		});
-		
-		
-		$scope.barLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-		$scope.barSeries = ['Sales Amount', 'Services Charge','Expense Claimed'];
-		
-		$scope.barOnClick = function(points, evt){
-		    if(typeof points[0] != "undefined"){
-		    	switch(points[0].label){
-			    	case 'Jan':$scope.thisMonth = 0; $scope.thisMonthText = "January"; break;
-			    	case 'Feb':$scope.thisMonth = 1; $scope.thisMonthText = "February"; break;
-			    	case 'Mar':$scope.thisMonth = 2; $scope.thisMonthText = "March"; break;
-			    	case 'Apr':$scope.thisMonth = 3; $scope.thisMonthText = "April"; break;
-			    	case 'May':$scope.thisMonth = 4; $scope.thisMonthText = "May"; break;
-			    	case 'Jun':$scope.thisMonth = 5; $scope.thisMonthText = "June"; break;
-			    	case 'Jul':$scope.thisMonth = 6; $scope.thisMonthText = "July"; break;
-			    	case 'Aug':$scope.thisMonth = 7; $scope.thisMonthText = "August"; break;
-			    	case 'Sep':$scope.thisMonth = 8; $scope.thisMonthText = "September"; break;
-			    	case 'Oct':$scope.thisMonth = 9; $scope.thisMonthText = "October"; break;
-			    	case 'Nov':$scope.thisMonth = 10; $scope.thisMonthText = "November"; break;
-			    	case 'Dec':$scope.thisMonth = 11; $scope.thisMonthText = "December"; break;
-			    	default: break;
-		    	}
-		    }
-		}
-		
 		/** monthly records related **/
 		$scope.recordItemsByPage = 3;
 
@@ -261,11 +197,6 @@
 				var ym = $scope.monthlyRecord.yearmonth;
 				$scope.monthlyRecord.yearmonth = new Date(ym.getFullYear(),ym.getMonth(),1);
 				UserMonthlyRecord.save($scope.monthlyRecord).$promise.then(function(){
-/*					UserMonthlyRecord.query({userId:$stateParams.id}).$promise.then(function(monthlyRecords){
-						$scope.monthlyRecords = monthlyRecords;
-						$scope.DisplayMonthlyRecords = [].concat(monthlyRecords);
-					});
-					$scope.showMonthlyRecordForm = false;*/
 					$state.reload();
 				});
 			} else if($scope.action==='Update'){
@@ -275,13 +206,11 @@
 			}
 			$scope.action='Create';
 		}
-		
 		$scope.editMonthlyRecord = function(monthlyRecord){
 			$scope.action='Update';
 			$scope.monthlyRecord = monthlyRecord;
 			$scope.showMonthlyRecordForm = true;
 		}
-		
 		$scope.cancelMonthlyRecordForm = function(){
 			$scope.action='Create';
 			$scope.monthlyRecord = {};

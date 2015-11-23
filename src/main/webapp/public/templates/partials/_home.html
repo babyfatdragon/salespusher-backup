@@ -193,11 +193,11 @@
 						<li class="list-group-item">Expenses Claimed: <b>{{yearlyExpenseClaims | currency}}</b></li>
 			  			<li class="list-group-item">
 						    <small><em>Target Amount: {{thisYearTarget | currency}}</em></small>
-				   	 		<uib-progressbar animate="true" value="thisYearTargetPercentage" type="success"><b>{{thisYearTargetPercentage}}%</b></uib-progressbar>
+				   	 		<uib-progressbar animate="true" value="100*(yearlySalesAmount+yearlyServicesCharge)/thisYearTarget | number:0" type="success"><b>{{100*(yearlySalesAmount+yearlyServicesCharge)/thisYearTarget | number:0}}%</b></uib-progressbar>
 						</li>
 			  			<li class="list-group-item">
 				    		<small><em>Allowable Expenses: {{thisYearExpenses | currency}}</em></small>
-					    	<uib-progressbar animate="true" value="thisYearExpensePercentage" type="success"><b>{{thisYearExpensePercentage}}%</b></uib-progressbar>
+					    	<uib-progressbar animate="true" value="100*yearlyExpenseClaims/thisYearExpenses | number:0" type="success"><b>{{100*yearlyExpenseClaims/thisYearExpenses | number:0}}%</b></uib-progressbar>
 						</li>  							
 	  				</ul>
 				</div>
@@ -216,11 +216,11 @@
 					  	<li class="list-group-item">Expenses Claimed: <b>{{monthlyExpenseClaims[thisMonth] | currency}}</b></li>  												
 						<li class="list-group-item">
 						    <small><em>Target Amount: {{thisMonthRecord.salesTarget | currency}}</em></small>
-						    <uib-progressbar animate="true" value="thisMonthTargetPercentage" type="info"><b>{{thisMonthTargetPercentage}}%</b></uib-progressbar>
+						    <uib-progressbar animate="true" value="100*monthlyAmount[thisMonth]/thisMonthRecord.salesTarget | number:0" type="info"><b>{{100*monthlyAmount[thisMonth]/thisMonthRecord.salesTarget | number:0}}%</b></uib-progressbar>
 						</li>
 			  			<li class="list-group-item">
 					    	<small><em>Allowable Expenses: {{thisMonthRecord.claimableExpenses | currency}}</em></small>
-					    	<uib-progressbar animate="true" value="thisMonthExpensePercentage" type="info"><b>{{thisMonthExpensePercentage}}%</b></uib-progressbar>
+					    	<uib-progressbar animate="true" value="100*monthlyExpenseClaims[thisMonth]/thisMonthRecord.claimableExpenses | number:0" type="info"><b>{{100*monthlyExpenseClaims[thisMonth]/thisMonthRecord.claimableExpenses | number:0}}%</b></uib-progressbar>
 						</li>
 					</ul>
 				</div>

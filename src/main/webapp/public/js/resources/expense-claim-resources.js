@@ -9,4 +9,10 @@
 			'update': {method:'PUT'}
 		});
 	}]);
+
+	angular.module('salespusher.resources').factory('MonthlyUserExpenseClaim', ['$resource',function MonthlyUserExpenseClaimFactory($resource) {  
+		return $resource("/monthlyExpenseClaimsByUser/:userId/year/:year/month/:month/expenseClaims/:id", {userId:'@userId',year:'@year',month:'@month',id:'@id'}, {
+			'update': {method:'PUT'}
+		});
+	}]);
 })();

@@ -2,6 +2,7 @@ package com.worksap.salespusher.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -79,6 +80,26 @@ public class ServiceEventController {
 	public List<ServiceEventEntity> getAllServiceEvents(){
 		return this.serviceEventRepository.findAll();
 	}
+	
+	/** find by user id and end time**/
+	@RequestMapping(value = "/monthlyServiceEventsByUser/{userId}/year/{year}/month/{month}/events", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public List<ServiceEventEntity> getServiceEventsByUserIdAndDate(@PathVariable long userId,@PathVariable int year,@PathVariable int month){
+		Calendar fromCal = Calendar.getInstance();
+	    Calendar toCal = Calendar.getInstance();
+	    fromCal.set(year,month,1);
+	    toCal.set(year,(month+1)%12,1);
+		Date fromDate = fromCal.getTime();
+		Date toDate = toCal.getTime();
+		return this.serviceEventRepository.findByUserIdAndEndBetween(userId,fromDate,toDate);
+	}
+	
+	@RequestMapping(value = "/monthlyServiceEventsByUser/{userId}/year/{year}/month/{month}/events/{id}", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public ServiceEventEntity getServiceEventByUserIdAndDate(@PathVariable long id){
+		return this.serviceEventRepository.findOne(id);
+	}
+
 	
 	@RequestMapping(value = "/serviceEvents/findByEndTimeRange", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")	

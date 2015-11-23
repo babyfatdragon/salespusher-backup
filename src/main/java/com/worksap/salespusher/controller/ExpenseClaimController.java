@@ -1,5 +1,7 @@
 package com.worksap.salespusher.controller;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +68,24 @@ public class ExpenseClaimController {
 	@RequestMapping(value = "/expenseClaimsByUser/{userId}/expenseClaims/{id}", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
 	public ExpenseClaimEntity getExpenseClaimByUserId(@PathVariable long id){
+		return this.expenseClaimRepository.findOne(id);
+	}
+	/** find by user id and month **/
+	@RequestMapping(value = "/monthlyExpenseClaimsByUser/{userId}/year/{year}/month/{month}/expenseClaims", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public List<ExpenseClaimEntity> getMonthlyExpenseClaimsByUserId(@PathVariable long userId,@PathVariable int year,@PathVariable int month){
+	    Calendar fromCal = Calendar.getInstance();
+	    Calendar toCal = Calendar.getInstance();
+	    fromCal.set(year,month,1);
+	    toCal.set(year,(month+1)%12,1);
+		Date fromDate = fromCal.getTime();
+		Date toDate = toCal.getTime();
+		return this.expenseClaimRepository.findByUserIdAndDateIncurredBetween(userId,fromDate,toDate);
+	}
+	
+	@RequestMapping(value = "/monthlyExpenseClaimsByUser/{userId}/year/{year}/month/{month}/expenseClaims/{id}", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public ExpenseClaimEntity getMonthlyExpenseClaimByUserId(@PathVariable long id){
 		return this.expenseClaimRepository.findOne(id);
 	}
 }

@@ -9,6 +9,13 @@
 			'update': {method:'PUT'}
 		});
 	}]);
+
+	angular.module('salespusher.resources').factory('MonthlyUserServiceEvent', ['$resource',function MonthlyUserServiceEventFactory($resource) {  
+		return $resource("/monthlyServiceEventsByUser/:userId/year/:year/month/:month/events/:id", {userId:'@userId',year:'@year',month:'@month',id:'@id'}, {
+			'update': {method:'PUT'}
+		});
+	}]);
+	
 	angular.module('salespusher.resources').factory('AllServiceEvent', ['$resource',function UserServiceEventFactory($resource) {  
 		return $resource("/serviceEvents/:id", {id:'@id'}, {
 			'update': {method:'PUT'}

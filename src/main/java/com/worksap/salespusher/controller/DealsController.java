@@ -65,12 +65,11 @@ public class DealsController {
 	}
 	
 	/** deals by this year, month **/
-	@RequestMapping(value = "/monthlyDeals/{month}/users", method = RequestMethod.GET)
+	@RequestMapping(value = "/monthlyDeals/year/{year}/month/{month}/users", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
-	public List<DealEntity> getMonthlyDeals(@PathVariable int month){
+	public List<DealEntity> getMonthlyDeals(@PathVariable int year,@PathVariable int month){
 	    Calendar fromCal = Calendar.getInstance();
 	    Calendar toCal = Calendar.getInstance();
-	    int year = fromCal.get(Calendar.YEAR);
 	    fromCal.set(year,month,1);
 	    toCal.set(year,(month+1)%12,1);
 		Date fromDate = fromCal.getTime();
@@ -78,12 +77,11 @@ public class DealsController {
 		return this.dealRepository.findByDateClosedBetween(fromDate,toDate);
 	}
 	
-	@RequestMapping(value = "/monthlyDeals/{month}/users/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/monthlyDeals/year/{year}/month/{month}/users/{userId}", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
-	public List<DealEntity> getMonthlyDealsByUserId(@PathVariable int month, @PathVariable long userId){
+	public List<DealEntity> getMonthlyDealsByUserId(@PathVariable int year,@PathVariable int month, @PathVariable long userId){
 	    Calendar fromCal = Calendar.getInstance();
 	    Calendar toCal = Calendar.getInstance();
-	    int year = fromCal.get(Calendar.YEAR);
 	    fromCal.set(year,month,1);
 	    toCal.set(year,(month+1)%12,1);
 		Date fromDate = fromCal.getTime();
