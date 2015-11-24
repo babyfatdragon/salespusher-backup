@@ -1,69 +1,67 @@
-<div class="modal fade" style="width:100%">
-	<div class="modal-dialog" style="width:100%">
-		<div class="modal-content" style="width:50%">
+<div class="modal fade" style="width:100%;">
+	<div class="modal-dialog" style="width:40%">
+		<div class="modal-content" style="width:100%">
 		    <div class="modal-header">
 		        <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
 		        <h4 class="modal-title">{{header}}</h4>
 		    </div>
-			<div class="modal-body">
-				<div class="col-md-12">
-					<div class="col-md-8">
-						<form name="eventForm" style="margin-top:20px" ng-submit="eventForm.$valid" novalidate>
-							<fieldset class="form-group">
-						    	<label for="title">Title</label>
-							    <input class="form-control" type="text" id="title" name="title" ng-model="event.title" required/>
-						  	</fieldset>
-						 	<fieldset class="form-group">
-						    	<label for="start">Start Date Time</label>
-							    <p class="input-group">
-							       	<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" is-open="startDateStatus.opened" ng-model="event.startDate" close-text="Close"/>
-									<span class="input-group-btn"> 
-									    <button type="button" class="btn btn-default" ng-click="openStart($event)">
-									    	<i class="glyphicon glyphicon-calendar"></i>
-									   	</button>
-								    </span>	    
-								</p>
-						 		<uib-timepicker ng-model="event.startTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker> 
-						  	</fieldset>
-							<fieldset class="form-group">
-						   		<label for="start">End Date Time</label>
-						    	<p class="input-group">
-						      		<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" is-open="endDateStatus.opened" ng-model="event.endDate" close-text="Close"/>
-									<span class="input-group-btn"> 
-								    	<button type="button" class="btn btn-default" ng-click="openEnd($event)">
-								    		<i class="glyphicon glyphicon-calendar"></i>
-								   		</button>
-						    		</span>
-								</p>
-								<uib-timepicker ng-model="event.endTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>   	
-						 	</fieldset>
-							<fieldset class="form-group">
-						    	<label for="title">Location</label>
-						        <input class="form-control"type="text" id="location" name="location" ng-model="event.location" required></select>
-						  	</fieldset>
-						  	<!-- hide for event creation -->
-							<fieldset class="form-group" ng-disabled="eventType==='Event'" ng-hide="eventType==='Event'">
-						    	<label for="user">Assigned To</label>
-						       	<ui-select ng-model="event.userId">
-								    <ui-select-match>
-								        <span ng-bind="$select.selected.firstname+' '+$select.selected.lastname"></span>
-								    </ui-select-match>
-								    <ui-select-choices repeat="user.id as user in (users | filter: $select.search)">
-								        <span ng-bind="user.firstname+' '+user.lastname"></span>
-								    </ui-select-choices>
-								</ui-select>
-						  	</fieldset>
-					  		<fieldset class="form-group" ng-disabled="eventType==='Event'" ng-hide="eventType==='Event'">
-					    		<label for="price">Charge</label>
-					    		<input class="form-control" type="number" id="charge" name="charge" ng-model="event.charge" />
-					  		</fieldset>
-							<button type="button" value="Submit" class="btn btn-success btn-md" data-dismiss="modal" ng-click="submit()" ng-disabled="!eventForm.$valid">Save</button>
-							<button type="button" value="Cancel" class="btn btn-default btn-md" data-dismiss="modal" ng-click="cancel()">Cancel</button>
-						</form>	
-					</div>
-					<div class="col-md-4">
-					 <button value="Delete" style="margin-top:42px" class="btn btn-danger btn-md pull-right" ng-show="action==='Update'" ng-click="remove()">Delete</button>
-					</div>
+			<div class="modal-body col-md-12">
+				<div class="col-md-8">
+					<form name="eventForm" style="margin-top:20px" ng-submit="eventForm.$valid" novalidate>
+						<fieldset class="form-group">
+					    	<label for="title">Title</label>
+						    <input class="form-control" type="text" id="title" name="title" ng-model="event.title" required/>
+					  	</fieldset>
+					 	<fieldset class="form-group">
+					    	<label for="start">Start Date Time</label>
+						    <p class="input-group">
+						       	<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" is-open="startDateStatus.opened" ng-model="event.startDate" close-text="Close"/>
+								<span class="input-group-btn"> 
+								    <button type="button" class="btn btn-default" ng-click="openStart($event)">
+								    	<i class="glyphicon glyphicon-calendar"></i>
+								   	</button>
+							    </span>	    
+							</p>
+					 		<uib-timepicker ng-model="event.startTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker> 
+					  	</fieldset>
+						<fieldset class="form-group">
+					   		<label for="start">End Date Time</label>
+					    	<p class="input-group">
+					      		<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" is-open="endDateStatus.opened" ng-model="event.endDate" close-text="Close"/>
+								<span class="input-group-btn"> 
+							    	<button type="button" class="btn btn-default" ng-click="openEnd($event)">
+							    		<i class="glyphicon glyphicon-calendar"></i>
+							   		</button>
+					    		</span>
+							</p>
+							<uib-timepicker ng-model="event.endTime" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>   	
+					 	</fieldset>
+						<fieldset class="form-group">
+					    	<label for="title">Location</label>
+					        <input class="form-control"type="text" id="location" name="location" ng-model="event.location" required></select>
+					  	</fieldset>
+					  	<!-- hide for event creation -->
+						<fieldset class="form-group" ng-disabled="eventType==='Event'" ng-hide="eventType==='Event'">
+					    	<label for="user">Assigned To</label>
+					       	<ui-select ng-model="event.userId">
+							    <ui-select-match>
+							        <span ng-bind="$select.selected.firstname+' '+$select.selected.lastname"></span>
+							    </ui-select-match>
+							    <ui-select-choices repeat="user.id as user in (users | filter: $select.search)">
+							        <span ng-bind="user.firstname+' '+user.lastname"></span>
+							    </ui-select-choices>
+							</ui-select>
+					  	</fieldset>
+				  		<fieldset class="form-group" ng-disabled="eventType==='Event'" ng-hide="eventType==='Event'">
+				    		<label for="price">Charge</label>
+				    		<input class="form-control" type="number" id="charge" name="charge" ng-model="event.charge" />
+				  		</fieldset>
+						<button type="button" value="Submit" class="btn btn-success btn-md" data-dismiss="modal" ng-click="submit()" ng-disabled="!eventForm.$valid">Save</button>
+						<button type="button" value="Cancel" class="btn btn-default btn-md" data-dismiss="modal" ng-click="cancel()">Cancel</button>
+					</form>	
+				</div>
+				<div class="col-md-4">
+				 <button value="Delete" style="margin-top:42px" class="btn btn-danger btn-md pull-right" ng-show="action==='Update'" ng-click="remove()">Delete</button>
 				</div>
 		 	</div>
 		 	<div class="modal-footer">

@@ -1,7 +1,8 @@
 <form name="commentForm" class="form" ng-submit="commentForm.$valid && submit()" novalidate>
- 	<fieldset class="form-group">
+ 	<fieldset class="form-group col-md-9">
     	<label for="comment">Comment</label>
-			<text-angular ng-model="comment.comment" required></text-angular>
+		<text-angular ng-model="comment.comment" required></text-angular>
+		<br />
+	 	<button type="submit" value="Submit" class="btn btn-default btn-md" ng-disabled="!commentForm.$valid">Comment</button>
   	</fieldset> 	
- 	<button type="submit" value="Submit" class="btn btn-default btn-md" ng-disabled="!commentForm.$valid">Comment</button>
 </form>
