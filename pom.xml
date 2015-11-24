@@ -38,6 +38,7 @@
 		<angular-ui-calendar.version>1.0.1</angular-ui-calendar.version>
 		<angular-simple-logger.version>0.1.4</angular-simple-logger.version>
 		<angular-google-maps.version>2.1.1</angular-google-maps.version>
+		<angular-animate.version>1.5.0-beta.2</angular-animate.version>
 		
 	</properties>
 
@@ -159,7 +160,13 @@
 		    <artifactId>angular-google-maps</artifactId>
 		    <version>${angular-google-maps.version}</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>angular-animate</artifactId>
+		    <version>${angular-animate.version}</version>
+		</dependency>
 	</dependencies>
+
 	
 	<build>
 		<resources>

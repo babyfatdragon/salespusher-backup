@@ -2,10 +2,10 @@
 	angular.module('salespusher.controllers')
 	.controller('DealShowCtrl',['$rootScope','$scope','$timeout','$state','$stateParams','filterFilter','User','Product',
 	                            'Company','Customer','Deal','DealComment','DealEvent','DealFollower','DealServiceEvent','ServiceDocument',
-	                            'DealExpenseClaim','uiCalendarConfig','DealFollowRequest','DealRequestByDealId',
+	                            'DealExpenseClaim','uiCalendarConfig','DealFollowRequest','DealRequestByDealId','ModalService',
 	                            function($rootScope,$scope,$timeout,$state,$stateParams,filterFilter,User,Product,
 	                            		Company,Customer,Deal,DealComment,DealEvent,DealFollower,DealServiceEvent,ServiceDocument,
-	                            		DealExpenseClaim,uiCalendarConfig,DealFollowRequest,DealRequestByDealId){
+	                            		DealExpenseClaim,uiCalendarConfig,DealFollowRequest,DealRequestByDealId,ModalService){
     	$scope.itemsByPage = 5;
 		$scope.action = "Create";
 		$scope.serviceAction = "Create";
@@ -171,24 +171,24 @@
 		
 	    /* edit on eventClick */
 	    var editEventOnClick = function(calEvent, jsEvent, view){
+    		$scope.action="Update";
 	    	if(typeof calEvent.charge!='undefined'){
+		    		$scope.eventType = 'Service';
 		    	DealServiceEvent.get({dealId:$stateParams.id,id:calEvent.id}).$promise.then(function(event){
-		    		$scope.serviceAction="Update";
-		    		$scope.serviceEvent.id = event.id;
-		    		$scope.serviceEvent.title = event.title;
-		    		$scope.serviceEvent.userId = event.userId;
-		    		$scope.serviceEvent.startDate = event.start;
-		    		$scope.serviceEvent.startTime = event.start;
-		    		$scope.serviceEvent.endDate = event.end;
-		    		$scope.serviceEvent.endTime = event.end;
-		    		$scope.serviceEvent.location = event.location;
-		    		$scope.serviceEvent.charge = event.charge;
+		    		$scope.event.id = event.id;
+		    		$scope.event.title = event.title;
+		    		$scope.event.userId = event.userId;
+		    		$scope.event.startDate = event.start;
+		    		$scope.event.startTime = event.start;
+		    		$scope.event.endDate = event.end;
+		    		$scope.event.endTime = event.end;
+		    		$scope.event.location = event.location;
+		    		$scope.event.charge = event.charge;
 		    		$scope.showServiceForm = true;
-		    		console.log($scope.serviceEvent);
 				});
 	    	} else{
+		    		$scope.eventType = 'Event';
 	   			DealEvent.get({dealId:$stateParams.id,id:calEvent.id}).$promise.then(function(event){
-		    		$scope.action="Update";
 		    		$scope.event.id = event.id;
 		    		$scope.event.title = event.title;
 		    		$scope.event.startDate = event.start;
@@ -197,9 +197,25 @@
 		    		$scope.event.endTime = event.end;
 		    		$scope.event.location = event.location;
 			    	$scope.showForm = true;
-		    		console.log($scope.event);
 				});
 	    	}
+			ModalService.showModal({
+		    	templateUrl: "templates/directives/sp-event-form.html",
+		    	controller: "EventFormCtrl",
+		    	inputs: {
+		    		header: 'Edit Event',
+	    			event: $scope.event,
+				 	deal: $scope.deal,
+	    		 	action: $scope.action,
+		    		eventType: $scope.eventType,
+		    	}
+		    })
+			.then(function(modal) {
+				modal.element.modal();
+				modal.close.then(function(result) {
+					$scope.showForm = false;
+				});
+	    	});
     	};
 		/* update on Drop */
 		var updateEventOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
@@ -258,11 +274,11 @@
 	    $scope.eventSource = {
 	    	events: $scope.events,
 	    	eventDataTransform: $scope.eventsF,
+	    	color: 'green'
 	    };
 	    $scope.serviceEventSource = {
 	    	events: $scope.displayServiceEvents,
 	    	eventDataTransform: $scope.eventsF,
-	    	color: 'red'
 	    };
 	    $scope.eventSources = [$scope.eventSource,$scope.serviceEventSource];
 	    $scope.serviceEventSources = [$scope.serviceEventSource];
@@ -313,12 +329,79 @@
 		 
 		$scope.add = function(){
 			$scope.action = "Create";
+			$scope.eventType = 'Event';
 			$scope.showForm = true;
+			ModalService.showModal({
+		    	templateUrl: "templates/directives/sp-event-form.html",
+		    	controller: "EventFormCtrl",
+		    	inputs: {
+		    		header: 'Create New Event',
+	    			event: $scope.event,
+    			 	deal: $scope.deal,
+	    		 	action: $scope.action,
+		    		eventType: $scope.eventType
+		    	}
+		    })
+			.then(function(modal) {
+				modal.element.modal();
+				modal.close.then(function(result) {
+					$scope.showForm = false;
+				});
+	    	});
 		}
 		$scope.addService = function(){
-			$scope.serviceAction = "Create";
-			$scope.showServiceForm = true;
+			$scope.action = "Create";
+			$scope.eventType = 'Service';
+			ModalService.showModal({
+		    	templateUrl: "templates/directives/sp-event-form.html",
+		    	controller: "EventFormCtrl",
+		    	inputs: {
+		    		header: 'Create New Service',
+	    			event: $scope.event,
+    			 	deal: $scope.deal,
+	    		 	action: $scope.action,
+		    		eventType: $scope.eventType
+		    	}
+		    })
+			.then(function(modal) {
+				modal.element.modal();
+				modal.close.then(function(result) {
+					$scope.showForm = false;
+				});
+	    	});
 		}
+
+    	$scope.editServiceEvent = function(serviceEventId){
+    			$scope.action= "Update";
+	    		$scope.eventType = "Service";
+	    	DealServiceEvent.get({dealId:$stateParams.id,id:serviceEventId}).$promise.then(function(event){
+	    		$scope.event.id = event.id;
+	    		$scope.event.title = event.title;
+	    		$scope.event.userId = event.userId;
+	    		$scope.event.startDate = event.start;
+	    		$scope.event.startTime = event.start;
+	    		$scope.event.endDate = event.end;
+	    		$scope.event.endTime = event.end;
+	    		$scope.event.location = event.location;
+	    		$scope.event.charge = event.charge;
+				ModalService.showModal({
+			    	templateUrl: "templates/directives/sp-event-form.html",
+			    	controller: "EventFormCtrl",
+			    	inputs: {
+			    		header: 'Edit Event',
+		    			event: $scope.event,
+					 	deal: $scope.deal,
+		    		 	action: $scope.action,
+			    		eventType: $scope.eventType,
+			    	}
+			    })
+				.then(function(modal) {
+					modal.element.modal();
+					modal.close.then(function(result) {
+					});
+		    	});
+			});
+    	}
 		$scope.addExpenseClaim = function(){
 			$scope.expenseClaimAction = "Create";
 			$scope.showExpenseClaimForm = "true";

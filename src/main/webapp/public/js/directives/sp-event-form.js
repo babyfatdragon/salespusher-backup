@@ -11,7 +11,7 @@
 			},
 			templateUrl: 'templates/directives/sp-event-form.html',
 			controller: ['$rootScope','$scope','$state','$timeout','Company','DealEvent','DealFollower','User','DealServiceEvent',
-			             function($rootScope,$scope,$state,$timeout,Company,DealEvent,DealFollower,User,DealServiceEvent){
+			function($rootScope,$scope,$state,$timeout,Company,DealEvent,DealFollower,User,DealServiceEvent){
 				User.query().$promise.then(function(users){
 					$scope.users = users;
 				});
@@ -109,8 +109,7 @@
 					} else if($scope.eventType==='Service'){
 						$rootScope.$broadcast('SERVICE_FORM_CANCELED');
 					}
-				};
-			
+				};			
 			}]
 		};
 	}]);

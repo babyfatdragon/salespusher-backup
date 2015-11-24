@@ -222,14 +222,14 @@
 			<div class="row">
 				<h3>Deal Calendar</h3>
 				<div id="events-calendar" ui-calendar="uiConfig.eventCalendar" ng-model="eventSources"></div>
-				<sp-event-form ng-show="showForm" deal="deal" event="event" event-type="Event" action="action"></sp-event-form>
+				<!-- <sp-event-form ng-show="showForm" deal="deal" event="event" event-type="Event" action="action"></sp-event-form> -->
 				<br />
-				<button type="button" class="btn btn-success btn-md" ng-click="add()" ng-hide="showForm || showServiceForm">Create New Event</button>
-				<button type="button" class="btn btn-primary btn-md" ng-click="addService()" ng-hide="showForm || showServiceForm">Create New Service</button>
+				<button type="button" class="btn btn-success btn-md" ng-click="add()">Create New Event</button>
+				<button type="button" class="btn btn-primary btn-md" ng-click="addService()">Create New Service</button>
 
-				<sp-event-form ng-show="showServiceForm" deal="deal" event="serviceEvent" event-type="Service" action="serviceAction"></sp-event-form>
-				<sp-documents service-id="serviceEvent.id" ng-show="showServiceForm && serviceAction=='Update'"></sp-documents>	
-				<sp-file-upload file-type="Document" upload-url="/files/service-docs/upload" service-id="serviceEvent.id" ng-show="showServiceForm && serviceAction=='Update'"></sp-file-upload>
+				<!-- <sp-event-form ng-show="showServiceForm" deal="deal" event="serviceEvent" event-type="Service" action="serviceAction"></sp-event-form> -->
+				<!-- <sp-documents service-id="serviceEvent.id" ng-show="showServiceForm && serviceAction=='Update'"></sp-documents>	 -->
+				<!-- <sp-file-upload file-type="Document" upload-url="/files/service-docs/upload" service-id="serviceEvent.id" ng-show="showServiceForm && serviceAction=='Update'"></sp-file-upload> -->
 				<br />
 			</div>
 		</div>

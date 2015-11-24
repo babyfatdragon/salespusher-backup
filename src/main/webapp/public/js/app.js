@@ -18,6 +18,7 @@
     	'chart.js',
     	'ui.calendar',
     	'uiGmapgoogle-maps',
+    	'ngAnimate',
 		'salespusher.controllers',
 		'salespusher.resources',
 		'salespusher.directives',
