@@ -6,7 +6,7 @@
 			scope: {
 				deal: '=',
 				expenseClaim: '=',
-				action: '='
+				expenseClaimAction: '='
 			},
 			templateUrl: 'templates/directives/sp-expense-claim-form.html',
 			controller: ['$rootScope','$scope','$state','$timeout','DealFollower','DealServiceEvent','DealExpenseClaim',
@@ -22,10 +22,10 @@
 				$scope.submit = function(){
 					$scope.expenseClaim.dealId = $scope.deal.id;
 					$scope.expenseClaim.userId = $rootScope.currentUser.id;
-					if($scope.action==='Create'){
+					if($scope.expenseClaimAction==='Create'){
 						console.log("create expense");
 						DealExpenseClaim.save($scope.expenseClaim);
-					} else if($scope.action==='Update'){
+					} else if($scope.expenseClaimAction==='Update'){
 						console.log("update expense");
 						DealExpenseClaim.update({id:$scope.expenseClaim.id},$scope.expenseClaim);
 					}
@@ -52,7 +52,6 @@
 				};
 				
 				$scope.cancel = function(){
-					$rootScope.$broadcast('EXPENSE_CLAIM_FORM_CANCELED');	
 				};
 			}]
 		};

@@ -1,0 +1,45 @@
+<div class="modal fade" style="width:100%;">
+    <div class="modal-dialog" style="width:40%">
+        <div class="modal-content" style="width:100%">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{header}}</h4>
+            </div>
+            <div class="modal-body col-md-12">
+				<form name="monthlyRecordForm" class="form col-md-12" ng-submit="monthlyRecordForm.$valid" novalidate>
+					<div class="row">		 	
+					 	<fieldset class="form-group" ng-show="monthlyRecordAction==='Create'">
+					    	<label for="yearmonth">Year Month</label>
+						    <p class="input-group">
+						       	<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM" is-open="yearmonthStatus.opened" ng-model="monthlyRecord.yearmonth" close-text="Close"/>
+								<span class="input-group-btn"> 
+								    <button type="button" class="btn btn-default" ng-click="openYearmonth($event)">
+								    	<i class="glyphicon glyphicon-calendar"></i>
+								   	</button>
+							    </span>	    
+							</p>
+					  	</fieldset>
+						<fieldset class="form-group">
+					    	<label for="salesTarget">Sales Target</label>
+						    <input class="form-control" type="number" id="salesTarget" name="salesTarget" ng-model="monthlyRecord.salesTarget" required/>
+					  	</fieldset>
+					 	<fieldset class="form-group">
+					    	<label for="claimableExpenses">Claimable Expenses</label>
+						    <input class="form-control" type="number" id="claimableExpenses" name="claimableExpenses" ng-model="monthlyRecord.claimableExpenses" required/>
+					  	</fieldset>
+						<fieldset class="form-group">
+		    				<label for="benefits">Comment</label>
+							<text-angular ng-model="monthlyRecord.comment"></text-angular>
+					  	</fieldset>
+					</div>
+				  	<div class="pull-left">
+			  			<button type="button" value="Submit" class="btn btn-success btn-md" data-dismiss="modal" ng-click="submit()" ng-disabled="!monthlyRecordForm.$valid">Save</button>
+						<button type="button" value="Cancel" class="btn btn-default btn-md" data-dismiss="modal" ng-click="cancelMonthlyRecordForm()">Cancel</button>
+					</div>
+				</form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,41 +1,53 @@
-<div class="col-md-12">
-	<div class="col-md-8">
-		<form name="dealRequestForm" ng-submit="dealRequestForm.$valid && submit()" novalidate>
-			<div class="row">
-		  	  	<fieldset class="form-group" ng-show="usage==='Request'">
-			  		<label for="requestType">Type</label>
-			        <select class="form-control" id="requestType" name="requestType" ng-model='dealRequest.requestType' ng-options='typeOption.name as typeOption.name for typeOption in typeOptions'></select>
-			  	</fieldset>
-			 	<fieldset class="form-group" ng-show="usage==='Request'">
-			    	<label for="customer">Requestee</label>
-			       	<ui-select ng-model="dealRequest.requesteeId" required>
-					    <ui-select-match>
-					        <span ng-bind="$select.selected.firstname+' '+$select.selected.lastname"></span>
-					    </ui-select-match>
-					    <ui-select-choices repeat="user.id as user in (users | filter: $select.search)">
-					        <span ng-bind="user.firstname+' '+user.lastname"></span>
-					    </ui-select-choices>
-					</ui-select>
-			  	</fieldset>
-			  	<fieldset class="form-group" ng-show="usage==='Request'">
-			    	<label for="requestMessage">Request Message</label>
-						<text-angular ng-model="dealRequest.requestMessage"></text-angular>
-			  	</fieldset>
-			  	<fieldset class="form-group" ng-show="usage==='Response'">
-			    	<label for="requestMessage">Response Message</label>
-						<text-angular ng-model="dealRequest.responseMessage"></text-angular>
-			  	</fieldset>
-			  	<fieldset>
-			  	    <label for="actions">Actions</label>
-			  	    <div>
-					<button type="submit" class="btn btn-success btn-md" ng-disabled="!dealRequestForm.$valid">Save</button>
-					<button type="button" class="btn btn-default btn-md" ng-click="cancelDealRequest()">Cancel</button>
-			  		</div>
-			  	</fieldset>
-		  	</div>
-		</form>
-	</div>
-	<div class="col-md-4">
-		<button value="Delete" style="margin-top:22px" class="btn btn-danger btn-md pull-right" ng-show="action==='Update'" ng-click="deleteDealRequest()">Delete</button>
+<div class="modal fade" style="width:100%;">
+	<div class="modal-dialog" style="width:40%">
+		<div class="modal-content" style="width:100%">
+		    <div class="modal-header">
+		        <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title">{{header}}</h4>
+		    </div>
+			<div class="modal-body col-md-12">
+				<div class="col-md-10">
+					<form name="dealRequestForm" ng-submit="dealRequestForm.$valid" novalidate>
+						<div class="row">
+					  	  	<fieldset class="form-group" ng-show="usage==='Request'">
+						  		<label for="requestType">Type</label>
+						        <select class="form-control" id="requestType" name="requestType" ng-model='dealRequest.requestType' ng-options='typeOption.name as typeOption.name for typeOption in typeOptions'></select>
+						  	</fieldset>
+						 	<fieldset class="form-group" ng-show="usage==='Request'">
+						    	<label for="customer">Requestee</label>
+						       	<ui-select ng-model="dealRequest.requesteeId" required>
+								    <ui-select-match>
+								        <span ng-bind="$select.selected.firstname+' '+$select.selected.lastname"></span>
+								    </ui-select-match>
+								    <ui-select-choices repeat="user.id as user in (users | filter: $select.search)">
+								        <span ng-bind="user.firstname+' '+user.lastname"></span>
+								    </ui-select-choices>
+								</ui-select>
+						  	</fieldset>
+						  	<fieldset class="form-group" ng-show="usage==='Request'">
+						    	<label for="requestMessage">Request Message</label>
+									<text-angular ng-model="dealRequest.requestMessage"></text-angular>
+						  	</fieldset>
+						  	<fieldset class="form-group" ng-show="usage==='Response'">
+						    	<label for="responseMessage">Response Message</label>
+									<text-angular ng-model="dealRequest.responseMessage"></text-angular>
+						  	</fieldset>
+						  	<fieldset>
+						  	    <label for="actions">Actions</label>
+						  	    <div>
+								<button type="button" class="btn btn-success btn-md" data-dismiss="modal" ng-click="submit()" ng-disabled="!dealRequestForm.$valid">Save</button>
+								<button type="button" class="btn btn-default btn-md" data-dismiss="modal" ng-click="cancelDealRequest()">Cancel</button>
+						  		</div>
+						  	</fieldset>
+					  	</div>
+					</form>
+				</div>
+				<div class="col-md-2">
+					<button value="Delete" style="margin-top:22px" class="btn btn-danger btn-md pull-right" data-dismiss="modal" ng-show="action==='Update'" ng-click="deleteDealRequest()">Delete</button>
+				</div>
+			</div>
+		 	<div class="modal-footer">
+		 	</div>
+		</div>
 	</div>
 </div>

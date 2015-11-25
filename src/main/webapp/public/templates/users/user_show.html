@@ -47,39 +47,7 @@
 				</tr>
 			</tfoot>
 		</table>
-		<button type="button" class="btn btn-primary btn-md" ng-hide="showMonthlyRecordForm || authority!='ADMIN'" ng-click="addMonthlyRecord()" ng-disabled="disableAdd">Create Monthly Target</button>
-		
-		<form name="monthlyRecordForm" class="form" ng-show="showMonthlyRecordForm" ng-submit="monthlyRecordForm.$valid && submit()" novalidate>
-			<div class="row">		 	
-			 	<fieldset class="form-group col-md-4" ng-show="action==='Create'">
-			    	<label for="yearmonth">Year Month</label>
-				    <p class="input-group">
-				       	<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM" is-open="yearmonthStatus.opened" ng-model="monthlyRecord.yearmonth" close-text="Close"/>
-						<span class="input-group-btn"> 
-						    <button type="button" class="btn btn-default" ng-click="openYearmonth($event)">
-						    	<i class="glyphicon glyphicon-calendar"></i>
-						   	</button>
-					    </span>	    
-					</p>
-			  	</fieldset>
-				<fieldset class="form-group col-md-4">
-			    	<label for="salesTarget">Sales Target</label>
-				    <input class="form-control" type="number" id="salesTarget" name="salesTarget" ng-model="monthlyRecord.salesTarget" required/>
-			  	</fieldset>
-			 	<fieldset class="form-group col-md-4">
-			    	<label for="claimableExpenses">Claimable Expenses</label>
-				    <input class="form-control" type="number" id="claimableExpenses" name="claimableExpenses" ng-model="monthlyRecord.claimableExpenses" required/>
-			  	</fieldset>
-				<fieldset class="form-group col-md-12">
-    				<label for="benefits">Comment</label>
-					<text-angular ng-model="monthlyRecord.comment"></text-angular>
-			  	</fieldset>
-			</div>
-		  	<div class="pull-left">
-	  			<button type="submit" value="Submit" class="btn btn-success btn-md" ng-disabled="!monthlyRecordForm.$valid">Save</button>
-				<button type="button" value="Cancel" class="btn btn-default btn-md" ng-click="cancelMonthlyRecordForm()">Cancel</button>
-			</div>
-		</form>
+		<button type="button" class="btn btn-primary btn-md" ng-hide="authority!='ADMIN'" ng-click="addMonthlyRecord()" ng-disabled="disableAdd">Create Monthly Target</button>
 	</div>
 </div>
 <br />

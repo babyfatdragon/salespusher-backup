@@ -10,8 +10,8 @@
 				eventType: "@"
 			},
 			templateUrl: 'templates/directives/sp-event-form.html',
-			controller: ['$rootScope','$scope','$state','$timeout','Company','DealEvent','DealFollower','User','DealServiceEvent',
-			function($rootScope,$scope,$state,$timeout,Company,DealEvent,DealFollower,User,DealServiceEvent){
+			controller: ['$rootScope','$scope','$timeout','Company','DealEvent','DealFollower','User','DealServiceEvent',
+			function($rootScope,$scope,$timeout,Company,DealEvent,DealFollower,User,DealServiceEvent){
 				User.query().$promise.then(function(users){
 					$scope.users = users;
 				});
@@ -63,17 +63,21 @@
 					$scope.event.dealId = $scope.deal.id;
 					if($scope.eventType==='Event'){
 						if($scope.action==='Create'){
-							DealEvent.save($scope.event);
+							DealEvent.save($scope.event).$promise.then(function(event){
+							});
 						} else if($scope.action==='Update'){
 							console.log("EVENT UPDATE");
-							DealEvent.update({id:$scope.event.id},$scope.event);
+							DealEvent.update({id:$scope.event.id},$scope.event).$promise.then(function(event){
+							});
 						}	
 					} else if($scope.eventType==='Service'){
 						if($scope.action==='Create'){
-							DealServiceEvent.save($scope.event);
+							DealServiceEvent.save($scope.event).$promise.then(function(event){
+							});
 						} else if($scope.action==='Update'){
 							console.log("SERVICE EVENT UPDATE");
-							DealServiceEvent.update({id:$scope.event.id},$scope.event);
+							DealServiceEvent.update({id:$scope.event.id},$scope.event).$promise.then(function(event){
+							});
 						}
 					}
 
@@ -89,26 +93,18 @@
 							}
 						}
 					});
-					$state.reload();
 				}
 				$scope.remove = function(){
 					if($scope.eventType==='Event'){
 						DealEvent.remove({dealId:$scope.deal.id,id:$scope.event.id}).$promise.then(function(){
-							$state.reload();
 						});		
 					} else if($scope.eventType==='Service'){
 						DealServiceEvent.remove({dealId:$scope.deal.id,id:$scope.event.id}).$promise.then(function(){
-							$state.reload();
 						});	
 					}
 				};
 				
 				$scope.cancel = function(){
-					if($scope.eventType==='Event'){
-						$rootScope.$broadcast('FORM_CANCELED');
-					} else if($scope.eventType==='Service'){
-						$rootScope.$broadcast('SERVICE_FORM_CANCELED');
-					}
 				};			
 			}]
 		};

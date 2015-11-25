@@ -54,20 +54,16 @@
 					new Date($scope.event.endTime).getHours(),
 					new Date($scope.event.endTime).getMinutes());
 			$scope.event.dealId = $scope.deal.id;
-			console.log("SAVE");
 			if($scope.eventType==='Event'){
 				if($scope.action==='Create'){
-					console.log("EVENT CREATE");
 					DealEvent.save($scope.event);
 				} else if($scope.action==='Update'){
-					console.log("EVENT UPDATE");
 					DealEvent.update({id:$scope.event.id},$scope.event);
 				}	
 			} else if($scope.eventType==='Service'){
 				if($scope.action==='Create'){
 					DealServiceEvent.save($scope.event);
 				} else if($scope.action==='Update'){
-					console.log("SERVICE EVENT UPDATE");
 					DealServiceEvent.update({id:$scope.event.id},$scope.event);
 				}
 			}
@@ -99,9 +95,7 @@
 		
 		$scope.cancel = function(){
 			if($scope.eventType==='Event'){
-				$rootScope.$broadcast('FORM_CANCELED');
 			} else if($scope.eventType==='Service'){
-				$rootScope.$broadcast('SERVICE_FORM_CANCELED');
 			}
 			close(false,500); // close, but give 500ms for bootstrap to animate
 		};

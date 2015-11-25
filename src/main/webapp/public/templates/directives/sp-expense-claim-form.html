@@ -1,37 +1,53 @@
-<div class="col-md-12">
-	<div class="col-md-8">
-		<form name="expenseClaimForm" ng-submit="expenseClaimForm.$valid && submit()" novalidate>
-			<div class="row">
-				<fieldset class="form-group">
-			    	<label for="title">Title</label>
-				    <input class="form-control" type="text" id="title" name="title" ng-model="expenseClaim.title" required/>
-			  	</fieldset>
-			 	<fieldset class="form-group">
-			    	<label for="amount">Amount</label>
-				    <input class="form-control" type="number" id="amount" name="amount" ng-model="expenseClaim.amount" required/>
-			  	</fieldset>
-			 	<fieldset class="form-group">
-			    	<label for="start">Date Incurred</label>
-				    <p class="input-group">
-				       	<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" is-open="dateIncurredStatus.opened" ng-model="expenseClaim.dateIncurred" close-text="Close"/>
-						<span class="input-group-btn"> 
-						    <button type="button" class="btn btn-default" ng-click="openDateIncurred($event)">
-						    	<i class="glyphicon glyphicon-calendar"></i>
-						   	</button>
-					    </span>	    
-					</p>
-				</fieldset>
-			  	<fieldset>
-			  	    <label for="actions">Actions</label>
-			  	    <div>
-					<button type="submit" value="Submit" class="btn btn-success btn-md" ng-disabled="!expenseClaimForm.$valid">Save</button>
-					<button type="button" value="Cancel" class="btn btn-default btn-md" ng-click="cancel()">Cancel</button>
-			  		</div>
-			  	</fieldset>
-		  	</div>
-		</form>
-	</div>
-	<div class="col-md-4">
-		<button value="Delete" style="margin-top:22px" class="btn btn-danger btn-md pull-right" ng-show="action==='Update'" ng-click="remove()">Delete</button>
+<div class="modal fade" style="width:100%;">
+	<div class="modal-dialog" style="width:40%">
+		<div class="modal-content" style="width:100%">
+		    <div class="modal-header">
+		        <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title">{{header}}</h4>
+		    </div>
+			<div class="modal-body col-md-12">
+				<div class="col-md-8">
+					<form name="expenseClaimForm" ng-submit="expenseClaimForm.$valid" novalidate>
+						<div class="row">
+							<fieldset class="form-group">
+						    	<label for="title">Title</label>
+							    <input class="form-control" type="text" id="title" name="title" ng-model="expenseClaim.title" required/>
+						  	</fieldset>
+						 	<fieldset class="form-group">
+						    	<label for="amount">Amount</label>
+							    <input class="form-control" type="number" id="amount" name="amount" ng-model="expenseClaim.amount" required/>
+						  	</fieldset>
+						 	<fieldset class="form-group">
+						    	<label for="start">Date Incurred</label>
+							    <p class="input-group">
+							       	<input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" is-open="dateIncurredStatus.opened" ng-model="expenseClaim.dateIncurred" close-text="Close"/>
+									<span class="input-group-btn"> 
+									    <button type="button" class="btn btn-default" ng-click="openDateIncurred($event)">
+									    	<i class="glyphicon glyphicon-calendar"></i>
+									   	</button>
+								    </span>	    
+								</p>
+							</fieldset>
+						  	<fieldset>
+						  	    <label for="actions">Actions</label>
+						  	    <div>
+								<button type="button" value="Submit" class="btn btn-success btn-md" data-dismiss="modal" ng-click="submit()" ng-disabled="!expenseClaimForm.$valid">Save</button>
+								<button type="button" value="Cancel" class="btn btn-default btn-md" data-dismiss="modal" ng-click="cancel()">Cancel</button>
+						  		</div>
+						  	</fieldset>
+					  	</div>
+					</form>
+				</div>
+				<div class="col-md-4">
+					<button value="Delete" style="margin-top:22px" class="btn btn-danger btn-md pull-right" data-dismiss="modal" ng-show="action==='Update'" ng-click="remove()">Delete</button>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<button value="Delete" style="margin-top:22px" class="btn btn-danger btn-md pull-right" data-dismiss="modal" ng-show="action==='Update'" ng-click="deleteDealRequest()">Delete</button>
+			</div>
+		 	<div class="modal-footer">
+		 	</div>
+		</div>
 	</div>
 </div>

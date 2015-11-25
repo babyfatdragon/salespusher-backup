@@ -1,8 +1,8 @@
 (function(){
 	angular.module('salespusher.controllers')
-	.controller('UserShowCtrl',['$scope','$state','$timeout','$stateParams','UserById','Product','Company','UserDeal','MonthlyDeal',
+	.controller('UserShowCtrl',['$rootScope','$scope','$state','$timeout','$stateParams','ModalService','UserById','Product','Company','UserDeal','MonthlyDeal',
 	                            'UserServiceEvent','MonthlyUserServiceEvent','MonthlyUserExpenseClaim','UserMonthlyRecord',
-	                            function($scope,$state,$timeout,$stateParams,UserById,Product,Company,UserDeal,MonthlyDeal,
+	                            function($rootScope,$scope,$state,$timeout,$stateParams,ModalService,UserById,Product,Company,UserDeal,MonthlyDeal,
 	                            		UserServiceEvent,MonthlyUserServiceEvent,MonthlyUserExpenseClaim,UserMonthlyRecord){		
 		$scope.itemsByPage = 10;
 		$scope.thisYear = 1970;
@@ -179,43 +179,50 @@
 		/** monthly records related **/
 		$scope.recordItemsByPage = 3;
 
-		$scope.action='Create';
-		$scope.showMonthlyRecordForm = false;
-		$scope.monthlyRecord = {};
-		$scope.yearmonthStatus = {
-			opened: false
-		};
 		$scope.addMonthlyRecord = function(){
-			$scope.showMonthlyRecordForm = true;
-		}
-		$scope.openYearmonth = function($event) {
-			$scope.yearmonthStatus.opened = true;
-		};
-		$scope.submit = function(){
-			if($scope.action==='Create'){
-				$scope.monthlyRecord.userId = $stateParams.id;
-				var ym = $scope.monthlyRecord.yearmonth;
-				$scope.monthlyRecord.yearmonth = new Date(ym.getFullYear(),ym.getMonth(),1);
-				UserMonthlyRecord.save($scope.monthlyRecord).$promise.then(function(){
-					$state.reload();
-				});
-			} else if($scope.action==='Update'){
-				UserMonthlyRecord.update({id:$scope.monthlyRecord.id},$scope.monthlyRecord).$promise.then(function(){
-					$state.reload();
-				});
-			}
-			$scope.action='Create';
-		}
-		$scope.editMonthlyRecord = function(monthlyRecord){
-			$scope.action='Update';
-			$scope.monthlyRecord = monthlyRecord;
-			$scope.showMonthlyRecordForm = true;
-		}
-		$scope.cancelMonthlyRecordForm = function(){
-			$scope.action='Create';
+			$scope.monthlyRecordAction='Create';
 			$scope.monthlyRecord = {};
-			$scope.showMonthlyRecordForm = false;
-		};
+			ModalService.showModal({
+		    	templateUrl: "templates/directives/sp-monthly-record-form.html",
+		    	controller: "MonthlyRecordFormCtrl",
+		    	inputs: {
+		    		header: 'Create New Month Target & Claimable Expenses',
+				 	monthlyRecord: $scope.monthlyRecord,
+	    		 	monthlyRecordAction: $scope.monthlyRecordAction,
+		    	}
+		    })
+			.then(function(modal) {
+				modal.element.modal();
+				modal.close.then(function(result) {
+					$scope.monthlyRecord = {};
+				});
+	    	});
+		}
+
+		$scope.editMonthlyRecord = function(monthlyRecord){
+			$scope.monthlyRecordAction='Update';
+			ModalService.showModal({
+		    	templateUrl: "templates/directives/sp-monthly-record-form.html",
+		    	controller: "MonthlyRecordFormCtrl",
+		    	inputs: {
+		    		header: 'Update Month Target & Claimable Expenses',
+				 	monthlyRecord: monthlyRecord,
+	    		 	monthlyRecordAction: $scope.monthlyRecordAction,
+		    	}
+		    })
+			.then(function(modal) {
+				modal.element.modal();
+				modal.close.then(function(result) {
+				});
+	    	});
+		}
+
+		$rootScope.$on('USER_MONTHLY_RECORD_UPDATED',function(){
+			UserMonthlyRecord.query({userId:$stateParams.id}).$promise.then(function(monthlyRecords){
+				$scope.monthlyRecords = monthlyRecords;
+				$scope.DisplayMonthlyRecords = [].concat(monthlyRecords);
+			});
+		})
 		/** monthly records related **/	
 	}]);
 })();

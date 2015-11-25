@@ -13,7 +13,7 @@
 				itemsByPage: '=',
 			},
 			templateUrl: '/templates/directives/sp-deal-table.html',
-			controller: ['$rootScope','$scope','User','Product','Company','Customer','Deal',function($rootScope,$scope,User,Product,Company,Customer,Deal){
+			controller: ['$rootScope','$scope','ModalService','User','Product','Company','Customer','Deal',function($rootScope,$scope,ModalService,User,Product,Company,Customer,Deal){
 				$scope.deals = new Array();
 				$scope.displayDeals = new Array();
 				User.query().$promise.then(function(users){
@@ -48,17 +48,48 @@
 					$scope.deals.forEach(function(deal){
 						$scope.filteredTotalAmount+=deal.totalPrice;
 					});
-					console.log($scope.filteredTotalAmount);
 				});
 
 		    	$scope.itemsByPage = 10;
 		    	$scope.add = function(){
-		    		$scope.action = "Create";
-		    		$rootScope.$broadcast('SHOW_ADD_DEAL_FORM');
+		    		$scope.dealAction = "Create";
+		    		$scope.deal = {};
+					ModalService.showModal({
+				    	templateUrl: "templates/directives/sp-deal-form.html",
+				    	controller: "DealFormCtrl",
+				    	inputs: {
+				    		header: 'Edit Deal',
+						 	deal: $scope.deal,
+						 	dealAction: $scope.dealAction,
+						 	products: $scope.products,
+						 	customers: $scope.customers
+				    	}
+				    })
+					.then(function(modal) {
+						modal.element.modal();
+						modal.close.then(function(result) {
+						});
+			    	});	
 		    	}
-		    	$scope.edit = function(dealId){
+		    	$scope.edit = function(deal){
 		    		$scope.disableAdd = true;
-		    		$rootScope.$broadcast('SHOW_EDIT_DEAL_FORM',{editDeal:{id:dealId}});		
+		    		$scope.dealAction = "Update";
+					ModalService.showModal({
+				    	templateUrl: "templates/directives/sp-deal-form.html",
+				    	controller: "DealFormCtrl",
+				    	inputs: {
+				    		header: 'Edit Deal',
+						 	deal: deal,
+						 	dealAction: $scope.dealAction,
+						 	products: $scope.products,
+						 	customers: $scope.customers
+				    	}
+				    })
+					.then(function(modal) {
+						modal.element.modal();
+						modal.close.then(function(result) {
+						});
+			    	});	
 		    	}
 		    	
 				$scope.$on('DEALS_UPDATED',function(events,args){

@@ -6,7 +6,7 @@
 		        <h4 class="modal-title">{{header}}</h4>
 		    </div>
 			<div class="modal-body col-md-12">
-				<div class="col-md-8">
+				<div class="col-md-10">
 					<form name="eventForm" style="margin-top:20px" ng-submit="eventForm.$valid" novalidate>
 						<fieldset class="form-group">
 					    	<label for="title">Title</label>
@@ -60,8 +60,8 @@
 						<button type="button" value="Cancel" class="btn btn-default btn-md" data-dismiss="modal" ng-click="cancel()">Cancel</button>
 					</form>	
 				</div>
-				<div class="col-md-4">
-				 <button value="Delete" style="margin-top:42px" class="btn btn-danger btn-md pull-right" ng-show="action==='Update'" ng-click="remove()">Delete</button>
+				<div class="col-md-2">
+				 <button value="Delete" style="margin-top:42px" class="btn btn-danger btn-md pull-right" data-dismiss="modal" ng-show="action==='Update'" ng-click="remove()">Delete</button>
 				</div>
 		 	</div>
 		 	<div class="modal-footer">

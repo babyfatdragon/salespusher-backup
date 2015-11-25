@@ -88,7 +88,7 @@
     							});
     							DealEvent.query({dealId:$stateParams.id}).$promise.then(function(events){
     								events.forEach(function(evt){
-    							    	var event = {id:evt.id,title:evt.title,start:evt.start,end:evt.end,dealId:evt.dealId,location:evt.location,isUserCreated:true};
+    							    	var event = {id:evt.id,title:evt.title,start:evt.start,end:evt.end,dealId:evt.dealId,location:evt.location};
     							    	$scope.events.push(event);					
     						    	});
 
@@ -184,7 +184,6 @@
 		    		$scope.event.endTime = event.end;
 		    		$scope.event.location = event.location;
 		    		$scope.event.charge = event.charge;
-		    		$scope.showServiceForm = true;
 				});
 	    	} else{
 		    		$scope.eventType = 'Event';
@@ -196,7 +195,6 @@
 		    		$scope.event.endDate = event.end;
 		    		$scope.event.endTime = event.end;
 		    		$scope.event.location = event.location;
-			    	$scope.showForm = true;
 				});
 	    	}
 			ModalService.showModal({
@@ -213,7 +211,6 @@
 			.then(function(modal) {
 				modal.element.modal();
 				modal.close.then(function(result) {
-					$scope.showForm = false;
 				});
 	    	});
     	};
@@ -307,11 +304,9 @@
 		        allButton: {
 		            text: 'Show All',
 		            click: function() {
-		            	console.log("jkl");
 		            	$('#events-calendar').fullCalendar('removeEvents');
 		            	$('#events-calendar').fullCalendar('addEventSource',$scope.events);
 		            	$('#events-calendar').fullCalendar('addEventSource',$scope.displayServiceEvents);
-		            	console.log($scope.eventSources);
 		            }
 		        },
 		    },
@@ -328,9 +323,9 @@
 	    };
 		 
 		$scope.add = function(){
+			$scope.event = {};
 			$scope.action = "Create";
 			$scope.eventType = 'Event';
-			$scope.showForm = true;
 			ModalService.showModal({
 		    	templateUrl: "templates/directives/sp-event-form.html",
 		    	controller: "EventFormCtrl",
@@ -345,11 +340,11 @@
 			.then(function(modal) {
 				modal.element.modal();
 				modal.close.then(function(result) {
-					$scope.showForm = false;
 				});
 	    	});
 		}
 		$scope.addService = function(){
+			$scope.event = {};
 			$scope.action = "Create";
 			$scope.eventType = 'Service';
 			ModalService.showModal({
@@ -366,7 +361,6 @@
 			.then(function(modal) {
 				modal.element.modal();
 				modal.close.then(function(result) {
-					$scope.showForm = false;
 				});
 	    	});
 		}
@@ -404,27 +398,103 @@
     	}
 		$scope.addExpenseClaim = function(){
 			$scope.expenseClaimAction = "Create";
-			$scope.showExpenseClaimForm = "true";
+			$scope.expenseClaim = {};
+			ModalService.showModal({
+		    	templateUrl: "templates/directives/sp-expense-claim-form.html",
+		    	controller: "ExpenseClaimFormCtrl",
+		    	inputs: {
+		    		header: 'Claim an Expense',
+				 	deal: $scope.deal,
+		    		expenseClaim: $scope.expenseClaim,
+	    		 	expenseClaimAction: $scope.expenseClaimAction,
+		    	}
+		    })
+			.then(function(modal) {
+				modal.element.modal();
+				modal.close.then(function(result) {
+				});
+	    	});
 		}
 		$scope.addDealRequest = function(){
 			$scope.dealRequest = {};
 			$scope.dealRequest.usage="Request";
 			$scope.dealRequestAction = "Create";
-			$scope.showDealRequestForm = true;
+
+			ModalService.showModal({
+		    	templateUrl: "templates/directives/sp-deal-request-form.html",
+		    	controller: "DealRequestFormCtrl",
+		    	inputs: {
+		    		header: 'Edit Request',
+				 	deal: $scope.deal,
+		    		dealRequest: $scope.dealRequest,
+	    		 	dealRequestAction: $scope.dealRequestAction,
+		    		usage: $scope.dealRequest.usage
+		    	}
+		    })
+			.then(function(modal) {
+				modal.element.modal();
+				modal.close.then(function(result) {
+				});
+	    	});
 		}
 		$scope.editDeal = function(dealId){
-			$scope.showDealForm = true;
-    		$rootScope.$broadcast('SHOW_EDIT_DEAL_FORM',{editDeal:{id:dealId}});		
+    		$scope.dealAction = "Update";
+			ModalService.showModal({
+		    	templateUrl: "templates/directives/sp-deal-form.html",
+		    	controller: "DealFormCtrl",
+		    	inputs: {
+		    		header: 'Edit Deal',
+				 	deal: $scope.deal,
+				 	dealAction: $scope.dealAction,
+				 	products: $scope.products,
+				 	customers: $scope.customers
+		    	}
+		    })
+			.then(function(modal) {
+				modal.element.modal();
+				modal.close.then(function(result) {
+				});
+	    	});	
     	};
     	$scope.editExpenseClaim = function(expenseClaim){
     		$scope.expenseClaimAction = "Update";
     		$scope.expenseClaim = expenseClaim;
-    		$scope.showExpenseClaimForm = true;
+			ModalService.showModal({
+		    	templateUrl: "templates/directives/sp-expense-claim-form.html",
+		    	controller: "ExpenseClaimFormCtrl",
+		    	inputs: {
+		    		header: 'Claim an Expense',
+				 	deal: $scope.deal,
+		    		expenseClaim: $scope.expenseClaim,
+	    		 	expenseClaimAction: $scope.expenseClaimAction,
+		    	}
+		    })
+			.then(function(modal) {
+				modal.element.modal();
+				modal.close.then(function(result) {
+				});
+	    	});
     	}
     	$scope.editDealRequest = function(dealRequest){
     		$scope.dealRequestAction = "Update";
     		$scope.dealRequest = dealRequest;
     		$scope.showDealRequestForm = true;
+			ModalService.showModal({
+		    	templateUrl: "templates/directives/sp-deal-request-form.html",
+		    	controller: "DealRequestFormCtrl",
+		    	inputs: {
+		    		header: 'Create New Request',
+				 	deal: $scope.deal,
+	    		 	dealRequestAction: $scope.dealRequestAction,
+		    		dealRequest: $scope.dealRequest,
+		    		usage: $scope.dealRequest.usage
+		    	}
+		    })
+			.then(function(modal) {
+				modal.element.modal();
+				modal.close.then(function(result) {
+				});
+	    	});
     	}
 		$scope.follow = function(){
 			var follower = new DealFollower();
@@ -435,6 +505,7 @@
 				$scope.isFollow = true;
 			});
 		}
+		
 		$scope.unfollow = function(){
 			if($scope.followObj!=null){
 				$scope.followObj.$remove().then(function(){
@@ -465,13 +536,10 @@
     		});
     	}
     	
-		$scope.$on('DEALS_UPDATED',function(events,args){
-			$state.reload();
+		$scope.$on('DEAL_UPDATED',function(events,args){
+			$scope.deal = args.updatedDeal;
 		});
 		
-		$scope.$on('UPDATE_CANCELED',function(events,args){
-			$scope.showDealForm = false;
-		});	
 
 		$scope.$on('COMMENTS_UPDATED',function(events,args){
 			/** retrieve comments **/
@@ -483,19 +551,39 @@
 				$scope.comments = comments;
 			});
 		});	
-		
-		$scope.$on('FORM_CANCELED',function(event,args){
-			$scope.showForm = false;
+
+		$scope.$on('DEAL_REQUEST_CREATED',function(events,args){
+			var user = $scope.getObjectById($scope.users,args.newRequest.userId);
+			args.newRequest.requesterName = user.firstname+" "+user.lastname;
+			user = $scope.getObjectById($scope.users,args.newRequest.requesteeId);
+			args.newRequest.requesteeName = user.firstname+" "+user.lastname;
+			args.newRequest.isCompleteText = "NO";	
+			$scope.dealRequests.push(args.newRequest);
+			$scope.displayDealRequests.push(args.newRequest);
 		});
-		$scope.$on('SERVICE_FORM_CANCELED',function(event,args){
-			$scope.showServiceForm = false;
+		$scope.$on('DEAL_REQUEST_UPDATED',function(events,args){
+			$scope.dealRequest.isComplete = args.updatedRequest.isComplete;
+			if(args.updatedRequest.isComplete){
+				args.updatedRequest.isCompleteText = "YES";
+			} else{
+				args.updatedRequest.isCompleteText = "NO";
+			}
+			$scope.dealRequest.requestMessage = args.updatedRequest.requestMessage;
+			$scope.dealRequest.responseMessage = args.updatedRequest.responseMessage;
 		});
-		$scope.$on('EXPENSE_CLAIM_FORM_CANCELED',function(event,args){
-			$scope.showExpenseClaimForm = false;
+
+		$scope.$on('EXPENSE_CLAIM_CREATED',function(events,args){
+			var user = $scope.getObjectById($scope.users,args.newExpenseClaim.userId);
+			args.newExpenseClaim.userName = user.firstname+" "+user.lastname;
+			$scope.expenseClaims.push(args.newExpenseClaim);
+			$scope.displayExpenseClaims.push(args.newExpenseClaim);
 		});
-		$scope.$on('DEAL_REQUEST_FORM_CANCELED',function(event,args){
-			$scope.showDealRequestForm = false;
-		});			
+
+		$scope.$on('EXPENSE_CLAIM_UPDATED',function(events,args){
+			$scope.expenseClaim.title = args.updatedExpenseClaim.title;
+			$scope.expenseClaim.amount = args.updatedExpenseClaim.amount;
+			$scope.expenseClaim.dateIncurred = args.updatedExpenseClaim.dateIncurred;
+		});
 
 		$scope.getObjectById = function(models,id){
     		if(models.length){

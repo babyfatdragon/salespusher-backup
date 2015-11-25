@@ -1,4 +1,3 @@
-
 <div>
 	<div class="row">
 		<span style="font-size:200%">Opportunity: <a ui-sref="product({categoryOneId:deal.categoryOneId,categoryTwoId:deal.categoryTwoId,id:deal.productId})">{{deal.productName}}</a> <i>for</i> 
@@ -80,6 +79,7 @@
 					<table st-set-filter="customFilter" st-table="dealRequests" st-safe-src="displayDealRequests" class="table table-striped">
 						<thead>
 							<tr>
+								<th st-sort="id" ng-hide="true" st-sort-default="reverse"></th>
 								<th st-ratio="10" st-sort="requesterName">Requester</th>
 								<th st-ratio="10" st-sort="requesteeName">Requestee</th>
 								<th st-ratio="10" st-sort="requestType">Type</th>								
@@ -116,8 +116,7 @@
 						</tfoot>
 					</table>
 					<br />
-					<sp-deal-request-form ng-show="showDealRequestForm" deal="deal" deal-request="dealRequest" action="dealRequestAction" usage="dealRequest.usage"></sp-deal-request-form>		
-					<button type="button" class="btn btn-primary btn-md" ng-click="addDealRequest()" ng-hide="showDealRequestForm">Make A Request</button>
+					<button type="button" class="btn btn-primary btn-md" ng-click="addDealRequest()">Make A Request</button>
 				</uib-tab>
 				<uib-tab heading="Services">
 					<table st-set-filter="customFilter" st-table="serviceEvents" st-safe-src="displayServiceEvents" class="table table-striped">
@@ -213,29 +212,20 @@
 						</tfoot>
 					</table>
 					<br />
-					<sp-expense-claim-form ng-show="showExpenseClaimForm" deal="deal" expense-claim="expenseClaim" action="expenseClaimAction"></sp-expense-claim-form>
-					<button type="button" class="btn btn-primary btn-md" ng-click="addExpenseClaim()" ng-hide="showExpenseClaimForm">Create New Expense Claim</button>
+					<button type="button" class="btn btn-primary btn-md" ng-click="addExpenseClaim()">Create New Expense Claim</button>
 				</uib-tab>
 			</uib-tabset>
 		</div>
 		<div class="row col-md-6">
 			<div class="row">
 				<div id="events-calendar" ui-calendar="uiConfig.eventCalendar" ng-model="eventSources"></div>
-				<!-- <sp-event-form ng-show="showForm" deal="deal" event="event" event-type="Event" action="action"></sp-event-form> -->
 				<br />
 				<button type="button" class="btn btn-success btn-md" ng-click="add()">Create New Event</button>
 				<button type="button" class="btn btn-primary btn-md" ng-click="addService()">Create New Service</button>
-
-				<!-- <sp-event-form ng-show="showServiceForm" deal="deal" event="serviceEvent" event-type="Service" action="serviceAction"></sp-event-form> -->
-				<!-- <sp-documents service-id="serviceEvent.id" ng-show="showServiceForm && serviceAction=='Update'"></sp-documents>	 -->
-				<!-- <sp-file-upload file-type="Document" upload-url="/files/service-docs/upload" service-id="serviceEvent.id" ng-show="showServiceForm && serviceAction=='Update'"></sp-file-upload> -->
 				<br />
 			</div>
 		</div>
 	</div>
 </div>
 <div style="height:200px">
-
 </div>
-
-
