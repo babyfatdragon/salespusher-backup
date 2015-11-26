@@ -17,10 +17,10 @@
 						    	<label for="customer">Requestee</label>
 						       	<ui-select ng-model="dealRequest.requesteeId" required>
 								    <ui-select-match>
-								        <span ng-bind="$select.selected.firstname+' '+$select.selected.lastname"></span>
+								        <span ng-bind="$select.selected.userName"></span>
 								    </ui-select-match>
-								    <ui-select-choices repeat="user.id as user in (users | filter: $select.search)">
-								        <span ng-bind="user.firstname+' '+user.lastname"></span>
+								    <ui-select-choices repeat="requestee.id as requestee in (requestees | filter: $select.search)">
+								        <span ng-bind="requestee.userName"></span>
 								    </ui-select-choices>
 								</ui-select>
 						  	</fieldset>

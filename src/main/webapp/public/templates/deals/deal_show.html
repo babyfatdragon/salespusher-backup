@@ -3,8 +3,8 @@
 		<span style="font-size:200%">Opportunity: <a ui-sref="product({categoryOneId:deal.categoryOneId,categoryTwoId:deal.categoryTwoId,id:deal.productId})">{{deal.productName}}</a> <i>for</i> 
 		<a ui-sref="customerManagement.customerShow({id:deal.customerId})">{{deal.customerName}}</a>@
 		<a ui-sref="customerManagement.companyShow({id:deal.companyId})">{{deal.companyName}}</a>
-		<button class="btn btn-danger" ng-show="isFollow" ng-click="unfollow()">Unfollow</button>	
-		<button class="btn btn-primary" ng-show="!isFollow" ng-click="follow()">Follow</button>			
+		<button class="btn btn-danger" ng-show="isFollow && deal.userId!=currentUser.id" ng-click="unfollow()">Unfollow</button>	
+		<button class="btn btn-primary" ng-show="!isFollow && deal.userId!=currentUser.id" ng-click="follow()">Follow</button>			
 		</span>
 	</div>
 	<hr />
@@ -76,7 +76,7 @@
 					<sp-comment-form deal="deal" comment="comment"></sp-comment-form>
 				</uib-tab>
 				<uib-tab heading="Requests">
-					<table st-set-filter="customFilter" st-table="dealRequests" st-safe-src="displayDealRequests" class="table table-striped">
+					<table st-set-filter="customFilter" st-table="dealRequests" st-safe-src="displayDealRequests" class="table table-striped" ng-show="dealRequests.length">
 						<thead>
 							<tr>
 								<th st-sort="id" ng-hide="true" st-sort-default="reverse"></th>
@@ -119,7 +119,7 @@
 					<button type="button" class="btn btn-primary btn-md" ng-click="addDealRequest()">Make A Request</button>
 				</uib-tab>
 				<uib-tab heading="Services">
-					<table st-set-filter="customFilter" st-table="serviceEvents" st-safe-src="displayServiceEvents" class="table table-striped">
+					<table st-set-filter="customFilter" st-table="serviceEvents" st-safe-src="displayServiceEvents" class="table table-striped" ng-show="serviceEvents.length">
 						<thead>
 							<tr>
 								<th st-ratio="10" st-sort="title">Title</th>
@@ -164,7 +164,7 @@
 					<sp-file-upload file-type="Document" upload-url="/files/deal-docs/upload" deal-id="deal.id"></sp-file-upload>
 				</uib-tab>
 				<uib-tab heading="Expenses">
-					<table st-set-filter="customFilter" st-table="expenseClaims" st-safe-src="displayExpenseClaims" class="table table-striped">
+					<table st-set-filter="customFilter" st-table="expenseClaims" st-safe-src="displayExpenseClaims" class="table table-striped" ng-show="expenseClaims.length">
 						<thead>
 							<tr>
 								<th st-ratio="10" st-sort="title">Title</th>

@@ -23,6 +23,7 @@
 		$scope.serviceEvents = new Array();
 		$scope.displayServiceEvents = new Array();
 		$scope.followers = new Array();
+		$scope.requestees = new Array();
 		$scope.dealRequests = new Array();
 		$scope.displayDealRequests = new Array();
 		$scope.expenseClaims = new Array();
@@ -122,7 +123,9 @@
     									var user = $scope.getObjectById($scope.users,follower.userId);
     									follower.userName = user.firstname+" "+user.lastname;
     									$scope.followers.push(follower);
-    									
+    									if(follower.userId!=$rootScope.currentUser.id){
+    										$scope.requestees.push(follower);
+    									}
     									if(user!=null){
     										for(var i=0;i<$scope.usersCopy.length;i++){
     											if($scope.usersCopy[i].id===user.id){
@@ -428,7 +431,8 @@
 				 	deal: $scope.deal,
 		    		dealRequest: $scope.dealRequest,
 	    		 	dealRequestAction: $scope.dealRequestAction,
-		    		usage: $scope.dealRequest.usage
+		    		usage: $scope.dealRequest.usage,
+		    		requestees: $scope.requestees
 		    	}
 		    })
 			.then(function(modal) {
@@ -487,7 +491,8 @@
 				 	deal: $scope.deal,
 	    		 	dealRequestAction: $scope.dealRequestAction,
 		    		dealRequest: $scope.dealRequest,
-		    		usage: $scope.dealRequest.usage
+		    		usage: $scope.dealRequest.usage,
+		    		requestees: $scope.requestees
 		    	}
 		    })
 			.then(function(modal) {
@@ -515,6 +520,16 @@
 		}
     	
     	$scope.markAsComplete = function(dealRequest){
+			/**remove it from request notification**/
+			for(var i=0;i<$rootScope.dealRequests.length;i++){
+				if(dealRequest.id===$rootScope.dealRequests[i].id){
+					$rootScope.dealRequests.splice(i, 1);
+					$rootScope.dealRequestsCounter--;
+					break;
+    			}
+			}
+			/**remove it from request notification**/
+
     		$scope.dealRequest = dealRequest;
     		$scope.dealRequest.isComplete = 1;
     		$scope.dealRequest.$update().then(function(){

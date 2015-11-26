@@ -102,38 +102,6 @@
    						</div> 	
 				  	</div>
 				</div>
-				<div class="panel panel-warning">
-			  		<div class="panel-heading">Deal Follow Requests</div>
-				  	<div class="panel-body">
-		    			<div ng-repeat="followRequest in followRequests | orderBy:'-id' | limitTo:10" ng-show="followRequest.isResponded===0">
-		    				
-		    				<span>
-		    				<a ui-sref="users.userShow({id:followRequest.userId})">{{followRequest.inviterName}}</a>
-		    				 invite you to 
-		    				<a ui-sref="dealShow({id:followRequest.dealId})">deal #{{followRequest.dealId}}</a>
-		    				<button type="button" class="btn btn-success btn-xs" ng-click="follow(followRequest)">Follow</button>
-	  						<button type="button" class="btn btn-danger btn-xs" ng-click="notFollow(followRequest)">Not</button>
-		    				</span>	
-	    				</div>	
-					</div>   	
-				</div>
-				<div class="panel panel-danger">
-			  		<div class="panel-heading">Deal Requests</div>
-				  	<div class="panel-body">
-		    			<div ng-repeat="dealRequest in dealRequests | orderBy:'-id' | limitTo:10" ng-show="dealRequest.isComplete===0">
-		    				
-	    				 	<span>
-		    				<a ui-sref="users.userShow({id:dealRequest.userId})">{{dealRequest.requesterName}}</a>
-		    				 request you in 
-		    				<a ui-sref="dealShow({id:dealRequest.dealId})">deal #{{dealRequest.dealId}}</a>
-		    				 <span class="label label-success" ng-show="dealRequest.requestType==='DISCOUNT OFFER'">DISCOUNT OFFER</span>
-			 		    	 <span class="label label-success" ng-show="dealRequest.requestType==='APPLICATION APPROVAL'">APPLICATION APPROVAL</span>
-		    		<!-- 		<button type="button" class="btn btn-success btn-xs" ng-click="follow(followRequest)">Follow</button>
-	  						<button type="button" class="btn btn-danger btn-xs" ng-click="notFollow(followRequest)">Not</button> -->
-		    				</span>
-	    				</div>	
-					</div>   	
-				</div>
 			</div>
 		</div>
 	</div>

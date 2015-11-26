@@ -2,10 +2,10 @@
 	angular.module('salespusher.controllers')
 	.controller('HomeCtrl',['$rootScope','$scope','$timeout','$state',"$http",'filterFilter','ModalService','UserById','Product',
 	                        'Company','Customer','Deal','MonthlyDeal','DealEvent','DealFollower','FollowingDeal','UserServiceEvent','MonthlyUserServiceEvent',
-	                        'DealFollowRequest','DealRequestByRequesteeId',
+	                        'DealRequestByRequesteeId',
 	                        function($rootScope,$scope,$timeout,$state,$http,filterFilter,ModalService,UserById,Product,
 	                        		Company,Customer,Deal,MonthlyDeal,DealEvent,DealFollower,FollowingDeal,UserServiceEvent,MonthlyUserServiceEvent,
-	                        		DealFollowRequest,DealRequestByRequesteeId){
+	                        		DealRequestByRequesteeId){
 		
 		$scope.itemsByPage = 10;
 		/** css color counter **/
@@ -101,20 +101,7 @@
 			$state.reload();
 		});
     	/** create deal **/
-		/** follow requests **/
-		$scope.follow = function(followRequest){
-			var follower = new DealFollower();
-			follower.dealId = followRequest.dealId;
-			follower.userId = $rootScope.currentUser.id;
-			DealFollower.save(follower).$promise.then(function(follower){
-				followRequest.isResponded = 1;
-				followRequest.$update();
-	    		$state.go('dealShow',({id:followRequest.dealId}));
-			});
-		}
-		$scope.notFollow = function(followRequest){
-			followRequest.$delete();
-		}
+
 
 		/** set a delay for getting $rootScope.currentUser **/
 		$timeout(function(){
@@ -174,24 +161,8 @@
 						});	
 					});
 				});
-				DealFollowRequest.query({inviteeId:$rootScope.currentUser.id}).$promise.then(function(followRequests){
-					followRequests.forEach(function(followRequest){
-						UserById.get({id:followRequest.userId}).$promise.then(function(user){
-							followRequest.inviterName = user.firstname+" "+user.lastname; 
-						});
-					});
-					$scope.followRequests = followRequests;
-				});
-				DealRequestByRequesteeId.query({requesteeId:$rootScope.currentUser.id}).$promise.then(function(dealRequests){
-					dealRequests.forEach(function(dealRequest){
-						UserById.get({id:dealRequest.userId}).$promise.then(function(user){
-							dealRequest.requesterName = user.firstname+" "+user.lastname; 
-						});
-					});
-					$scope.dealRequests = dealRequests;
-				});
 			}
-		},800);
+		},250);
 		
 		/** set a delay for retrieving ownDeals and otherDeals **/
 		$timeout(function(){

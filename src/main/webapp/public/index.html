@@ -55,8 +55,20 @@
 		<link rel="stylesheet" type="text/css" href="css/ui-select.css"></link>
 	    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
 	    
-		
-
+	    <style type="text/css">
+			#follow-request-panel{ 
+			display: none;
+			}
+			#deal-request-panel{ 
+			display: none;
+			}
+			#follow-request-li:hover #follow-request-panel{
+			display : block;
+			}
+			#deal-request-li:hover #deal-request-panel{
+			display : block;
+			}
+	    </style>
 	</head>
 	
 	<body ng-app="salespusher" ng-cloak class="ng-cloak">
@@ -66,7 +78,45 @@
 				<li><a ui-sref="users" ng-show="authenticated">Users</a></li>
 				<li><a ui-sref="productCatalog" ng-show="authenticated">Product Catalog</a></li>
 				<li><a ui-sref="customerManagement" ng-show="authenticated">Customer Management</a></li>
-				<li><a ui-sref="dealManagement" ng-show="authenticated">Deal Management</a></li>				
+				<li><a ui-sref="dealManagement" ng-show="authenticated">Deal Management</a></li>
+				<li id="follow-request-li" ng-show="authenticated">
+					<a href="">Follow Requests <i class="fa fa-plus" ng-show="followRequestsCounter" style="color:red"></i></a>
+					<div id="follow-request-panel" style="z-index:10;width:360px;position:absolute;">
+						<div class="panel panel-default">
+						  	<div class="panel-body">
+						  		<p ng-hide="followRequestsCounter">You don't have deal follow request.</p>
+				    			<div ng-repeat="followRequest in followRequests | orderBy:'-id' | limitTo:10" ng-show="followRequest.isResponded===0">
+				    				<span>
+				    				<a ui-sref="users.userShow({id:followRequest.userId})">{{followRequest.inviterName}}</a>
+				    				 invite you to 
+				    				<a ui-sref="dealShow({id:followRequest.dealId})">deal #{{followRequest.dealId}}</a>
+				    				<button type="button" class="btn btn-success btn-xs" ng-click="follow(followRequest)">Follow</button>
+			  						<button type="button" class="btn btn-danger btn-xs" ng-click="notFollow(followRequest)">Not</button>
+				    				</span>	
+			    				</div>	
+							</div>   	
+						</div>
+					</div>
+				</li>
+				<li id="deal-request-li" ng-show="authenticated">
+					<a href="">Requests <i class="fa fa-plus" ng-show="dealRequestsCounter" style="color:red"></i></a>
+					<div id="deal-request-panel" style="z-index:10;width:360px;position:absolute;">
+						<div class="panel panel-default">
+						  	<div class="panel-body">
+						  		<p ng-hide="dealRequestsCounter">You don't have deal request.</p>
+				    			<div ng-repeat="dealRequest in dealRequests | orderBy:'-id' | limitTo:10">
+			    				 	<span>
+				    				<a ui-sref="users.userShow({id:dealRequest.userId})">{{dealRequest.requesterName}}</a>
+				    				 request you in 
+				    				<a ui-sref="dealShow({id:dealRequest.dealId})">deal #{{dealRequest.dealId}}</a>
+				    				 <span class="label label-success" ng-show="dealRequest.requestType==='DISCOUNT OFFER'">DISCOUNT OFFER</span>
+					 		    	 <span class="label label-success" ng-show="dealRequest.requestType==='APPLICATION APPROVAL'">APPLICATION APPROVAL</span>
+				    				</span>
+			    				</div>	
+							</div>   	
+						</div>
+					</div>
+				</li>
 				<li><a ui-sref="login" ng-hide="authenticated">Login</a></li>
 				<li ng-show="authenticated"><a ng-click="logout()">logout</a></li>
 			</ul>

@@ -1,7 +1,7 @@
 (function(){
 	angular.module('salespusher.controllers').controller('DealRequestFormCtrl',['$rootScope','$scope','$timeout','User','DealServiceEvent','DealRequestByDealId',
-		'header','deal','dealRequest','dealRequestAction','usage',
-     function($rootScope,$scope,$timeout,User,DealServiceEvent,DealRequestByDealId,header,deal,dealRequest,dealRequestAction,usage){
+		'header','deal','dealRequest','dealRequestAction','usage','requestees',
+     function($rootScope,$scope,$timeout,User,DealServiceEvent,DealRequestByDealId,header,deal,dealRequest,dealRequestAction,usage,requestees){
      	$scope.header = header;
      	$scope.deal = deal;
      	$scope.dealRequest = {};
@@ -13,6 +13,7 @@
 		User.query().$promise.then(function(users){
 			$scope.users = users;
 		});
+		$scope.requestees = requestees;
 		$scope.submit = function(){
 			$scope.dealRequest.dealId = $scope.deal.id;
 			$scope.dealRequest.userId = $rootScope.currentUser.id;
