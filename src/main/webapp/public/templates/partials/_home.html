@@ -5,13 +5,27 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="col-md-12">
+				<button type="button" class="btn btn-primary btn-md" ng-click="addLead()">Create New Lead</button>
 				<button type="button" class="btn btn-primary btn-md" ng-click="add()" ng-disabled="disableAdd">Create New Deal</button>
 				<button type="button" class="btn btn-primary btn-md" ng-click="showOverview()">Show Overview</button>
 			</div>
 			<br />
 			<br />			
 			<br />					
+			
+		</div>
+	</div>
+	<hr />
+	<div class="row">
+		<div class="col-md-12">
 			<div class="col-md-6">
+				<div id="events-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+			</div>
+			<div class="col-md-6">
+
+
+
+
 				<div class="panel panel-primary">
 			  		<div class="panel-heading">Own Deals</div>
 				  	<div class="panel-body">
@@ -35,8 +49,7 @@
    						</div> 			
 			  		</div>
 			  	</div>
-			</div>
-			<div class="col-md-6">
+		
 				<div class="panel panel-info">
 			  		<div class="panel-heading">Following Deals</div>
 				  	<div class="panel-body">
@@ -60,30 +73,8 @@
 	    				</div>
 	    			</div>
 			  	</div>
-			</div>
-		</div>
-	</div>
-	<hr />
-	<div class="row">
-		<div class="col-md-12">
-			<div class="col-md-6">
-				<div id="events-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
-				<div ng-show="event.id">
-					<br />
-					<div class="panel panel-warning">
-			  			<div class="panel-heading">Selected Event</div>
-					  	<div class="panel-body">
-					  		<ul class="list-group">
-								<li class="list-group-item">Title: {{event.title}}</li>
-								<li class="list-group-item">Start Time: {{event.start | date:'MMM dd yyyy HH:mm'}}</li>
-								<li class="list-group-item">End Time:{{event.end | date:'MMM dd yyyy HH:mm'}}</li>	
-								<li class="list-group-item">Location:{{event.location}}</li>	
-					  		</ul>
-					  	</div>
-				  	</div>								
-				</div>
-			</div>
-			<div class="col-md-6">
+			
+
 				<div class="panel panel-default">
 			  		<div class="panel-heading">Assigned Tasks</div>
 				  	<div class="panel-body">

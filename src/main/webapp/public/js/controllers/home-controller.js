@@ -1,12 +1,11 @@
 (function(){
 	angular.module('salespusher.controllers')
 	.controller('HomeCtrl',['$rootScope','$scope','$timeout','$state',"$http",'filterFilter','ModalService','UserById','Product',
-	                        'Company','Customer','Deal','MonthlyDeal','DealEvent','DealFollower','FollowingDeal','UserServiceEvent','MonthlyUserServiceEvent',
-	                        'DealRequestByRequesteeId',
-	                        function($rootScope,$scope,$timeout,$state,$http,filterFilter,ModalService,UserById,Product,
-	                        		Company,Customer,Deal,MonthlyDeal,DealEvent,DealFollower,FollowingDeal,UserServiceEvent,MonthlyUserServiceEvent,
-	                        		DealRequestByRequesteeId){
-		
+                'Company','Customer','Deal','MonthlyDeal','DealEvent','DealFollower','FollowingDeal','UserServiceEvent','MonthlyUserServiceEvent',
+                'DealRequestByRequesteeId',
+                function($rootScope,$scope,$timeout,$state,$http,filterFilter,ModalService,UserById,Product,
+                		Company,Customer,Deal,MonthlyDeal,DealEvent,DealFollower,FollowingDeal,UserServiceEvent,MonthlyUserServiceEvent,
+                		DealRequestByRequesteeId){
 		$scope.itemsByPage = 10;
 		/** css color counter **/
 		var counter = 0;
@@ -17,7 +16,7 @@
 		$scope.event = {};
 		$scope.ownDeals = new Array();
 		$scope.numOfDisplayedOwnDeals = 3;
-		$scope.otherDeals = new Array();;
+		$scope.otherDeals = new Array();
 		$scope.numOfDisplayedOtherDeals = 3;
 		$scope.serviceEvents = new Array();
 		$scope.dealRequests = new Array();
@@ -42,6 +41,18 @@
 		    		$scope.event.location = event.location;
 				});	
 	    	}
+			ModalService.showModal({
+		    	templateUrl: "templates/directives/sp-event-card.html",
+		    	controller: "EventCardCtrl",
+		    	inputs: {
+				 	event: $scope.event
+		    	}
+		    })
+			.then(function(modal) {
+				modal.element.modal();
+				modal.close.then(function(result) {
+				});
+	    	});	
     	};
 
 		var viewOnDoubleClick = function(date, cell) {
@@ -101,6 +112,30 @@
 			$state.reload();
 		});
     	/** create deal **/
+    	$scope.addLead = function(){
+    		$scope.leadAction = "Create";
+    		$scope.lead = {};
+			ModalService.showModal({
+		    	templateUrl: "templates/directives/sp-lead-form.html",
+		    	controller: "LeadFormCtrl",
+		    	inputs: {
+		    		header: 'Add Lead',
+				 	lead: $scope.lead,
+				 	leadAction: $scope.leadAction,
+				 	products: $scope.products,
+				 	customers: $scope.customers,
+				 	companies: $scope.companies
+		    	}
+		    })
+			.then(function(modal) {
+				modal.element.modal();
+				modal.close.then(function(result) {
+				});
+	    	});	
+    	}    	
+		$scope.$on('DEALS_UPDATED',function(events,args){
+			$state.reload();
+		});
 
 
 		/** set a delay for getting $rootScope.currentUser **/
@@ -113,6 +148,9 @@
 				
 				Customer.query().$promise.then(function(customers){
 					$scope.customers = customers;
+				});
+				Company.query().$promise.then(function(companies){
+					$scope.companies = companies;
 				});
 				/** retrieve service(personal) events **/
 				UserServiceEvent.query({userId:$rootScope.currentUser.id}).$promise.then(function(events){

@@ -45,6 +45,7 @@
 			$scope.thisMonth = new Date().getMonth();
 			$scope.thisMonthText = $scope.barLabels[$scope.thisMonth];	
 		});
+
 		$scope.$watch('thisYear', function(newVal,oldVal){
 			/** reset data **/
 			if($rootScope.currentUser!=null && typeof $rootScope.currentUser!='undefined'){
