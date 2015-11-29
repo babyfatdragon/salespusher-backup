@@ -31,12 +31,15 @@ public class LeadEntity {
     private long customerId;
     @Column(name="company_id")
     private long companyId;
+    private String source;
+    private int quality;
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_created", insertable = false, updatable = false)
 	private Date dateCreated;
 	protected LeadEntity() {}
 	public LeadEntity(String name, String companyName, String interests, String telephone, String email,
-			String leadStatus, long userId, long customerId, long companyId, Date dateCreated) {
+			String leadStatus, long userId, long customerId, long companyId, String source, int quality,
+			Date dateCreated) {
 		super();
 		this.name = name;
 		this.companyName = companyName;
@@ -47,6 +50,8 @@ public class LeadEntity {
 		this.userId = userId;
 		this.customerId = customerId;
 		this.companyId = companyId;
+		this.source = source;
+		this.quality = quality;
 		this.dateCreated = dateCreated;
 	}
 	public long getId() {
@@ -109,10 +114,23 @@ public class LeadEntity {
 	public void setCompanyId(long companyId) {
 		this.companyId = companyId;
 	}
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
+	}
+	public int getQuality() {
+		return quality;
+	}
+	public void setQuality(int quality) {
+		this.quality = quality;
+	}
 	public Date getDateCreated() {
 		return dateCreated;
 	}
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
+	
 }

@@ -12,46 +12,68 @@
                   	        <label for="id">ID</label>
                 	          <div class="form-control">{{lead.id}}</div>
                   	    </fieldset>
+
                         <fieldset class="form-group">
-                    	      <label class="form-label" for="name">Name</label>        
-                       	    <ui-select ng-model="lead.name" required>
-                		        <ui-select-match>
-                		        <span ng-bind="$select.selected.name"></span>
-                		        </ui-select-match>
-                		        <ui-select-choices refresh="refresh($select)" refresh-delay="0" repeat="customer.name as customer in (customers | filter: $select.search)">
-                		        <span ng-bind="customer.name"></span>
-                		        </ui-select-choices>
-                		        </ui-select>
-                  	   </fieldset>
+                              <label class="form-label" for="name">Name</label>        
+                            <ui-select ng-model="lead.customer" required>
+                                <ui-select-match>
+                                <span ng-bind="$select.selected.name"></span>
+                                </ui-select-match>
+                                <ui-select-choices refresh="refreshCustomer($select)" refresh-delay="0" repeat="customer as customer in (customers | filter: $select.search)">
+                                <span ng-bind="customer.name"></span>
+                                </ui-select-choices>
+                                </ui-select>
+                       </fieldset>
+
                         <fieldset class="form-group">
                             <label class="form-label" for="company">Company</label>        
-                            <ui-select ng-model="lead.companyName" required>
+                            <ui-select ng-model="lead.company" required>
                             <ui-select-match>
                             <span ng-bind="$select.selected.name"></span>
                             </ui-select-match>
-                            <ui-select-choices repeat="company.name as company in (companies | filter: $select.search)">
+                            <ui-select-choices refresh="refreshCompany($select)" refresh-delay="0" repeat="company as company in (companies | filter: $select.search)">
                             <span ng-bind="company.name"></span>
                             </ui-select-choices>
                             </ui-select>
                        </fieldset>
 
                         <fieldset class="form-group">
-                            <label class="form-label" for="Interests">Interests</label>        
-                            <ui-select ng-model="lead.interests" required>
-                            <ui-select-match>
-                            <span ng-bind="$select.selected.name"></span>
+                            <label class="form-label" for="interests">Interested</label>        
+                            <ui-select multiple ng-model="lead.products" theme="select2" style="width: 360px;">
+                            <ui-select-match placeholder="Products">
+                            {{$item.name}}
                             </ui-select-match>
-                            <ui-select-choices repeat="product.id as product in (products | filter: $select.search)">
-                            <span ng-bind="product.name"></span>
+                            <ui-select-choices repeat="product as product in (products | filter: $select.search)">
+                            {{product.name}}
                             </ui-select-choices>
                             </ui-select>
                        </fieldset>
 
+                        <fieldset class="form-group">
+                            <label for="telephone">Telephone</label>
+                            <input class="form-control" type="text" id="telephone" name="telephone" ng-model="lead.customer.telephone" />
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label for="email">Email</label>
+                            <input class="form-control" type="email" id="email" name="email" ng-model="lead.customer.email" />
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label for="source">Lead Source</label>
+                            <input class="form-control" type="text" id="source" name="source" ng-model="lead.source" />
+                        </fieldset>
+
+                        <fieldset>
+                            <label for="quality">Lead Quality</label>
+                            <uib-rating ng-model="lead.quality" max="5" readonly="false" aria-labelledby="default-rating"></uib-rating>
+                        </fieldset>
+
                   	    <fieldset>
                   	        <label for="actions">Actions</label>
                             <div>
-                        		    <button type="button" ng-click="save()" class="btn btn-sm btn-success" data-dismiss="modal" ng-disabled="!leadForm.$valid"><i class="glyphicon glyphicon-lg glyphicon-ok-circle"></i></button>
-                        		    <button type="button" ng-click="cancel()" class="btn btn-sm btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-lg glyphicon-remove-circle"></i></button>
+                    		    <button type="button" ng-click="save()" class="btn btn-sm btn-success" data-dismiss="modal" ng-disabled="!leadForm.$valid"><i class="glyphicon glyphicon-lg glyphicon-ok-circle"></i></button>
+                    		    <button type="button" ng-click="cancel()" class="btn btn-sm btn-danger" data-dismiss="modal"><i class="glyphicon glyphicon-lg glyphicon-remove-circle"></i></button>
                           	</div>
                   	    </fieldset>
                   	</div>

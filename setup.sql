@@ -275,6 +275,8 @@ CREATE TABLE IF NOT EXISTS LEADS (
 	user_id INT(11) NOT NULL,
 	customer_id INT(11) NOT NULL,
 	company_id INT(11) NOT NULL,
+	source VARCHAR(255),
+	quality TINYINT DEFAULT '0',
 	date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id)
 );
