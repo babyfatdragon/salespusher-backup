@@ -2,10 +2,10 @@
 	angular.module('salespusher.controllers')
 	.controller('HomeCtrl',['$rootScope','$scope','$timeout','$state',"$http",'filterFilter','ModalService','UserById','Product',
                 'Company','Customer','Deal','MonthlyDeal','DealEvent','DealFollower','FollowingDeal','UserServiceEvent','MonthlyUserServiceEvent',
-                'DealRequestByRequesteeId',
+                'DealRequestByRequesteeId','LeadByUser',
                 function($rootScope,$scope,$timeout,$state,$http,filterFilter,ModalService,UserById,Product,
                 		Company,Customer,Deal,MonthlyDeal,DealEvent,DealFollower,FollowingDeal,UserServiceEvent,MonthlyUserServiceEvent,
-                		DealRequestByRequesteeId){
+                		DealRequestByRequesteeId,LeadByUser){
 		$scope.itemsByPage = 10;
 		/** css color counter **/
 		var counter = 0;
@@ -21,6 +21,19 @@
 		$scope.serviceEvents = new Array();
 		$scope.dealRequests = new Array();
 		$scope.followRequests = new Array();
+		$scope.leads = new Array();
+		$scope.newLeads = new Array();
+		$scope.contactedLeads = new Array();
+		$scope.qualifiedLeads = new Array();
+		$scope.unqualifiedLeads = new Array();
+		$scope.newLeadLimitTo = 5;
+		$scope.contactedLeadLimitTo = 5;
+		$scope.loadNewLeads = function(){
+			$scope.newLeadLimitTo+=5;
+		};
+		$scope.loadContactedLeads = function(){
+			$scope.contactedLeadLimitTo+=5;
+		}
 
 		 /* edit on eventClick */
 	    var editOnEventClick = function(calEvent, jsEvent, view){
@@ -107,14 +120,11 @@
 				modal.close.then(function(result) {
 				});
 	    	});	
-    	}    	
-		$scope.$on('DEALS_UPDATED',function(events,args){
-			$state.reload();
-		});
-    	/** create deal **/
+    	};
+
     	$scope.addLead = function(){
-    		$scope.leadAction = "Create";
-    		$scope.lead = {};
+			$scope.leadAction = "Create";
+			$scope.lead = {};
 			ModalService.showModal({
 		    	templateUrl: "templates/directives/sp-lead-form.html",
 		    	controller: "LeadFormCtrl",
@@ -132,11 +142,19 @@
 				modal.close.then(function(result) {
 				});
 	    	});	
-    	}    	
+		}     	
+		$scope.$on('DEALS_UPDATED',function(events,args){
+			$state.reload();
+		});
+    	/** create deal **/
+
 		$scope.$on('DEALS_UPDATED',function(events,args){
 			$state.reload();
 		});
 
+		$scope.$on('LEADS_UPDATED',function(events,args){
+			$state.reload();
+		});
 
 		/** set a delay for getting $rootScope.currentUser **/
 		$timeout(function(){
@@ -197,6 +215,25 @@
 							});
 							
 						});	
+					});
+				});
+				LeadByUser.query({userId:$rootScope.currentUser.id}).$promise.then(function(leads){
+					leads.forEach(function(lead){
+						if(lead.interests!=""){
+							lead.products = angular.fromJson(lead.interests);
+						} else{
+							lead.products = new Array();
+						}
+						$scope.leads.push(lead);
+						if(lead.leadStatus==="NEW"){
+							$scope.newLeads.push(lead);
+						} else if(lead.leadStatus==="CONTACTED"){
+							$scope.contactedLeads.push(lead);
+						} else if(lead.leadStatus==="QUALIFIED"){
+							$scope.qualifiedLeads.push(lead);
+						} else if(lead.leadStatus==="UNQUALIFIED"){
+							$scope.unqualifiedLeads.push(lead);
+						}
 					});
 				});
 			}

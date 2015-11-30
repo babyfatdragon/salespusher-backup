@@ -14,7 +14,7 @@
                   	    </fieldset>
 
                         <fieldset class="form-group">
-                              <label class="form-label" for="name">Name</label>        
+                            <label class="form-label" for="name">Name</label>        
                             <ui-select ng-model="lead.customer" required>
                                 <ui-select-match>
                                 <span ng-bind="$select.selected.name"></span>
@@ -22,7 +22,7 @@
                                 <ui-select-choices refresh="refreshCustomer($select)" refresh-delay="0" repeat="customer as customer in (customers | filter: $select.search)">
                                 <span ng-bind="customer.name"></span>
                                 </ui-select-choices>
-                                </ui-select>
+                            </ui-select>
                        </fieldset>
 
                         <fieldset class="form-group">
@@ -39,7 +39,7 @@
 
                         <fieldset class="form-group">
                             <label class="form-label" for="interests">Interested</label>        
-                            <ui-select multiple ng-model="lead.products" theme="select2" style="width: 360px;">
+                            <ui-select multiple ng-model="lead.products" theme="select2" style="width: 480px;">
                             <ui-select-match placeholder="Products">
                             {{$item.name}}
                             </ui-select-match>

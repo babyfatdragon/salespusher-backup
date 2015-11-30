@@ -1,9 +1,9 @@
 (function(){
-	angular.module('salespusher.controllers').controller('LeadFormCtrl',['$rootScope','$scope','$state','Lead','Customer','Company',
+	angular.module('salespusher.controllers').controller('LeadFormCtrl',['$rootScope','$scope','$state','LeadByUser','Customer','Company',
 		'header','lead','leadAction','products','customers','companies',
-	function($rootScope,$scope,$state,Lead,Customer,Company,header,lead,leadAction,products,customers,companies){
+	function($rootScope,$scope,$state,LeadByUser,Customer,Company,header,lead,leadAction,products,customers,companies){
 		$scope.header = header;
-		$scope.lead = new Lead();
+		$scope.lead = new LeadByUser();
 		$scope.lead.customer = {};
 		angular.copy(lead,$scope.lead);
 		$scope.leadAction = leadAction;
@@ -18,21 +18,30 @@
 		$scope.save = function() {
 			$scope.lead.name = $scope.lead.customer.name;
 			$scope.lead.customerId = $scope.lead.customer.id;
+			$scope.lead.telephone = $scope.lead.customer.telephone;
+			$scope.lead.email = $scope.lead.customer.email;
 			$scope.lead.companyName = $scope.lead.company.name;
 			$scope.lead.companyId = $scope.lead.company.id;
 			$scope.lead.userId = $rootScope.currentUser.id;
 			$scope.lead.interests = new Array();
 			var tempInterests = new Array();
-			$scope.lead.products.forEach(function(product){
-				var p = {id:product.id,name:product.name};
-				tempInterests.push(p);
-			});
-			$scope.lead.interests = angular.toJson(tempInterests,true);
-
+			$scope.lead.interests = "";
+			if($scope.lead.products!=null){
+				$scope.lead.products.forEach(function(product){
+					var p = {id:product.id,name:product.name};
+					tempInterests.push(p);
+				});
+				$scope.lead.interests = angular.toJson(tempInterests,true);				
+			}
 			$scope.lead.leadStatus = "NEW";
 			delete $scope.lead.products;
 			console.log($scope.lead);
-			$scope.lead.$save();
+			if($scope.leadAction==="Create"){
+				$scope.lead.$save();
+			} else if($scope.leadAction==="Update"){
+				$scope.lead.$update();
+			}
+			$rootScope.$broadcast("LEADS_UPDATED");
 		}
 		$scope.cancel = function(){
 

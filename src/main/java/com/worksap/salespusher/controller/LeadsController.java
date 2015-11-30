@@ -53,4 +53,36 @@ public class LeadsController {
 		this.leadRepository.delete(id);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
+	
+	/** get by user id **/
+	@RequestMapping(value = "/leadsByUser/{userId}/leads", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public List<LeadEntity> getLeadsByUser(@PathVariable long userId){
+		return this.leadRepository.findByUserId(userId);
+	}
+	
+	@RequestMapping(value = "/leadsByUser/{userId}/leads", method = RequestMethod.POST)
+	@PreAuthorize("isAuthenticated()")
+	public LeadEntity createLeadByUser(@RequestBody LeadEntity lead){
+		return this.leadRepository.save(lead);
+	}
+	
+	@RequestMapping(value = "/leadsByUser/{userId}/leads/{id}", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public LeadEntity getLeadByUser(@PathVariable long id){
+		return this.leadRepository.findById(id);
+	}
+	
+	@RequestMapping(value = "/leadsByUser/{userId}/leads/{id}", method = RequestMethod.PUT)
+	@PreAuthorize("isAuthenticated()")
+	public LeadEntity updateLeadByUser(@PathVariable long id,@RequestBody LeadEntity lead){
+		return this.leadRepository.save(lead);
+	}
+	
+	@RequestMapping(value = "/leadsByUser/{userId}/leads/{id}", method = RequestMethod.DELETE)
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<Boolean> deleteLeadByUser(@PathVariable long id){
+		this.leadRepository.delete(id);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
 }	

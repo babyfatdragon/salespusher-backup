@@ -5,14 +5,28 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="col-md-12">
-				<button type="button" class="btn btn-primary btn-md" ng-click="addLead()">Create New Lead</button>
-				<button type="button" class="btn btn-primary btn-md" ng-click="add()" ng-disabled="disableAdd">Create New Deal</button>
-				<button type="button" class="btn btn-primary btn-md" ng-click="showOverview()">Show Overview</button>
+				<button type="button" class="btn btn-default btn-md" ng-click="addLead()">Create New Lead</button>
+				<button type="button" class="btn btn-default btn-md" ng-click="add()" ng-disabled="disableAdd">Create New Deal</button>
+				<button type="button" class="btn btn-default btn-md" ng-click="showOverview()">Show Overview</button>
 			</div>
 			<br />
 			<br />			
 			<br />					
 			
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<sp-lead-column type="'primary'" header="New" lead="lead" leads="newLeads" products="products" customers="customers" companies="companies"></sp-lead-column>
+		</div>
+		<div class="col-md-3">
+			<sp-lead-column type="'warning'" header="Contacted" lead="lead" leads="contactedLeads" products="products" customers="customers" companies="companies"></sp-lead-column>
+		</div>
+		<div class="col-md-3">
+			<sp-lead-column type="'success'" header="Qualified" lead="lead" leads="qualifiedLeads" products="products" customers="customers" companies="companies"></sp-lead-column>
+		</div>		
+		<div class="col-md-3">
+			<sp-lead-column type="'danger'" header="Unqualified" lead="lead" leads="unqualifiedLeads" products="products" customers="customers" companies="companies"></sp-lead-column>
 		</div>
 	</div>
 	<hr />
@@ -22,10 +36,6 @@
 				<div id="events-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
 			</div>
 			<div class="col-md-6">
-
-
-
-
 				<div class="panel panel-primary">
 			  		<div class="panel-heading">Own Deals</div>
 				  	<div class="panel-body">

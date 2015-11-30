@@ -1,0 +1,59 @@
+<div class="modal fade" style="width:100%;">
+    <div class="modal-dialog" style="width:40%">
+        <div class="modal-content" style="width:100%">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{header}}</h4>
+            </div>
+            <div class="modal-body col-md-12">
+
+                <ul class="timeline">
+                    <li ng-repeat="contact in contacts | orderBy : contact.dateCreated : true">
+                        <i class="fa fa-phone bg-red" ng-show="contact.contactType==='PHONE CALL'"></i>
+                        <i class="fa fa-envelope bg-blue" ng-show="contact.contactType==='EMAIL'"></i>
+                        <i class="fa fa-comments bg-yellow" ng-show="contact.contactType==='FACE TO FACE'"></i>
+
+                        <div class="timeline-item">
+                            <div class="timeline-header">
+                                <span class="time"><i class="fa fa-clock-o"></i>{{contact.dateCreated | date:"MMM dd yyyy HH:mm"}}</span> 
+                                <button class="btn btn-danger btn-xs pull-right" ng-click="deleteContact(contact)" style="width:60px">delete</button>
+
+                                <button class="btn btn-success btn-xs pull-right" ng-click="editContact(contact)" style="width:60px">edit</button>
+
+                            </div>
+                            <div class="timeline-body">
+                                {{contact.comment}}
+                            </div>
+                            <div class="timeline-footer">
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <button type="button" ng-click="showContactForm()" class="btn btn-sm btn-primary">Add Contact History</button>
+                <form name="leadContactForm" ng-show="contactFormShow" class="form col-md-12" novalidate>
+                    <div class="row">
+                        <fieldset class="form-group">
+                              <label for="contactType">Type</label>
+                            <select class="form-control" id="contactType" name="contactType" ng-model='contact.contactType' ng-options='typeOption.name as typeOption.name for typeOption in typeOptions' required></select>
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label for="telephone">Comment</label>
+                            <input class="form-control" type="text" id="comment" name="comment" ng-model="contact.comment" required/>
+                        </fieldset>
+
+                        <fieldset>
+                            <label for="actions">Actions</label>
+                            <div>
+                                <button type="button" ng-click="save()" class="btn btn-sm btn-success" ng-disabled="!leadContactForm.$valid"><i class="glyphicon glyphicon-lg glyphicon-ok-circle"></i></button>
+                                <button type="button" ng-click="cancel()" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-lg glyphicon-remove-circle"></i></button>
+                            </div>
+                        </fieldset>
+                  	</div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
