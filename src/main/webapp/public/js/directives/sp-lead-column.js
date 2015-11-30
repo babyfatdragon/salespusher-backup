@@ -70,6 +70,23 @@
 			    	});	
 		    	};
 
+		    	$scope.qualify = function(lead){
+		    		$scope.lead = lead;
+					ModalService.showModal({
+				    	templateUrl: "templates/directives/sp-lead-qualify.html",
+				    	controller: "LeadQualifyCtrl",
+				    	inputs: {
+				    		header: 'Lead Qualify',
+						 	lead: $scope.lead
+				    	}
+				    })
+					.then(function(modal) {
+						modal.element.modal();
+						modal.close.then(function(result) {
+						});
+			    	});	
+		    	}
+
     			$scope.$watch('searchLeads', function (newVal, oldVal) {
 					$scope.filtered = filterFilter($scope.leads, newVal);
 				}, true);	

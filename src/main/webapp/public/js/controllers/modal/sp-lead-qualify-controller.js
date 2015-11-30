@@ -1,5 +1,5 @@
 (function(){
-	angular.module('salespusher.controllers').controller('LeadContactCtrl',['$rootScope','$scope','$state','LeadByUser','LeadContact',
+	angular.module('salespusher.controllers').controller('LeadQualifyCtrl',['$rootScope','$scope','$state','LeadByUser','LeadContact',
 		'header','lead',
 	function($rootScope,$scope,$state,LeadByUser,LeadContact,header,lead){
 		$scope.header = header;

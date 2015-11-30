@@ -19,7 +19,7 @@
 		    		<p>quality: <uib-rating ng-model="lead.quality" max="5" readonly="true" aria-labelledby="default-rating"></uib-rating></p>
     				<button class="btn btn-danger btn-xs" ng-click="editLead(lead)">Edit</button>
     				<button class="btn btn-warning btn-xs" ng-click="contact(lead)">Contact</button>
-    				<button class="btn btn-success btn-xs" ng-click="qualifyLead()">Qualify</button>
+    				<button class="btn btn-success btn-xs" ng-click="qualify(lead)">Qualify</button>
     		</div>
     	</div>
     	<button class="btn btn-default btn-md" ng-show="leads.length>leadLimitTo" style="width:100%" ng-click="loadMoreLeads()">Load More</button>

@@ -6,31 +6,28 @@
                 <h4 class="modal-title">{{header}}</h4>
             </div>
             <div class="modal-body col-md-12">
-
-                <ul class="timeline">
-                    <li ng-repeat="contact in contacts | orderBy : contact.dateCreated : true">
-                        <i class="fa fa-phone bg-red" ng-show="contact.contactType==='PHONE CALL'"></i>
-                        <i class="fa fa-envelope bg-blue" ng-show="contact.contactType==='EMAIL'"></i>
-                        <i class="fa fa-comments bg-yellow" ng-show="contact.contactType==='FACE TO FACE'"></i>
-
-                        <div class="timeline-item">
-                            <div class="timeline-header">
-                                <span class="time"><i class="fa fa-clock-o"></i>{{contact.dateCreated | date:"MMM dd yyyy HH:mm"}}</span> 
-                                <button class="btn btn-danger btn-xs pull-right" ng-click="deleteContact(contact)" style="width:60px">delete</button>
-
-                                <button class="btn btn-success btn-xs pull-right" ng-click="editContact(contact)" style="width:60px">edit</button>
-
-                            </div>
-                            <div class="timeline-body">
-                                {{contact.comment}}
-                            </div>
-                            <div class="timeline-footer">
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <button type="button" ng-click="showContactForm(1)" class="btn btn-sm bg-red">Call <i class="fa fa-phone"></i></button>
-                <button type="button" ng-click="showContactForm(2)" class="btn btn-sm bg-blue">Email <i class="fa fa-envelope"></i></button>
+                <div ng-show="lead.companyId===0">
+                    <h4>This lead's company doesn't exist in database, please fill in details</h4>
+                    <form name="companyForm" class="form col-md-12" ng-submit="companyForm.$valid && popSaveConfirmationDialog()" novalidate>
+                    <fieldset class="form-group">
+                        <label for="name">Name</label>
+                        <input class="form-control" type="text" id="name" name="name" ng-model="lead.companyName" required/>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="telephone">Telephone</label>
+                        <input class="form-control" type="text" id="telephone" name="telephone" ng-model="company.telephone" required/>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="email">Email</label>
+                        <input class="form-control" type="email" id="email" name="email" ng-model="company.email" required/>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="address">Address</label>
+                        <input class="form-control" type="text" id="address" name="address" ng-model="company.address" required/>
+                    </fieldset>
+                    <button type="submit" value="Submit" class="btn btn-default btn-md" ng-disabled="!companyForm.$valid">Save</button>
+                    </form>
+                </div>
 
                 <button type="button" ng-click="showContactForm(3)" class="btn btn-sm bg-yellow">Face to Face <i class="fa fa-comments"></i></button>
 
