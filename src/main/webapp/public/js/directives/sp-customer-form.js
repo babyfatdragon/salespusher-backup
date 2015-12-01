@@ -9,7 +9,7 @@
 				action: '@',
 			},
 			templateUrl: 'templates/directives/sp-customer-form.html',
-			controller: ['$scope','$location','ModalService','Company','Customer', function($scope,$location,ModalService,Company,Customer){
+			controller: ['$rootScope','$scope','$location','ModalService','Company','Customer', function($rootScope,$scope,$location,ModalService,Company,Customer){
 				$scope.genders = [{type:'Male'},{type:'Female'}];
 				$scope.$watch("customer.companyId", function(){
 					if($scope.customer.companyId){
@@ -34,12 +34,13 @@
 						modal.close.then(function(result) {
 							if(result){
 								if($scope.action==="Create"){
-									$scope.customer.$save().then(function(data){
-										$location.path("/customer_management/customer");
+									$scope.customer.$save().then(function(customer){
+										//$location.path("/customer_management/customer");
+										$rootScope.$broadcast('CUSTOMER_CREATED',{customer:customer});
 									});
 								} else if($scope.action==="Update"){
-									$scope.customer.$update().then(function(data){
-										$location.path("/customer_management/customer");
+									$scope.customer.$update().then(function(customer){
+										//$location.path("/customer_management/customer");
 									});
 								}
 							}

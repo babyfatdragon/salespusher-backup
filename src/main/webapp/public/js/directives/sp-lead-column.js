@@ -3,7 +3,7 @@
 	.directive('spLeadColumn',[function(){
 		return{
 			restrict: 'E',
-	        replace : true,
+	        // replace : true,
 			scope: {
 				lead: '=',
 				type: '=',
@@ -12,7 +12,8 @@
 				leads: '=',
 				products: '=',
 				customers: '=',
-				companies: '='
+				companies: '=',
+				deals: '=',
 			},
 			templateUrl: 'templates/directives/sp-lead-column.html',
 			controller: ['$rootScope','$scope','$state','filterFilter','ModalService','LeadByUser', function($rootScope,$scope,$state,filterFilter,ModalService,LeadByUser){
@@ -85,7 +86,25 @@
 						modal.close.then(function(result) {
 						});
 			    	});	
-		    	}
+		    	};
+		    	$scope.analysis = function(lead){
+		    		$scope.lead = lead;
+					ModalService.showModal({
+				    	templateUrl: "templates/directives/sp-lead-analysis.html",
+				    	controller: "LeadAnalysisCtrl",
+				    	inputs: {
+				    		header: 'Lead Analysis',
+						 	lead: $scope.lead,
+						 	products: $scope.products,
+						 	deals: $scope.deals
+				    	}
+				    })
+					.then(function(modal) {
+						modal.element.modal();
+						modal.close.then(function(result) {
+						});
+			    	});	
+		    	};
 
     			$scope.$watch('searchLeads', function (newVal, oldVal) {
 					$scope.filtered = filterFilter($scope.leads, newVal);

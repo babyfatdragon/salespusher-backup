@@ -14,6 +14,7 @@
 		$scope.events = new Array();
 		$scope.numOfDisplayedServiceEvents = 3;
 		$scope.event = {};
+		$scope.deals = Deal.query();
 		$scope.ownDeals = new Array();
 		$scope.numOfDisplayedOwnDeals = 3;
 		$scope.otherDeals = new Array();

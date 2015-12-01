@@ -28,15 +28,16 @@
 			$scope.lead.interests = "";
 			if($scope.lead.products!=null){
 				$scope.lead.products.forEach(function(product){
-					var p = {id:product.id,name:product.name};
+					var p = {id:product.id,name:product.name,categoryOneId:product.categoryOneId,categoryTwoId:product.categoryTwoId,price:product.price};
 					tempInterests.push(p);
 				});
 				$scope.lead.interests = angular.toJson(tempInterests,true);				
-			}
-			$scope.lead.leadStatus = "NEW";
+			};
+
 			delete $scope.lead.products;
 			console.log($scope.lead);
 			if($scope.leadAction==="Create"){
+				$scope.lead.leadStatus = "NEW";
 				$scope.lead.$save();
 			} else if($scope.leadAction==="Update"){
 				$scope.lead.$update();

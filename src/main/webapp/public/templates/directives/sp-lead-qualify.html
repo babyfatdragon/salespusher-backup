@@ -6,48 +6,30 @@
                 <h4 class="modal-title">{{header}}</h4>
             </div>
             <div class="modal-body col-md-12">
-                <div ng-show="lead.companyId===0">
-                    <h4>This lead's company doesn't exist in database, please fill in details</h4>
-                    <form name="companyForm" class="form col-md-12" ng-submit="companyForm.$valid && popSaveConfirmationDialog()" novalidate>
-                    <fieldset class="form-group">
-                        <label for="name">Name</label>
-                        <input class="form-control" type="text" id="name" name="name" ng-model="lead.companyName" required/>
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="telephone">Telephone</label>
-                        <input class="form-control" type="text" id="telephone" name="telephone" ng-model="company.telephone" required/>
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="email">Email</label>
-                        <input class="form-control" type="email" id="email" name="email" ng-model="company.email" required/>
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="address">Address</label>
-                        <input class="form-control" type="text" id="address" name="address" ng-model="company.address" required/>
-                    </fieldset>
-                    <button type="submit" value="Submit" class="btn btn-default btn-md" ng-disabled="!companyForm.$valid">Save</button>
-                    </form>
+                <div ng-show="company.id">
+                    <h4>This lead's company already exists in database</h4>
+                </div>
+                <div ng-show="!company.id">
+                    <h4>This lead's company doesn't exist in database, please fill in details.</h4>
+                    <sp-company-form company="company" action="Create"></sp-company-form>
                 </div>
 
-                <button type="button" ng-click="showContactForm(3)" class="btn btn-sm bg-yellow">Face to Face <i class="fa fa-comments"></i></button>
-
-                <form name="leadContactForm" ng-show="contactFormShow" class="form col-md-12" novalidate>
-                    <div class="row">
-
-                        <fieldset class="form-group">
-                            <label for="telephone">Comment</label>
-                            <textarea class="form-control" type="text" id="comment" name="comment" ng-model="contact.comment" required/>
-                        </fieldset>
-
+                <div ng-show="company.id">
+                    <div ng-show="customer.id">
+                        <h4>This lead already exists in database.</h4>
                         <fieldset>
-                            <label for="actions">Actions</label>
+                            <label for="actions">Qualify</label>
                             <div>
-                                <button type="button" ng-click="save()" class="btn btn-sm btn-success" ng-disabled="!leadContactForm.$valid"><i class="glyphicon glyphicon-lg glyphicon-ok-circle"></i></button>
-                                <button type="button" ng-click="cancel()" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-lg glyphicon-remove-circle"></i></button>
+                                <button type="button" ng-click="save()" data-dismiss="modal" class="btn btn-sm btn-success" ng-disabled="!customer.id || !company.id"><i class="glyphicon glyphicon-lg glyphicon-ok-circle"></i></button>
+                                <button type="button" ng-click="cancel()" data-dismiss="modal" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-lg glyphicon-remove-circle"></i></button>
                             </div>
                         </fieldset>
-                  	</div>
-                </form>
+                    </div>
+                    <div ng-show="!customer.id">
+                        <h4>This lead doesn't exist in database, please fill in details.</h4>
+                        <sp-customer-form customer="customer" companies="companies" action="Create"></sp-customer-form>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
             </div>

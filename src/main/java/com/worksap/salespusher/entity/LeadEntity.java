@@ -36,11 +36,15 @@ public class LeadEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_created", insertable = false, updatable = false)
 	private Date dateCreated;
+    @Temporal(TemporalType.TIMESTAMP)
+	@Column(name="date_modified", insertable = false)
+	private Date dateModified;
+    
 	protected LeadEntity() {}
+
 	public LeadEntity(String name, String companyName, String interests, String telephone, String email,
 			String leadStatus, long userId, long customerId, long companyId, String source, int quality,
-			Date dateCreated) {
-		super();
+			Date dateCreated, Date dateModified) {
 		this.name = name;
 		this.companyName = companyName;
 		this.interests = interests;
@@ -53,84 +57,118 @@ public class LeadEntity {
 		this.source = source;
 		this.quality = quality;
 		this.dateCreated = dateCreated;
+		this.dateModified = dateModified;
 	}
+
 	public long getId() {
 		return id;
 	}
+
 	public void setId(long id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getCompanyName() {
 		return companyName;
 	}
+
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
+
 	public String getInterests() {
 		return interests;
 	}
+
 	public void setInterests(String interests) {
 		this.interests = interests;
 	}
+
 	public String getTelephone() {
 		return telephone;
 	}
+
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getLeadStatus() {
 		return leadStatus;
 	}
+
 	public void setLeadStatus(String leadStatus) {
 		this.leadStatus = leadStatus;
 	}
+
 	public long getUserId() {
 		return userId;
 	}
+
 	public void setUserId(long userId) {
 		this.userId = userId;
 	}
+
 	public long getCustomerId() {
 		return customerId;
 	}
+
 	public void setCustomerId(long customerId) {
 		this.customerId = customerId;
 	}
+
 	public long getCompanyId() {
 		return companyId;
 	}
+
 	public void setCompanyId(long companyId) {
 		this.companyId = companyId;
 	}
+
 	public String getSource() {
 		return source;
 	}
+
 	public void setSource(String source) {
 		this.source = source;
 	}
+
 	public int getQuality() {
 		return quality;
 	}
+
 	public void setQuality(int quality) {
 		this.quality = quality;
 	}
+
 	public Date getDateCreated() {
 		return dateCreated;
 	}
+
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
-	
+
+	public Date getDateModified() {
+		return dateModified;
+	}
+
+	public void setDateModified(Date dateModified) {
+		this.dateModified = dateModified;
+	}
 }

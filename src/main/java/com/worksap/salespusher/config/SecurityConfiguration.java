@@ -33,7 +33,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.formLogin().and()
 		.authorizeRequests()
 		.antMatchers("/index.html", "/templates/partials/_home.html", "/templates/partials/_login.html",
-				"/templates/partials/_pagination.html","/templates/partials/_users.html","/templates/directives/sp-deal-form.html" ,"/").permitAll().anyRequest()
+				"/templates/partials/_pagination.html","/templates/partials/_users.html","/templates/directives/sp-deal-form.html",
+				"/templates/directives/sp-lead-column.html","/").permitAll().anyRequest()
 		.authenticated().and()
 		.addFilterAfter(new CsrfHeaderFilter(), CsrfFilter.class)
 		.csrf().csrfTokenRepository(csrfTokenRepository());

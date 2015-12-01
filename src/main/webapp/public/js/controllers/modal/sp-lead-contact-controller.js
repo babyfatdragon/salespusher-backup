@@ -7,7 +7,7 @@
 		$scope.contact = {};
 		$scope.typeOptions = [{name:"PHONE CALL"},{name:"EMAIL"},{name:"FACE TO FACE"}];
 		$scope.contacts = LeadContact.query({leadId:$scope.lead.id});
-
+		$scope.event = {};
 
 		$scope.editContact = function(contact){
 			$scope.contactAction="Update";
@@ -29,8 +29,12 @@
 				case 3: $scope.contact.contactType="FACE TO FACE"; break;
 				default: break;
 			};
-			$scope.contactFormShow = !$scope.contactFormShow;
+			$scope.contactFormShow = true;
 		};
+
+		$scope.createAppointment = function(){
+			$scope.leadAppointmentFormShow = !$scope.leadAppointmentFormShow;
+		}
 		$scope.save = function(){
 			$scope.contact.userId = $rootScope.currentUser.id;
 			$scope.contact.leadId = $scope.lead.id;

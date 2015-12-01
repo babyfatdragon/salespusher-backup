@@ -1,0 +1,52 @@
+<div class="modal fade" style="width:100%;">
+    <div class="modal-dialog" style="width:80%">
+        <div class="modal-content" style="width:100%">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{header}}: <b>{{lead.name}}</b> from <b>{{lead.companyName}}</b></h4>
+            </div>
+            <div class="modal-body col-md-12">
+                <h4>{{company.name}} Purchase History</h4>
+                <div class="row">
+                    <div ng-repeat="deal in companyDeals | limitTo:10">
+                        <div class="col-md-3">
+                            <product-card header="deal.productName" id="deal.productId"></product-card>
+                            <div style="margin-left:42px">
+                                <p>Amount: <b>{{deal.totalPrice | currency}}</b></p>
+                                <p>Customer: <b>{{deal.customerName}}</b></p>
+                                <p>Staff: <b>{{deal.userName}}</b></p>
+                                <p>Purchase Date: <b>{{deal.dateClosed | date:"MMM dd yyyy"}}</b></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <h4>Customer Interests</h4>
+                <div class="row">
+                    <div ng-repeat="product in lead.products">
+                        <div class="col-md-3">
+                            <product-card header="product.name" id="product.id"></product-card>
+                            <div style="margin-left:42px;margin-top:-30px">
+                                <p>Price: <b>{{product.price | currency}}</b></p>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="margin-left:42px">
+                            <h3><span class="label label-info">Similar Products</span></h3>
+                            <p ng-show="product.relatedProducts.length===0"><b>Not Found</b></p>
+                            <div ng-repeat="relatedProduct in product.relatedProducts">
+                                <p><b>{{relatedProduct.name}} {{relatedProduct.price | currency}}</b></p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h3><span class="label label-danger">Sales Amount</span></h3>
+                            <canvas style="height:200px" id="pie" class="chart chart-pie" chart-data="product.chartData" chart-labels="product.labels" chart-legend="true">
+                            </canvas> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
