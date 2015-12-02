@@ -1,17 +1,19 @@
 (function(){
 	angular.module('salespusher.controllers')
 	.controller('DealShowCtrl',['$rootScope','$scope','$timeout','$state','$stateParams','filterFilter','User','Product',
-	                            'Company','Customer','Deal','DealComment','DealEvent','DealFollower','DealServiceEvent','ServiceDocument',
-	                            'DealExpenseClaim','uiCalendarConfig','DealFollowRequest','DealRequestByDealId','ModalService',
-	                            function($rootScope,$scope,$timeout,$state,$stateParams,filterFilter,User,Product,
-	                            		Company,Customer,Deal,DealComment,DealEvent,DealFollower,DealServiceEvent,ServiceDocument,
-	                            		DealExpenseClaim,uiCalendarConfig,DealFollowRequest,DealRequestByDealId,ModalService){
+    'Company','Customer','Deal','DealByParentDeal','DealComment','DealEvent','DealFollower','DealServiceEvent','ServiceDocument',
+    'DealExpenseClaim','uiCalendarConfig','DealFollowRequest','DealRequestByDealId','ModalService',
+    function($rootScope,$scope,$timeout,$state,$stateParams,filterFilter,User,Product,
+    		Company,Customer,Deal,DealByParentDeal,DealComment,DealEvent,DealFollower,DealServiceEvent,ServiceDocument,
+    		DealExpenseClaim,uiCalendarConfig,DealFollowRequest,DealRequestByDealId,ModalService){
     	$scope.itemsByPage = 5;
 		$scope.action = "Create";
 		$scope.serviceAction = "Create";
 		$scope.expenseClaimAction = "Create";
 		$scope.isFollow = false;
-		$scope.deal = {};	
+		$scope.deal = {};
+		$scope.subDeals = new Array();
+		$scope.allDeals = new Array();
 		$scope.event = {}; 
 		$scope.serviceEvent = {};
 		$scope.eventSource = {};
@@ -74,6 +76,21 @@
     							var user = $scope.getObjectById($scope.users,deal.userId);
     							deal.userName = user.firstname+" "+user.lastname;
     							$scope.deal = deal;
+    							/** retrieve sub deals**/
+    							$scope.allDeals.push(deal);
+    							DealByParentDeal.query({parentId:deal.id}).$promise.then(function(subDeals){
+    								subDeals.forEach(function(subDeal){
+		    							var product = $scope.getObjectById($scope.products,subDeal.productId);
+    									subDeal.productName = product.name;
+    									subDeal.categoryOneId = product.categoryOneId;
+    									subDeal.categoryTwoId = product.categoryTwoId;
+    									subDeal.customerName = deal.customerName;
+    									subDeal.companyName = deal.companyName;
+    									subDeal.userName = deal.userName;
+    									$scope.subDeals.push(subDeal);
+    									$scope.allDeals.push(subDeal);
+    								});
+    							});
     							/** retrieve comments **/
     							DealComment.query({dealId:$stateParams.id}).$promise.then(function(comments){
     								for(var i=0;i<comments.length;i++){
@@ -367,7 +384,60 @@
 				});
 	    	});
 		}
-
+		$scope.editDeal = function(deal){
+			$scope.editingDeal = deal;
+    		var dealAction = "Update";
+			ModalService.showModal({
+		    	templateUrl: "templates/directives/sp-deal-form.html",
+		    	controller: "DealFormCtrl",
+		    	inputs: {
+		    		header: 'Edit Deal',
+				 	deal: $scope.editingDeal,
+				 	dealAction: dealAction,
+				 	products: $scope.products,
+				 	customers: $scope.customers
+		    	}
+		    })
+			.then(function(modal) {
+				modal.element.modal();
+				modal.close.then(function(result) {
+				});
+	    	});	
+    	};
+		$scope.createTempDeal = function(){
+			$scope.tempDeal = new Deal();
+			$scope.tempDeal.parentId = $scope.deal.id;
+			$scope.tempDeal.quantity = 0;
+			$scope.tempDeal.totalPrice = 0;
+			$scope.tempDeal.customerId = $scope.deal.customerId;
+			$scope.tempDeal.companyId = $scope.deal.companyId;
+			$scope.tempDeal.userId = $rootScope.currentUser.id;
+			$scope.tempDeal.dealStatus = "IN PROGRESS";
+			$scope.productAddShow = true;		
+		};
+		$scope.removeDeal = function(deal){
+			deal.$delete();
+		};
+		$scope.closeAddProduct = function(){
+			$scope.productAddShow = false;
+		};
+		
+		$scope.addProduct = function(){
+			$scope.tempDeal.$save().then(function(deal){
+				var product = $scope.getObjectById($scope.products,deal.productId);
+				deal.productName = product.name;
+				deal.categoryOneId = product.categoryOneId;
+				deal.categoryTwoId = product.categoryTwoId;
+				var customer = $scope.getObjectById($scope.customers,deal.customerId);
+				deal.customerName = customer.name;
+				var company = $scope.getObjectById($scope.companies,customer.companyId);
+				deal.companyName = company.name;
+				var user = $scope.getObjectById($scope.users,deal.userId);
+				deal.userName = user.firstname+" "+user.lastname;
+				$scope.allDeals.push(deal);
+				$scope.productAddShow = false;
+			});
+		}
     	$scope.editServiceEvent = function(serviceEventId){
     			$scope.action= "Update";
 	    		$scope.eventType = "Service";
@@ -441,25 +511,7 @@
 				});
 	    	});
 		}
-		$scope.editDeal = function(dealId){
-    		$scope.dealAction = "Update";
-			ModalService.showModal({
-		    	templateUrl: "templates/directives/sp-deal-form.html",
-		    	controller: "DealFormCtrl",
-		    	inputs: {
-		    		header: 'Edit Deal',
-				 	deal: $scope.deal,
-				 	dealAction: $scope.dealAction,
-				 	products: $scope.products,
-				 	customers: $scope.customers
-		    	}
-		    })
-			.then(function(modal) {
-				modal.element.modal();
-				modal.close.then(function(result) {
-				});
-	    	});	
-    	};
+
     	$scope.editExpenseClaim = function(expenseClaim){
     		$scope.expenseClaimAction = "Update";
     		$scope.expenseClaim = expenseClaim;
@@ -552,7 +604,7 @@
     	}
     	
 		$scope.$on('DEAL_UPDATED',function(events,args){
-			$scope.deal = args.updatedDeal;
+			angular.copy(args.updatedDeal,$scope.editingDeal);
 		});
 		
 

@@ -1,6 +1,6 @@
 <div>
 	<div class="row">
-		<span style="font-size:200%">Opportunity: <a ui-sref="product({categoryOneId:deal.categoryOneId,categoryTwoId:deal.categoryTwoId,id:deal.productId})">{{deal.productName}}</a> <i>for</i> 
+		<span style="font-size:200%">Opportunity:
 		<a ui-sref="customerManagement.customerShow({id:deal.customerId})">{{deal.customerName}}</a>@
 		<a ui-sref="customerManagement.companyShow({id:deal.companyId})">{{deal.companyName}}</a>
 		<button class="btn btn-danger" ng-show="isFollow && deal.userId!=currentUser.id" ng-click="unfollow()">Unfollow</button>	
@@ -9,54 +9,103 @@
 	</div>
 	<hr />
 	<div class="row">
-		<div class="col-md-1">
-			<h5>QUANTITY</h5>
-			<h4><small>{{deal.quantity}}</small></h4>		
+		<div class="col-md-6">
+			<table st-table="allDeals" class="table table-striped">
+				<thead>
+				<tr>
+					<th>Product Name</th>
+					<th>Quantity</th>
+					<th>Total Price</th>
+					<th>Edit</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr ng-repeat="deal in allDeals" ng-show="deal.id">
+					<td><a ui-sref="product({categoryOneId:deal.categoryOneId,categoryTwoId:deal.categoryTwoId,id:deal.productId})">{{deal.productName}}</a></td>
+					<td>{{deal.quantity}}</td>
+					<td>{{deal.totalPrice | currency}}</td>
+					<td>
+						<button class="btn btn-xs btn-primary" ng-click="editDeal(deal)"><i class="fa fa-edit"></i></button>
+						<button ng-hide="deal.isParent" class="btn btn-xs btn-danger" ng-click="removeDeal(deal)"><i class="fa fa-close"></i></button>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			 <div class="row" ng-show="productAddShow">
+                    <div class="row col-md-12">
+                        <fieldset class="form-group col-md-6">
+                            <label class="form-label" for="Product">Product</label>        
+                            <ui-select ng-model="tempDeal.productId" required>
+                                <ui-select-match>
+                                <span ng-bind="$select.selected.name"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="product.id as product in (products | filter: $select.search)">
+                                <span ng-bind="product.name"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </fieldset>
+                        <fieldset class="form-group col-md-2">
+                              <label for="quantity">Quantity</label>
+                              <input class="form-control" type="number" id="quantity" name="quantity" ng-model="tempDeal.quantity" required/>
+                        </fieldset>
+                        <fieldset class="form-group col-md-2">
+                              <label for="totalPrice">Total Price</label>
+                              <input class="form-control" type="number" id="totalPrice" name="totalPrice" ng-model="tempDeal.totalPrice" required/>
+                        </fieldset>
+                        <fieldset class="form-group col-md-2">
+                            <label for="remove">Remove</label>
+                            <div>
+                                <button class="btn btn-md btn-success" ng-click="addProduct()"><i class="fa fa-plus"></i></button>
+                                <button class="btn btn-md btn-danger" ng-click="closeAddProduct()"><i class="fa fa-close"></i></button>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            <button style="width:140px" ng-hide="productAddShow" class="btn btn-md btn-warning" ng-click="createTempDeal()">Add Product <i class="fa fa-cart-plus"></i></button>
 		</div>
-		<div class="col-md-1">
-			<h5>AMOUNT</h5>
-			<h4><small>{{deal.totalPrice | currency}}</small></h4>		
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-2">
+					<h5>OPEN DATE</h5>
+					<h4><small>{{deal.dateCreated | date:'MMM dd yyyy'}}</small></h4>		
+				</div>
+				<div class="col-md-2">
+					<h5>CLOSE DATE</h5>
+					<h4><small>{{deal.dateClosed | date:'MMM dd yyyy'}}</small></h4>		
+				</div>
+				<div class="col-md-2">
+					<h5>Status</h5>
+					<h4><small><button ng-disabled="true" class="btn btn-xs" ng-class="deal.dealStatus==='IN PROGRESS' ? 'btn-warning' : (deal.dealStatus==='WON' ? 'btn-success' : 'btn-danger')">{{deal.dealStatus}}</button></small></h4>		
+				</div>
+				<div class="col-md-2">
+					<h5>OWNER</h5>
+					<h4><small>{{deal.userName}}</small></h4>		
+				</div>
+				<div class="col-md-4">
+					<h5>FOLLOWERS</h5>
+					<span ng-repeat="follower in followers">
+						<i class="glyphicon glyphicon-lg glyphicon-user" uib-popover="{{follower.userName}}" popover-trigger="mouseenter"></i>
+					</span>
+				</div>
+			</div>
+			<div class="row">
+		 		<div class="col-md-12">
+				 	<fieldset class="form-group">
+			 			<ui-select multiple ng-model="followRequest.inviteeIds" theme="select2" ng-disabled="disabled" style="width: 360px;">
+						    <ui-select-match placeholder="Invite Followers">{{$item.firstname}} {{$item.lastname}}</ui-select-match>
+						    <ui-select-choices repeat="userCopy.id as userCopy in usersCopy | filter:$select.search">
+					      	{{userCopy.firstname}} {{userCopy.lastname}}
+						    </ui-select-choices>
+					  	</ui-select>
+		  			</fieldset>
+			  		<button type="button" class="btn btn-primary btn-md" ng-click="invite()">Invite</button>
+					 <button type="button" class="btn btn-warning btn-md" ng-click="emptyInvitees()">Empty</button>
+		 		</div>	
+			</div>
+		
 		</div>
-		<div class="col-md-1">
-			<h5>OPEN DATE</h5>
-			<h4><small>{{deal.dateCreated | date:'MMM dd yyyy'}}</small></h4>		
-		</div>
-		<div class="col-md-1">
-			<h5>CLOSE DATE</h5>
-			<h4><small>{{deal.dateClosed | date:'MMM dd yyyy'}}</small></h4>		
-		</div>
-		<div class="col-md-1">
-			<h5>Status</h5>
-			<h4><small><button ng-disabled="true" class="btn btn-xs" ng-class="deal.dealStatus==='IN PROGRESS' ? 'btn-warning' : (deal.dealStatus==='WON' ? 'btn-success' : 'btn-danger')">{{deal.dealStatus}}</button></small></h4>		
-		</div>
-		<div class="col-md-1">
-			<h5>OWNER</h5>
-			<h4><small>{{deal.userName}}</small></h4>		
-		</div>
-		<div class="col-md-5">
-			<h5>FOLLOWERS</h5>
-			<span ng-repeat="follower in followers">
-				<i class="glyphicon glyphicon-lg glyphicon-user" uib-popover="{{follower.userName}}" popover-trigger="mouseenter"></i>
-			</span>
-		</div>
-		<button type="button" class="btn btn-primary btn-md pull-right" ng-click="editDeal(deal.id)" ng-hide="showDealForm">Edit</button>
-		<sp-deal-form deal="deal" ng-show="showDealForm"></sp-deal-form>	
 	</div>
-	<div class="row">
- 		<div class="col-md-4">
-		 	<fieldset class="form-group">
-	 			<ui-select multiple ng-model="followRequest.inviteeIds" theme="select2" ng-disabled="disabled" style="width: 360px;">
-				    <ui-select-match placeholder="Invite Followers">{{$item.firstname}} {{$item.lastname}}</ui-select-match>
-				    <ui-select-choices repeat="userCopy.id as userCopy in usersCopy | filter:$select.search">
-			      	{{userCopy.firstname}} {{userCopy.lastname}}
-				    </ui-select-choices>
-			  	</ui-select>
-  			</fieldset>
-	  		<button type="button" class="btn btn-primary btn-md" ng-click="invite()">Invite</button>
-			 <button type="button" class="btn btn-warning btn-md" ng-click="emptyInvitees()">Empty</button>
- 		</div>
- 		 		
-	</div>
+
 	<hr />
 	<div class="row">
 		<div class="row col-md-6" style="margin-right:30px">

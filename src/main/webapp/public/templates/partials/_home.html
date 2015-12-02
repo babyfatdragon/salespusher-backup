@@ -41,7 +41,7 @@
 				  	<div class="panel-body">
 				  		<div ng-show="allOwnDealsDisplayed"><label>Search:</label> <input type="text" ng-model="searchOwnDeals" /></div>
 		    			<div ng-repeat="ownDeal in ownDeals | orderBy:'-dealId'| filter:searchOwnDeals | startFrom:(ownDealsCurrentPage-1)*pageCapacity | limitTo:numOfDisplayedOwnDeals">
-		    				<a href="#/deal/{{ownDeal.dealId}}/show">
+		    				<a ng-show="ownDeal.isParent" href="#/deal/{{ownDeal.dealId}}/show">
 			    				<span>#{{ownDeal.dealId}} <i>{{ownDeal.productName}}</i> for {{ownDeal.companyName}}</span>
 			    				<span class="label" ng-class="ownDeal.dealStatus==='IN PROGRESS' ? 'label-warning' : (ownDeal.dealStatus==='WON' ? 'label-success' : 'label-danger')">{{ownDeal.dealStatus}}</span>
 				    			<span class="label label-primary" ng-show="ownDeal.unreadComments">{{ownDeal.unreadComments}} unread comments</span>

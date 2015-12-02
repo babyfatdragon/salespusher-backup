@@ -1,5 +1,5 @@
 <div class="modal fade" style="width:100%;">
-    <div class="modal-dialog" style="width:80%">
+    <div class="modal-dialog" style="width:90%">
         <div class="modal-content" style="width:100%">
             <div class="modal-header">
                 <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -23,18 +23,22 @@
                 <hr />
                 <h4>Customer Interests</h4>
                 <div class="row">
-                    <div ng-repeat="product in lead.products">
+                    <div ng-repeat="product in lead.products" class="col-md-12">
                         <div class="col-md-3">
-                            <product-card header="product.name" id="product.id"></product-card>
+                            <a target="_blank" ui-sref="product({id:product.id,categoryOneId:product.categoryOneId,categoryTwoId:product.categoryTwoId})"><product-card header="product.name" id="product.id"></product-card></a>
                             <div style="margin-left:42px;margin-top:-30px">
                                 <p>Price: <b>{{product.price | currency}}</b></p>
+                                <button class="btn btn-xs btn-warning" ng-click="addToCart(product)">Add <i class="fa fa-cart-plus"></i></button>
                             </div>
                         </div>
-                        <div class="col-md-3" style="margin-left:42px">
+                        <div class="col-md-3">
                             <h3><span class="label label-info">Similar Products</span></h3>
                             <p ng-show="product.relatedProducts.length===0"><b>Not Found</b></p>
                             <div ng-repeat="relatedProduct in product.relatedProducts">
-                                <p><b>{{relatedProduct.name}} {{relatedProduct.price | currency}}</b></p>
+                                <p>
+                                <b><a target="_blank" ui-sref="product({id:relatedProduct.id,categoryOneId:relatedProduct.categoryOneId,categoryTwoId:relatedProduct.categoryTwoId})">{{relatedProduct.name}}</a> {{relatedProduct.price | currency}}</b>
+                                <button class="btn btn-xs btn-warning" ng-click="addToCart(relatedProduct)">Add <i class="fa fa-cart-plus"></i></button>
+                                </p>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -42,11 +46,58 @@
                             <canvas style="height:200px" id="pie" class="chart chart-pie" chart-data="product.chartData" chart-labels="product.labels" chart-legend="true">
                             </canvas> 
                         </div>
+                        <div class="col-md-3">
+                            <h3><span class="label label-info">Suggest Accessory Products</span></h3>
+                            <p ng-show="product.suggestedProducts.length===0"><b>Not Found</b></p>
+                            <div ng-repeat="suggestedProduct in product.suggestedProducts">
+                                <p>
+                                <b><a target="_blank" ui-sref="product({id:suggestedProduct.id,categoryOneId:suggestedProduct.categoryOneId,categoryTwoId:suggestedProduct.categoryTwoId})">{{suggestedProduct.name}}</a> {{suggestedProduct.price | currency}}</b>
+                                <button class="btn btn-xs btn-warning" ng-click="addToCart(suggestedProduct)">Add <i class="fa fa-cart-plus"></i></button>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <hr />
+                <h4>Add to Deal</h4>
+                <div class="row">
+                    <div ng-repeat="tempDeal in tempDeals" class="row col-md-12">
+                        <fieldset class="form-group col-md-3">
+                            <label class="form-label" for="Product">Product</label>        
+                            <ui-select ng-model="tempDeal.productId" required>
+                                <ui-select-match>
+                                <span ng-bind="$select.selected.name"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="product.id as product in (products | filter: $select.search)">
+                                <span ng-bind="product.name"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                        </fieldset>
+                        <fieldset class="form-group col-md-3">
+                              <label for="quantity">Quantity</label>
+                              <input class="form-control" type="number" id="quantity" name="quantity" ng-model="tempDeal.quantity" required/>
+                        </fieldset>
+                        <fieldset class="form-group col-md-3">
+                              <label for="totalPrice">Total Price</label>
+                              <input class="form-control" type="number" id="totalPrice" name="totalPrice" ng-model="tempDeal.totalPrice" required/>
+                        </fieldset>
+                        <fieldset class="form-group col-md-3">
+                            <label for="remove">Remove</label>
+                            <div>
+                                <button class="btn btn-md btn-danger" ng-click="removeTempDeal(tempDeal)"><i class="fa fa-close"></i></button>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <button style="width:140px" class="btn btn-md btn-warning" ng-click="addToCart()">Add Product <i class="fa fa-cart-plus"></i></button>
+                <br />
+                <br />
+                <button style="width:140px" ng-show="tempDeals.length" class="btn btn-md btn-primary" ng-click="createDeal()">Create Deal <i class="fa fa-check"></i></button>
+
             </div>
             <div class="modal-footer">
             </div>
         </div>
     </div>
 </div>
+

@@ -14,7 +14,7 @@
     		<div class="panel-body">
     				<p>Telphone: <b>{{lead.telephone}}</b></p>
     				<p>Email: <b>{{lead.email}}</b></p>
-	    			<p>Interested In: <a ng-repeat="product in lead.products" ui-sref="product({id:product.id})"> {{product.name}} </a></p>
+	    			<p>Interested In: <a ng-repeat="product in lead.products" ui-sref="product({id:product.id,categoryOneId:product.categoryOneId,categoryTwoId:product.categoryTwoId})"> {{product.name}} </a></p>
 		    		<p>source: <b>{{lead.source}}</b></p>
 		    		<p>quality: <uib-rating ng-model="lead.quality" max="5" readonly="true" aria-labelledby="default-rating"></uib-rating></p>
     				<button class="btn btn-danger btn-xs" ng-click="editLead(lead)">Edit</button>

@@ -12,6 +12,7 @@ public interface DealRepository extends JpaRepository<DealEntity,Long>{
 	List<DealEntity> findByUserId(long userId);
 	List<DealEntity> findByCompanyId(long companyId);
 	List<DealEntity> findByCustomerId(long customerId);
+	List<DealEntity> findByParentId(long parentId);
 	List<DealEntity> findByDateClosedBetween(Date from,Date to);
 	List<DealEntity> findByDateCreatedBetween(Date from,Date to);
 	List<DealEntity> findByUserIdAndDateCreatedBetween(long userId,Date from,Date to);

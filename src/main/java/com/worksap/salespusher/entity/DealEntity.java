@@ -16,20 +16,24 @@ import javax.persistence.TemporalType;
 public class DealEntity {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	@Column(name="product_id")
-	private long productId;
-	private int quantity;
+	private Long productId;
+	private Integer quantity;
 	@Column(name="total_price")
-	private int totalPrice;
+	private Integer totalPrice;
 	@Column(name="customer_id")
-	private long customerId;
+	private Long customerId;
 	@Column(name="company_id")
-	private long companyId;
+	private Long companyId;
 	@Column(name="user_id")
-	private long userId;
+	private Long userId;
 	@Column(name="deal_status")
 	private String dealStatus;
+	@Column(name="is_parent")
+	private Integer isParent;
+	@Column(name="parent_id")
+	private Long parentId;
     @Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_created", insertable = false, updatable = false)
 	private Date dateCreated;
@@ -39,7 +43,8 @@ public class DealEntity {
 	
 	protected DealEntity() {}
 
-	public DealEntity(long productId, int quantity, int totalPrice, long customerId, long companyId, long userId) {
+	public DealEntity(Long productId, Integer quantity, Integer totalPrice, Long customerId, Long companyId,
+			Long userId, String dealStatus, Integer isParent, Long parentId, Date dateCreated, Date dateClosed) {
 		super();
 		this.productId = productId;
 		this.quantity = quantity;
@@ -47,61 +52,66 @@ public class DealEntity {
 		this.customerId = customerId;
 		this.companyId = companyId;
 		this.userId = userId;
+		this.dealStatus = dealStatus;
+		this.isParent = isParent;
+		this.parentId = parentId;
+		this.dateCreated = dateCreated;
+		this.dateClosed = dateClosed;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public long getProductId() {
+	public Long getProductId() {
 		return productId;
 	}
 
-	public void setProductId(long productId) {
+	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
 
-	public int getQuantity() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 
-	public int getTotalPrice() {
+	public Integer getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(int totalPrice) {
+	public void setTotalPrice(Integer totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
-	public long getCustomerId() {
+	public Long getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(long customerId) {
+	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
 	}
 
-	public long getCompanyId() {
+	public Long getCompanyId() {
 		return companyId;
 	}
 
-	public void setCompanyId(long companyId) {
+	public void setCompanyId(Long companyId) {
 		this.companyId = companyId;
 	}
 
-	public long getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(long userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
@@ -111,6 +121,22 @@ public class DealEntity {
 
 	public void setDealStatus(String dealStatus) {
 		this.dealStatus = dealStatus;
+	}
+
+	public Integer getIsParent() {
+		return isParent;
+	}
+
+	public void setIsParent(Integer isParent) {
+		this.isParent = isParent;
+	}
+
+	public Long getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
 	}
 
 	public Date getDateCreated() {
@@ -127,7 +153,5 @@ public class DealEntity {
 
 	public void setDateClosed(Date dateClosed) {
 		this.dateClosed = dateClosed;
-	};
-	
-	
+	}
 }

@@ -119,4 +119,19 @@ public class DealsController {
 	public List<DealEntity> getDealsByCompanyId(@PathVariable long companyId){
 		return this.dealRepository.findByCompanyId(companyId);
 	}
+	
+	/** deals by parent deal **/
+	@RequestMapping(value = "/dealsByParentDeal/{parentId}/deals", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public List<DealEntity> getDealsByParentDeal(@PathVariable long parentId){
+		return this.dealRepository.findByParentId(parentId);
+	}
+	
+	@RequestMapping(value = "/dealsByParentDeal/{parentId}/deals/{id}", method = RequestMethod.DELETE)
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<Boolean> deleteDealByParentDeal(@PathVariable long id){
+		this.dealRepository.delete(id);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
+	
 }

@@ -8,10 +8,10 @@
             <div class="modal-body col-md-12">
                 <form name="dealForm" class="form col-md-12" novalidate>
                     <div class="row">
-                 	      <fieldset class="form-group" ng-show="dealAction==='Update'">
+<!--                  	      <fieldset class="form-group" ng-show="dealAction==='Update'">
                   	        <label for="id">ID</label>
                 	          <div class="form-control">{{deal.id}}</div>
-                  	    </fieldset>
+                  	    </fieldset> -->
                         <fieldset class="form-group">
                     	      <label class="form-label" for="Product">Product</label>        
                        	    <ui-select ng-model="deal.productId" required>
@@ -31,7 +31,7 @@
                         	  <label for="totalPrice">Total Price</label>
                     	      <input class="form-control" type="number" id="totalPrice" name="totalPrice" ng-model="deal.totalPrice" required/>
                       	</fieldset>
-                     	  <fieldset class="form-group">
+                     	  <fieldset class="form-group" ng-hide="dealAction==='Update'">
                   	        <label for="customer">Customer</label>
                        	    <ui-select ng-model="deal.customerId" required>
                 		        <ui-select-match>
@@ -42,10 +42,10 @@
                 		        </ui-select-choices>
                 		        </ui-select>
                   	    </fieldset>
-                  	    <fieldset class="form-group" ng-show="dealAction==='Update'">
+<!--                   	    <fieldset class="form-group" ng-show="dealAction==='Update'">
                   		      <label for="dealStatus">Status</label>
                             <select class="form-control" id="dealStatus" name="dealStatus" ng-model='deal.dealStatus' ng-options='statusOption.name as statusOption.name for statusOption in statusOptions'></select>
-                  	    </fieldset>
+                  	    </fieldset> -->
                   	    <fieldset>
                   	        <label for="actions">Actions</label>
                             <div>

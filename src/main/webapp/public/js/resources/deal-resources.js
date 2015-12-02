@@ -24,4 +24,10 @@
 			'update': {method:'PUT'}
 		});
 	}]);
+
+	angular.module('salespusher.resources').factory('DealByParentDeal', ['$resource',function DealByParentDealFactory($resource) {  
+		return $resource("/dealsByParentDeal/:parentId/deals/:id", {parentId:'@parentId',id:'@id'}, {
+			'update': {method:'PUT'}
+		});
+	}]);
 })();

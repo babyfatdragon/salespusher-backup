@@ -14,7 +14,6 @@
 		$scope.events = new Array();
 		$scope.numOfDisplayedServiceEvents = 3;
 		$scope.event = {};
-		$scope.deals = Deal.query();
 		$scope.ownDeals = new Array();
 		$scope.numOfDisplayedOwnDeals = 3;
 		$scope.otherDeals = new Array();
@@ -159,8 +158,11 @@
 
 		/** set a delay for getting $rootScope.currentUser **/
 		$timeout(function(){
-			if($rootScope.currentUser!=null && typeof $rootScope.currentUser!='undefined'){		
-
+			if($rootScope.currentUser!=null && typeof $rootScope.currentUser!='undefined'){
+				Deal.query().$promise.then(function(deals){
+							$scope.deals = deals;
+				});
+	
 				Product.query().$promise.then(function(products){
 					$scope.products = products;
 				});
@@ -189,14 +191,16 @@
 								events.forEach(function(evt){
 							    	var event = {id:evt.id,title:evt.title,start:evt.start,end:evt.end,color:color,dealId:evt.dealId};
 							    	$scope.events.push(event);
-								});					
-							});						
+								});
+							});
 							followingDeal.productId = deal.productId;
 							followingDeal.quantity = deal.quantity;
 							followingDeal.totalPrice = deal.totalPrice;
 							followingDeal.customerId = deal.customerId;
 							followingDeal.companyId = deal.companyId;
 							followingDeal.dealStatus = deal.dealStatus;
+							followingDeal.isParent = deal.isParent;
+							followingDeal.parentId = deal.parentId;
 							followingDeal.dateCreated = deal.dateCreated;
 							followingDeal.dateClosed = deal.dateClosed;
 							
