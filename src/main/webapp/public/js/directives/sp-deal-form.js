@@ -39,9 +39,9 @@
 							});		
 						} 
 						else if($scope.action==="Update"){
-							if($scope.deal.dealStatus!='IN PROGRESS'){
+/*							if($scope.deal.dealStatus!='IN PROGRESS'){
 								$scope.deal.dateClosed = new Date();
-							}
+							}*/
 							Deal.update($scope.deal).$promise.then(function(){
 								$scope.show = false;
 								$scope.deal = {};

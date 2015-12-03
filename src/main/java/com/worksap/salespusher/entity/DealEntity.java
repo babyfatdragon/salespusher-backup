@@ -35,10 +35,11 @@ public class DealEntity {
 	@Column(name="parent_id")
 	private Long parentId;
     @Temporal(TemporalType.TIMESTAMP)
-	@Column(name="date_created", insertable = false, updatable = false)
+//	@Column(name="date_created", insertable = false, updatable = false)
+    @Column(name="date_created", insertable = false)
 	private Date dateCreated;
     @Temporal(TemporalType.TIMESTAMP)
-	@Column(name="date_closed")
+	@Column(name="date_closed", updatable = true)
 	private Date dateClosed;
 	
 	protected DealEntity() {}

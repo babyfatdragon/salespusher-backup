@@ -4,8 +4,9 @@
 			<th st-ratio="20" st-sort="id">ID</th>
 			<th st-ratio="20" st-sort="categoryOneId">Catalog</th>
 			<th st-ratio="20" st-sort="categoryTwoId">Category</th>			
-			<th st-ratio="25" st-sort="name">Name</th>
-			<th st-ratio="15">Actions</th>
+			<th st-ratio="20" st-sort="name">Name</th>
+			<th st-ratio="10" st-sort="price">Price</th>
+			<th st-ratio="10">Actions</th>
 		</tr>
 		<tr>
 			<th st-ratio="20"></th>
@@ -15,10 +16,11 @@
             <th st-ratio="20">
             	<input st-search="categoryName" placeholder="search for category" class="input-sm form-control" type="search"/>
             </th>
-           	<th st-ratio="25">
+           	<th st-ratio="15">
             	<input st-search="name" placeholder="search for name" class="input-sm form-control" type="search"/>
             </th>
-			<th st-ratio="15"></th>
+            <th st-ratio="10"></th>
+			<th st-ratio="10"></th>
 		</tr>		
 	</thead>
 	<tbody>
@@ -30,8 +32,9 @@
 			<td st-ratio="20"><a ui-sref="product({categoryOneId:product.categoryOneId,categoryTwoId:product.categoryTwoId,id:product.id})">{{product.id}}</a></td>
 			<td st-ratio="20"><a ui-sref="productCategory({categoryOneId:product.categoryOneId})">{{product.catalogName}}</a></td>
 			<td st-ratio="20"><a ui-sref="products({categoryOneId:product.categoryOneId,categoryTwoId:product.categoryTwoId})">{{product.categoryName}}</a></td>			
-			<td st-ratio="25"><a ui-sref="product({categoryOneId:product.categoryOneId,categoryTwoId:product.categoryTwoId,id:product.id})">{{product.name}}</a></td>
-			<td st-ratio="15">
+			<td st-ratio="20"><a ui-sref="product({categoryOneId:product.categoryOneId,categoryTwoId:product.categoryTwoId,id:product.id})">{{product.name}}</a></td>
+			<td st-ratio="10">{{product.price | currency}}</td>
+			<td st-ratio="10">
 				<a  ui-sref="productManagement.productUpdate({id:product.id})" type="button" class="btn btn-sm btn-primary" uib-popover="Edit {{product.name}}" popover-trigger="mouseenter">
 					<i class="glyphicon glyphicon-lg glyphicon-edit"></i>
 				</a>

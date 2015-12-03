@@ -10,37 +10,39 @@
 		$scope.company = {};
 		$scope.companyDeals = new Array();
 
-		$scope.accessoriesSuggestions = {6:2,7:8,9:10,10:9,11:1};
+		$scope.accessoriesSuggestions = {6:2,7:3,9:4,10:4,11:1};
 		$scope.accessoriesSuggestions["6"] = 2;
 
 		Company.get({id:$scope.lead.companyId}).$promise.then(function(company){
 			$scope.company = company;
 		});
-
-		$scope.lead.products.forEach(function(interestedProduct){
-			interestedProduct.labels = new Array();
-			interestedProduct.chartData = new Array();
-			interestedProduct.relatedProducts = new Array();
-			interestedProduct.suggestedProducts = new Array();
-			$scope.products.forEach(function(product){
-				if(product.categoryTwoId===$scope.accessoriesSuggestions[interestedProduct.categoryTwoId]){
-					interestedProduct.suggestedProducts.push(product);
-				}
-				if(product.categoryTwoId===interestedProduct.categoryTwoId){
-					interestedProduct.labels.push(product.name);
-					var quantity = 0;
-					$scope.deals.forEach(function(deal){
-						if(deal.productId===product.id && deal.dealStatus==='WON'){
-							quantity+=deal.quantity;
-						}
-					});
-					interestedProduct.chartData.push(quantity);
-					if(product.id!=interestedProduct.id){
-						interestedProduct.relatedProducts.push(product);
+		$scope.$watch('lead.products',function(){
+			$scope.lead.products.forEach(function(interestedProduct){
+				interestedProduct.labels = new Array();
+				interestedProduct.chartData = new Array();
+				interestedProduct.relatedProducts = new Array();
+				interestedProduct.suggestedProducts = new Array();
+				$scope.products.forEach(function(product){
+					if(product.categoryTwoId===$scope.accessoriesSuggestions[interestedProduct.categoryTwoId]){
+						interestedProduct.suggestedProducts.push(product);
 					}
-				}
+					if(product.categoryTwoId===interestedProduct.categoryTwoId){
+						interestedProduct.labels.push(product.name);
+						var quantity = 0;
+						$scope.deals.forEach(function(deal){
+							if(deal.productId===product.id && deal.dealStatus==='WON'){
+								quantity+=deal.quantity;
+							}
+						});
+						interestedProduct.chartData.push(quantity);
+						if(product.id!=interestedProduct.id){
+							interestedProduct.relatedProducts.push(product);
+						}
+					}
+				});
 			});
 		});
+
 
 		CompanyDeal.query({companyId:$scope.lead.companyId}).$promise.then(function(deals){
 			deals.forEach(function(deal){
@@ -63,16 +65,56 @@
 			var deal = new Deal();
 			if(typeof product != 'undefined'){
 				deal.productId = product.id;
+				deal.totalPrice = product.price;
 			} else{
 			}
 			deal.tempId = (Math.random()+1).toString(36).substring(7);
 			deal.quantity = 1;
-			deal.totalPrice = product.price;
 			deal.customerId = lead.customerId;
 			deal.companyId = lead.companyId;
 			deal.userId = $rootScope.currentUser.id;
 			deal.dealStatus = "IN PROGRESS";
 			$scope.tempDeals.push(deal);			
+		};
+
+		$scope.removeFromList = function(product){
+
+			for(var i=0;i<$scope.lead.products.length;i++){
+				if(product.name===$scope.lead.products[i].name){
+					$scope.lead.products.splice(i,1);
+					var tempInterests = new Array();
+					$scope.lead.products.forEach(function(product){
+						var p = {id:product.id,name:product.name,categoryOneId:product.categoryOneId,categoryTwoId:product.categoryTwoId,price:product.price};
+						tempInterests.push(p);
+					});
+					$scope.lead.interests = angular.toJson($scope.lead.products,true);
+					$scope.lead.$update().then(function(){
+						$scope.lead.products = new Array();
+						angular.copy(tempInterests,$scope.lead.products);
+					});
+					break;
+				}
+			}
+		};
+
+		$scope.showList = function(){
+			$scope.addListShow = true;
+		}
+
+		$scope.saveList = function(){
+			if($scope.lead.products!=null){
+				var tempInterests = new Array();
+				$scope.lead.products.forEach(function(product){
+					var p = {id:product.id,name:product.name,categoryOneId:product.categoryOneId,categoryTwoId:product.categoryTwoId,price:product.price};
+					tempInterests.push(p);
+				});
+				$scope.lead.interests = angular.toJson(tempInterests,true);
+				$scope.lead.$update().then(function(){
+					$scope.lead.products = new Array();
+					angular.copy(tempInterests,$scope.lead.products);
+					$scope.addListShow = false;
+				});			
+			};
 		}
 
 		$scope.removeTempDeal = function(deal){
@@ -82,11 +124,12 @@
 					break;
 				}
 			}
-		}
+		};
 
 		$scope.createDeal = function(){
 			$scope.tempDeals[0].isParent = 1;
 			Deal.save($scope.tempDeals[0]).$promise.then(function(mainDeal){
+				/**add owner to follower **/
 				var follower = new DealFollower();
 				follower.dealId = mainDeal.id;
 				follower.userId = mainDeal.userId;
@@ -99,7 +142,7 @@
 					deal.parentId = mainDeal.id;
 					createSubDeal(deal);
 				});
-
+	    		$state.go('dealShow',({id:mainDeal.id}));
 			});
 		}
 		var createSubDeal = function(tempDeal){

@@ -34,7 +34,6 @@
 				$scope.lead.interests = angular.toJson(tempInterests,true);				
 			};
 
-			delete $scope.lead.products;
 			console.log($scope.lead);
 			if($scope.leadAction==="Create"){
 				$scope.lead.leadStatus = "NEW";

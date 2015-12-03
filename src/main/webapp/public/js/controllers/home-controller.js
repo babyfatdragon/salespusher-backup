@@ -210,7 +210,7 @@
 									followingDeal.companyName = company.name;
 									Customer.get({id:deal.customerId}).$promise.then(function(customer){
 										followingDeal.customerName = customer.name;
-										if(followingDeal.isOwner){
+										if(followingDeal.isOwner && followingDeal.isParent){
 											$scope.ownDeals.push(followingDeal);
 										} else if(!followingDeal.isOwner){
 											$scope.otherDeals.push(followingDeal);

@@ -19,7 +19,7 @@
                 		        <span ng-bind="$select.selected.name"></span>
                 		        </ui-select-match>
                 		        <ui-select-choices repeat="product.id as product in (products | filter: $select.search)">
-                		        <span ng-bind="product.name"></span>
+                		        <span ng-bind="product.name + ' $' + product.price"></span>
                 		        </ui-select-choices>
                 		        </ui-select>
                   	   </fieldset>
@@ -42,6 +42,30 @@
                 		        </ui-select-choices>
                 		        </ui-select>
                   	    </fieldset>
+
+                        <fieldset class="form-group">
+                            <label for="start">Date Created</label>
+                            <p class="input-group">
+                                <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" is-open="startDateStatus.opened" ng-model="deal.dateCreated" close-text="Close"/>
+                            <span class="input-group-btn"> 
+                                <button type="button" class="btn btn-default" ng-click="openStart($event)">
+                                  <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                              </span>
+                          </p>
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label for="end">Date Closed</label>
+                            <p class="input-group">
+                                <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" is-open="endDateStatus.opened" ng-model="deal.dateClosed" close-text="Close"/>
+                            <span class="input-group-btn"> 
+                                <button type="button" class="btn btn-default" ng-click="openEnd($event)">
+                                  <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                              </span>
+                          </p>
+                        </fieldset>
 <!--                   	    <fieldset class="form-group" ng-show="dealAction==='Update'">
                   		      <label for="dealStatus">Status</label>
                             <select class="form-control" id="dealStatus" name="dealStatus" ng-model='deal.dealStatus' ng-options='statusOption.name as statusOption.name for statusOption in statusOptions'></select>

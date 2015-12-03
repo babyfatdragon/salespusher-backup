@@ -1,11 +1,29 @@
+<style type="text/css">
+	#status-options{ 
+	display: none;
+	}
+	#change-status:hover #status-options{
+	display : block;
+	}
+</style>
 <div>
 	<div class="row">
-		<span style="font-size:200%">Opportunity:
-		<a ui-sref="customerManagement.customerShow({id:deal.customerId})">{{deal.customerName}}</a>@
-		<a ui-sref="customerManagement.companyShow({id:deal.companyId})">{{deal.companyName}}</a>
-		<button class="btn btn-danger" ng-show="isFollow && deal.userId!=currentUser.id" ng-click="unfollow()">Unfollow</button>	
-		<button class="btn btn-primary" ng-show="!isFollow && deal.userId!=currentUser.id" ng-click="follow()">Follow</button>			
-		</span>
+		<div class="col-md-5">
+			<span style="font-size:200%">Opportunity:
+			<a ui-sref="customerManagement.customerShow({id:deal.customerId})">{{deal.customerName}}</a>@
+			<a ui-sref="customerManagement.companyShow({id:deal.companyId})">{{deal.companyName}}</a>
+			</span>
+		</div>
+		<div class="col-md-1" style="pull-left;margin-top:5px">
+			<li id="change-status" style="list-style-type:none;display:inline;">	
+				<button style="width:150px" type="button" ng-disabled="currentUser.id!=deal.userId" class="btn btn-md" ng-class="deal.dealStatus==='IN PROGRESS' ? 'btn-warning' : (deal.dealStatus==='WON' ? 'btn-success' : 'btn-danger')">{{deal.dealStatus}} <i ng-hide="currentUser.id!=deal.userId" class="fa fa-chevron-down pull-right"></i></button>
+				<div id="status-options" style="z-index:10;position:absolute;">
+					<button style="width:150px" type="button" class="btn btn-md btn-warning" ng-click="changeStatus(1)" ng-show="deal.dealStatus!='IN PROGRESS'">IN PROGRESS</button>
+					<button style="width:150px" type="button" class="btn btn-md btn-success" ng-click="changeStatus(2)" ng-show="deal.dealStatus!='WON'">WON</button>
+					<button style="width:150px" type="button" class="btn btn-md btn-danger" ng-click="changeStatus(3)" ng-show="deal.dealStatus!='LOST'">LOST</button>
+				</div>
+			</li>
+		</div>
 	</div>
 	<hr />
 	<div class="row">
@@ -40,7 +58,7 @@
                                 <span ng-bind="$select.selected.name"></span>
                                 </ui-select-match>
                                 <ui-select-choices repeat="product.id as product in (products | filter: $select.search)">
-                                <span ng-bind="product.name"></span>
+                                <span ng-bind="product.name + ' $' + product.price"></span>
                                 </ui-select-choices>
                             </ui-select>
                         </fieldset>
@@ -74,10 +92,6 @@
 					<h4><small>{{deal.dateClosed | date:'MMM dd yyyy'}}</small></h4>		
 				</div>
 				<div class="col-md-2">
-					<h5>Status</h5>
-					<h4><small><button ng-disabled="true" class="btn btn-xs" ng-class="deal.dealStatus==='IN PROGRESS' ? 'btn-warning' : (deal.dealStatus==='WON' ? 'btn-success' : 'btn-danger')">{{deal.dealStatus}}</button></small></h4>		
-				</div>
-				<div class="col-md-2">
 					<h5>OWNER</h5>
 					<h4><small>{{deal.userName}}</small></h4>		
 				</div>
@@ -86,6 +100,10 @@
 					<span ng-repeat="follower in followers">
 						<i class="glyphicon glyphicon-lg glyphicon-user" uib-popover="{{follower.userName}}" popover-trigger="mouseenter"></i>
 					</span>
+				</div>
+				<div class="col-md-2" style="margin-top:5px">
+					<button class="btn btn-danger" ng-show="isFollow && deal.userId!=currentUser.id" ng-click="unfollow()">Unfollow</button>	
+					<button class="btn btn-primary" ng-show="!isFollow && deal.userId!=currentUser.id" ng-click="follow()">Follow</button>			
 				</div>
 			</div>
 			<div class="row">

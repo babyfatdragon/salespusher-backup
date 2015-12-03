@@ -1,7 +1,7 @@
 (function(){
-	angular.module('salespusher.controllers').controller('StaffOverviewCtrl',['$rootScope','$scope','ModalService','MonthlyDeal',
+	angular.module('salespusher.controllers').controller('StaffOverviewCtrl',['$rootScope','$scope','$timeout','ModalService','MonthlyDeal',
 		'UserServiceEvent','MonthlyUserServiceEvent','MonthlyUserExpenseClaim','UserMonthlyRecord',
-	    function($rootScope,$scope,ModalService,MonthlyDeal,
+	    function($rootScope,$scope,$timeout,ModalService,MonthlyDeal,
 	    	UserServiceEvent,MonthlyUserServiceEvent,MonthlyUserExpenseClaim,UserMonthlyRecord){
 		$scope.thisYear = 1970;
 		$scope.thisMonth = 12;
@@ -19,20 +19,22 @@
 	    ];
 		$scope.barOnClick = function(points, evt){
 		    if(typeof points[0] != "undefined"){
-		    	switch(points[0].label){
-			    	case 'Jan':$scope.thisMonth = 0; $scope.thisMonthText = $scope.barLabels[0]; break;
-			    	case 'Feb':$scope.thisMonth = 1; $scope.thisMonthText = $scope.barLabels[1]; break;
-			    	case 'Mar':$scope.thisMonth = 2; $scope.thisMonthText = $scope.barLabels[2]; break;
-			    	case 'Apr':$scope.thisMonth = 3; $scope.thisMonthText = $scope.barLabels[3]; break;
-			    	case 'May':$scope.thisMonth = 4; $scope.thisMonthText = $scope.barLabels[4]; break;
-			    	case 'Jun':$scope.thisMonth = 5; $scope.thisMonthText = $scope.barLabels[5]; break;
-			    	case 'Jul':$scope.thisMonth = 6; $scope.thisMonthText = $scope.barLabels[6]; break;
-			    	case 'Aug':$scope.thisMonth = 7; $scope.thisMonthText = $scope.barLabels[7]; break;
-			    	case 'Sep':$scope.thisMonth = 8; $scope.thisMonthText = $scope.barLabels[8]; break;
-			    	case 'Oct':$scope.thisMonth = 9; $scope.thisMonthText = $scope.barLabels[9]; break;
-			    	case 'Nov':$scope.thisMonth = 10; $scope.thisMonthText = $scope.barLabels[10]; break;
-			    	case 'Dec':$scope.thisMonth = 11; $scope.thisMonthText = $scope.barLabels[11]; break;
-			    	default: break;
+		    	if(points[0].label!=null){
+			    	switch(points[0].label){
+				    	case 'Jan':$scope.thisMonth = 0; $scope.thisMonthText = $scope.barLabels[0]; break;
+				    	case 'Feb':$scope.thisMonth = 1; $scope.thisMonthText = $scope.barLabels[1]; break;
+				    	case 'Mar':$scope.thisMonth = 2; $scope.thisMonthText = $scope.barLabels[2]; break;
+				    	case 'Apr':$scope.thisMonth = 3; $scope.thisMonthText = $scope.barLabels[3]; break;
+				    	case 'May':$scope.thisMonth = 4; $scope.thisMonthText = $scope.barLabels[4]; break;
+				    	case 'Jun':$scope.thisMonth = 5; $scope.thisMonthText = $scope.barLabels[5]; break;
+				    	case 'Jul':$scope.thisMonth = 6; $scope.thisMonthText = $scope.barLabels[6]; break;
+				    	case 'Aug':$scope.thisMonth = 7; $scope.thisMonthText = $scope.barLabels[7]; break;
+				    	case 'Sep':$scope.thisMonth = 8; $scope.thisMonthText = $scope.barLabels[8]; break;
+				    	case 'Oct':$scope.thisMonth = 9; $scope.thisMonthText = $scope.barLabels[9]; break;
+				    	case 'Nov':$scope.thisMonth = 10; $scope.thisMonthText = $scope.barLabels[10]; break;
+				    	case 'Dec':$scope.thisMonth = 11; $scope.thisMonthText = $scope.barLabels[11]; break;
+				    	default: break;
+			    	}
 		    	}
 		    }
 		}
@@ -48,7 +50,7 @@
 
 		$scope.$watch('thisYear', function(newVal,oldVal){
 			/** reset data **/
-			if($rootScope.currentUser!=null && typeof $rootScope.currentUser!='undefined'){
+			//if($rootScope.currentUser!=null && typeof $rootScope.currentUser!='undefined'){
 				$scope.yearlySalesAmount = 0;
 				$scope.yearlyServicesCharge = 0;
 				$scope.yearlyExpenseClaims = 0;
@@ -68,13 +70,16 @@
 				for(var month=0;month<12;month++){
 					$scope.getDealsByMonth(month);
 				}
-				$scope.barData = [
-				    $scope.monthlyAmount,
-				    $scope.monthlyServicesCharge,
-				    $scope.monthlyExpenseClaims,
-				];
+				$timeout(function() {
+					$scope.barData = [
+					    $scope.monthlyAmount,
+					    $scope.monthlyServicesCharge,
+					    $scope.monthlyExpenseClaims,
+					];
+				},500);
+				
 				$scope.thisMonthRecord = $scope.getRecordByYearmonth($scope.DisplayMonthlyRecords,$scope.thisYear,$scope.thisMonth);
-			}
+			//}
 		});
 
 		$scope.$watch('thisMonth',function(){
@@ -112,9 +117,9 @@
 				});						
 			});
 			MonthlyUserServiceEvent.query({year:$scope.thisYear,month:month,userId:$rootScope.currentUser.id}).$promise.then(function(serviceEvents){
-				$scope.yearlyServices.push(serviceEvents);
-				$scope.monthlyServices[month].push(serviceEvents);
 				serviceEvents.forEach(function(serviceEvent){
+					$scope.yearlyServices.push(serviceEvent);
+					$scope.monthlyServices[month].push(serviceEvent);
 					$scope.monthlyServicesCharge[month]+=serviceEvent.charge;
 					$scope.yearlyServicesCharge+=serviceEvent.charge;
 				});

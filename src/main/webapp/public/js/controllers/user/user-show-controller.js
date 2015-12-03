@@ -151,9 +151,9 @@
 				});						
 			});
 			MonthlyUserServiceEvent.query({year:$scope.thisYear,month:month,userId:$stateParams.id}).$promise.then(function(serviceEvents){
-				$scope.yearlyServices.push(serviceEvents);
-				$scope.monthlyServices[month].push(serviceEvents);
 				serviceEvents.forEach(function(serviceEvent){
+					$scope.yearlyServices.push(serviceEvent);
+					$scope.monthlyServices[month].push(serviceEvent);
 					$scope.monthlyServicesCharge[month]+=serviceEvent.charge;
 					$scope.yearlyServicesCharge+=serviceEvent.charge;
 				});

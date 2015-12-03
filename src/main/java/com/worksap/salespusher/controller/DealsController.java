@@ -71,6 +71,7 @@ public class DealsController {
 	    Calendar fromCal = Calendar.getInstance();
 	    Calendar toCal = Calendar.getInstance();
 	    fromCal.set(year,month,1);
+	    if(month==11) year++;
 	    toCal.set(year,(month+1)%12,1);
 		Date fromDate = fromCal.getTime();
 		Date toDate = toCal.getTime();
@@ -83,6 +84,7 @@ public class DealsController {
 	    Calendar fromCal = Calendar.getInstance();
 	    Calendar toCal = Calendar.getInstance();
 	    fromCal.set(year,month,1);
+	    if(month==11) year++;
 	    toCal.set(year,(month+1)%12,1);
 		Date fromDate = fromCal.getTime();
 		Date toDate = toCal.getTime();
@@ -125,6 +127,12 @@ public class DealsController {
 	@PreAuthorize("isAuthenticated()")
 	public List<DealEntity> getDealsByParentDeal(@PathVariable long parentId){
 		return this.dealRepository.findByParentId(parentId);
+	}
+	
+	@RequestMapping(value = "/dealsByParentDeal/{parentId}/deals/{id}", method = RequestMethod.PUT)
+	@PreAuthorize("isAuthenticated()")
+	public DealEntity updateDealByParentDeal(@PathVariable long id,@RequestBody DealEntity deal){
+		return this.dealRepository.save(deal);
 	}
 	
 	@RequestMapping(value = "/dealsByParentDeal/{parentId}/deals/{id}", method = RequestMethod.DELETE)

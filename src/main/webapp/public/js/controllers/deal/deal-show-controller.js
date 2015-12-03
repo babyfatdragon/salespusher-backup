@@ -341,6 +341,41 @@
 	        dayRender: viewEventOnDoubleClick
 	      }
 	    };
+
+	    $scope.changeStatus = function(status){
+	    	var s;
+	    	switch(status){
+	    		case 1:
+	    			s = 'IN PROGRESS';
+	    			break;
+	    		case 2:
+	    			s = 'WON';
+	    			break;
+	    		case 3:
+	    			s = 'LOST';
+	    			break;
+	    		default:
+	    			break;
+	    	}
+	    	$scope.allDeals.forEach(function(deal){
+	    		deal.dealStatus = s;
+	    		if(status!=1){
+					deal.dateClosed = new Date();
+	    		}
+	    		deal.$update().then(function(deal){
+					var product = $scope.getObjectById($scope.products,deal.productId);
+					deal.productName = product.name;
+					deal.categoryOneId = product.categoryOneId;
+					deal.categoryTwoId = product.categoryTwoId;
+					var customer = $scope.getObjectById($scope.customers,deal.customerId);
+					deal.customerName = customer.name;
+					var company = $scope.getObjectById($scope.companies,customer.companyId);
+					deal.companyName = company.name;
+					var user = $scope.getObjectById($scope.users,deal.userId);
+					deal.userName = user.firstname+" "+user.lastname;
+	    		});
+	    	});
+	    };
 		 
 		$scope.add = function(){
 			$scope.event = {};
@@ -412,11 +447,16 @@
 			$scope.tempDeal.customerId = $scope.deal.customerId;
 			$scope.tempDeal.companyId = $scope.deal.companyId;
 			$scope.tempDeal.userId = $rootScope.currentUser.id;
-			$scope.tempDeal.dealStatus = "IN PROGRESS";
-			$scope.productAddShow = true;		
+			$scope.tempDeal.dealStatus = $scope.deal.dealStatus;
+			$scope.productAddShow = true;
 		};
 		$scope.removeDeal = function(deal){
 			deal.$delete();
+			DealFollower.query({dealId:deal.id}).$promise.then(function(dealFollowers){
+				dealFollowers.forEach(function(dealFollower){
+					dealFollower.$delete();
+				});
+			});
 		};
 		$scope.closeAddProduct = function(){
 			$scope.productAddShow = false;
@@ -424,6 +464,7 @@
 		
 		$scope.addProduct = function(){
 			$scope.tempDeal.$save().then(function(deal){
+				$scope.productAddShow = false;
 				var product = $scope.getObjectById($scope.products,deal.productId);
 				deal.productName = product.name;
 				deal.categoryOneId = product.categoryOneId;
@@ -435,7 +476,12 @@
 				var user = $scope.getObjectById($scope.users,deal.userId);
 				deal.userName = user.firstname+" "+user.lastname;
 				$scope.allDeals.push(deal);
-				$scope.productAddShow = false;
+				/**add owner to follower **/
+				var follower = new DealFollower();
+				follower.dealId = deal.id;
+				follower.userId = deal.userId;
+				follower.isOwner = 1;
+				DealFollower.save(follower);
 			});
 		}
     	$scope.editServiceEvent = function(serviceEventId){

@@ -5,7 +5,7 @@
 			<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
     	</div>
   	</div>
-		<div class="box-body">
+	<div class="box-body">
         <div><label>Search:</label> <input type="text" placeholder="name,company,interests" ng-model="searchLeads" /></div>
     	<div class="panel panel-{{type}}" ng-repeat="lead in leads | limitTo:leadLimitTo | orderBy : lead.dateModified : true | filter:searchLeads">
     		<div class="panel-heading">

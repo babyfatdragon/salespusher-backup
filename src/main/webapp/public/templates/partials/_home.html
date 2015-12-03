@@ -26,7 +26,35 @@
 			<sp-lead-column type="'success'" header="Qualified" lead="lead" leads="qualifiedLeads" deals="deals" products="products" customers="customers" companies="companies"></sp-lead-column>
 		</div>		
 		<div class="col-md-3">
-			<sp-lead-column type="'danger'" header="Unqualified" lead="lead" leads="unqualifiedLeads" deals="deals" products="products" customers="customers" companies="companies"></sp-lead-column>
+			<div class="box box-default">
+				<div class="box-header with-border">
+					<h3 class="box-title">Own Deals</h3>
+					<div class="box-tools pull-right">
+						<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+			    	</div>
+			  	</div>
+				<div class="box-body">
+			  		<div ng-show="allOwnDealsDisplayed"><label>Search:</label> <input type="text" ng-model="searchOwnDeals" /></div>
+	    			<div ng-repeat="ownDeal in ownDeals | orderBy:'-dealId'| filter:searchOwnDeals | startFrom:(ownDealsCurrentPage-1)*pageCapacity | limitTo:numOfDisplayedOwnDeals">
+	    				<a ng-show="ownDeal.isParent" href="#/deal/{{ownDeal.dealId}}/show">
+		    				<span>{{ownDeal.customerName}} @ {{ownDeal.companyName}}</span>
+		    				<span class="label" ng-class="ownDeal.dealStatus==='IN PROGRESS' ? 'label-warning' : (ownDeal.dealStatus==='WON' ? 'label-success' : 'label-danger')">{{ownDeal.dealStatus}}</span>
+			    			<span class="label label-primary" ng-show="ownDeal.unreadComments">{{ownDeal.unreadComments}} unread comments</span>
+			    			<span class="label label-info" ng-show="ownDeal.unreadEvents">{{ownDeal.unreadEvents}} new events</span>
+			    			<span class="label label-default" ng-show="ownDeal.unreadFiles">{{ownDeal.unreadFiles}} new files</span>
+						    <span class="label label-primary" ng-show="ownDeal.unreadExpenseClaims">{{ownDeal.unreadExpenseClaims}} new expense claims</span>
+	    				</a>	
+	    			</div>
+	    			<div>
+	    				<uib-pagination total-items="totalOwnDeals" items-per-page="pageCapacity" max-size="ownDealsNoOfPages" ng-model="ownDealsCurrentPage" ng-show="allOwnDealsDisplayed"></uib-pagination>
+	    			</div>
+	    			<br />
+					<div>
+						<button class="btn btn-primary btn-xs" ng-show="ownDeals.length>numOfDisplayedOwnDeals && displayViewAllOwnDealsButton" ng-click="displayAllOwnDeals()">View All</button>
+			   		<button class="btn btn-primary btn-xs" ng-show="displayCloseAllOwnDealsButton" ng-click="closeAllOwnDeals()">Close</button>
+					</div> 			
+		  		</div>
+		  	</div>
 		</div>
 	</div>
 	<hr />
@@ -36,37 +64,13 @@
 				<div id="events-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
 			</div>
 			<div class="col-md-6">
-				<div class="panel panel-primary">
-			  		<div class="panel-heading">Own Deals</div>
-				  	<div class="panel-body">
-				  		<div ng-show="allOwnDealsDisplayed"><label>Search:</label> <input type="text" ng-model="searchOwnDeals" /></div>
-		    			<div ng-repeat="ownDeal in ownDeals | orderBy:'-dealId'| filter:searchOwnDeals | startFrom:(ownDealsCurrentPage-1)*pageCapacity | limitTo:numOfDisplayedOwnDeals">
-		    				<a ng-show="ownDeal.isParent" href="#/deal/{{ownDeal.dealId}}/show">
-			    				<span>#{{ownDeal.dealId}} <i>{{ownDeal.productName}}</i> for {{ownDeal.companyName}}</span>
-			    				<span class="label" ng-class="ownDeal.dealStatus==='IN PROGRESS' ? 'label-warning' : (ownDeal.dealStatus==='WON' ? 'label-success' : 'label-danger')">{{ownDeal.dealStatus}}</span>
-				    			<span class="label label-primary" ng-show="ownDeal.unreadComments">{{ownDeal.unreadComments}} unread comments</span>
-				    			<span class="label label-info" ng-show="ownDeal.unreadEvents">{{ownDeal.unreadEvents}} new events</span>
-				    			<span class="label label-default" ng-show="ownDeal.unreadFiles">{{ownDeal.unreadFiles}} new files</span>
-							    <span class="label label-primary" ng-show="ownDeal.unreadExpenseClaims">{{ownDeal.unreadExpenseClaims}} new expense claims</span>
-		    				</a>	
-		    			</div>
-		    			<div>
-		    				<uib-pagination total-items="totalOwnDeals" items-per-page="pageCapacity" max-size="ownDealsNoOfPages" ng-model="ownDealsCurrentPage" ng-show="allOwnDealsDisplayed"></uib-pagination>
-		    			</div>
-   						<div>
-   							<button class="btn btn-primary btn-xs" ng-show="ownDeals.length>numOfDisplayedOwnDeals && displayViewAllOwnDealsButton" ng-click="displayAllOwnDeals()">View All</button>
-					   		<button class="btn btn-primary btn-xs" ng-show="displayCloseAllOwnDealsButton" ng-click="closeAllOwnDeals()">Close</button>
-   						</div> 			
-			  		</div>
-			  	</div>
-		
 				<div class="panel panel-info">
 			  		<div class="panel-heading">Following Deals</div>
 				  	<div class="panel-body">
 			  		<div ng-show="allOtherDealsDisplayed"><label>Search:</label> <input type="text" ng-model="searchOtherDeals" /></div>  	
 						<div ng-repeat="otherDeal in otherDeals | orderBy:'-dealId' | filter:searchOtherDeals | startFrom:(otherDealsCurrentPage-1)*pageCapacity | limitTo:numOfDisplayedOtherDeals">
 							<a href="#/deal/{{otherDeal.dealId}}/show">
-								<span>#{{otherDeal.dealId}} <i>{{otherDeal.productName}}</i> for {{otherDeal.companyName}}</span>
+		    					<span>{{otherDeal.customerName}} @ {{otherDeal.companyName}}</span>
 								<span class="label" ng-class="otherDeal.dealStatus==='IN PROGRESS' ? 'label-warning' : (otherDeal.dealStatus==='WON' ? 'label-success' : 'label-danger')">{{otherDeal.dealStatus}}</span>
 				    			<span class="label label-primary" ng-show="otherDeal.unreadComments">{{otherDeal.unreadComments}} unread comments</span>
 				    			<span class="label label-info" ng-show="otherDeal.unreadEvents">{{otherDeal.unreadEvents}} new events</span>
@@ -77,9 +81,10 @@
 		    			<div>
 		    				<uib-pagination total-items="totalOtherDeals" items-per-page="pageCapacity" max-size="otherDealsNoOfPages" ng-model="otherDealsCurrentPage" ng-show="allOtherDealsDisplayed"></uib-pagination>
 		    			</div>
+		    			<br />
 		    			<div>
 		    				<button class="btn btn-info btn-xs" ng-show="otherDeals.length>numOfDisplayedOtherDeals && displayViewAllOtherDealsButton" ng-click="displayAllOtherDeals()">View All</button>
-							<button class="btn btn-primary btn-xs" ng-show="displayCloseAllOtherDealsButton" ng-click="closeAllOtherDeals()">Close</button>		  		
+							<button class="btn btn-primary btn-xs" ng-show="displayCloseAllOtherDealsButton" ng-click="closeAllOtherDeals()">Close</button>	
 	    				</div>
 	    			</div>
 			  	</div>
@@ -105,6 +110,8 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<div style="height:200px">
 	</div>
 </div>
 

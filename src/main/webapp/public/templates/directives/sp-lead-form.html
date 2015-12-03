@@ -39,7 +39,7 @@
 
                         <fieldset class="form-group">
                             <label class="form-label" for="interests">Interested</label>        
-                            <ui-select multiple ng-model="lead.products" theme="select2" style="width: 100%;">
+                            <ui-select multiple ng-model="lead.products" theme="select2" ng-disabled="disabled" style="width: 100%;">
                             <ui-select-match placeholder="Products">
                             {{$item.name}}
                             </ui-select-match>
