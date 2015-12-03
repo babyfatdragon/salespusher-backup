@@ -1,10 +1,10 @@
 (function(){
 	angular.module('salespusher.controllers')
 	.controller('DealShowCtrl',['$rootScope','$scope','$timeout','$state','$stateParams','filterFilter','User','Product',
-    'Company','Customer','Deal','DealByParentDeal','DealComment','DealEvent','DealFollower','DealServiceEvent','ServiceDocument',
+    'Company','Customer','Deal','UserDeal','DealByParentDeal','DealComment','DealEvent','DealFollower','DealServiceEvent','ServiceDocument',
     'DealExpenseClaim','uiCalendarConfig','DealFollowRequest','DealRequestByDealId','ModalService',
     function($rootScope,$scope,$timeout,$state,$stateParams,filterFilter,User,Product,
-    		Company,Customer,Deal,DealByParentDeal,DealComment,DealEvent,DealFollower,DealServiceEvent,ServiceDocument,
+    		Company,Customer,Deal,UserDeal,DealByParentDeal,DealComment,DealEvent,DealFollower,DealServiceEvent,ServiceDocument,
     		DealExpenseClaim,uiCalendarConfig,DealFollowRequest,DealRequestByDealId,ModalService){
     	$scope.itemsByPage = 5;
 		$scope.action = "Create";
@@ -182,6 +182,22 @@
         								$scope.displayDealRequests.push(dealRequest);
     								});
     							});
+
+								$scope.usersCopy.forEach(function(user){
+									user.knowCustomer = 0;
+									user.knowCompany = 0;
+									user.knowProduct = 0;
+									user.helpIndex = 0;
+									UserDeal.query({userId:user.id}).$promise.then(function(deals){
+										deals.forEach(function(deal){
+											if(deal.dealStatus==='WON'){
+												if(deal.customerId===$scope.deal.customerId) user.knowCustomer = 1;user.helpIndex+=4;
+												if(deal.companyId===$scope.deal.companyId) user.knowCompany = 1;user.helpIndex+=3;
+												if(deal.productId===$scope.deal.productId) user.knowProduct = 1;user.helpIndex+=2;
+											}
+										});
+									});
+								});
     						});
     					});
     				});

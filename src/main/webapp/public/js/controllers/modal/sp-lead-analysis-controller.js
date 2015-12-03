@@ -1,7 +1,7 @@
 (function(){
-	angular.module('salespusher.controllers').controller('LeadAnalysisCtrl',['$rootScope','$scope','$state','UserById','LeadByUser','LeadContact',
-		'Product','Deal','DealFollower','Company','Customer','CompanyDeal','header','lead','products','deals',
-	function($rootScope,$scope,$state,UserById,LeadByUser,LeadContact,Product,Deal,DealFollower,Company,Customer,CompanyDeal,header,lead,products,deals){
+	angular.module('salespusher.controllers').controller('LeadAnalysisCtrl',['$rootScope','$scope','$timeout','$state','UserById','LeadByUser','LeadContact',
+		'Product','Deal','DealByParentDeal','DealFollower','Company','Customer','CompanyDeal','header','lead','products','deals',
+	function($rootScope,$scope,$timeout,$state,UserById,LeadByUser,LeadContact,Product,Deal,DealByParentDeal,DealFollower,Company,Customer,CompanyDeal,header,lead,products,deals){
 		$scope.header = header;
 		$scope.lead = lead;
 		$scope.products = products;
@@ -24,7 +24,48 @@
 				interestedProduct.suggestedProducts = new Array();
 				$scope.products.forEach(function(product){
 					if(product.categoryTwoId===$scope.accessoriesSuggestions[interestedProduct.categoryTwoId]){
-						interestedProduct.suggestedProducts.push(product);
+						/** calculate sold together percentage **/
+						var mainProductDealsNum = 0;
+						var matched = 0;
+						$scope.deals.forEach(function(deal){
+							if(deal.productId===interestedProduct.id){
+								mainProductDealsNum++;
+								if(deal.isParent){
+									console.log(deal);
+									DealByParentDeal.query({parentId:deal.id}).$promise.then(function(subDeals){
+										subDeals.forEach(function(subDeal){
+											console.log(subDeal);
+											console.log(product);
+
+											if(subDeal.productId===product.id){
+												console.log("jinlaile");
+
+												matched++;
+												console.log(matched+" xianzai");
+											}
+										});
+									});
+								} else{
+									Deal.get({id:deal.parentId}).$promise.then(function(parentDeal){
+										if(parentDeal.productId===product.id){
+											matched++;
+										}
+									});
+								}
+							}
+						});
+						$timeout(function() {
+							console.log(matched);
+							console.log(mainProductDealsNum);
+							if(mainProductDealsNum!=0){
+								product.matchedPercent = (matched/mainProductDealsNum);
+							} else{
+								product.matchedPercent = 0;
+							}
+							/** calculate sold together percentage **/
+							interestedProduct.suggestedProducts.push(product);
+						}, 500);
+
 					}
 					if(product.categoryTwoId===interestedProduct.categoryTwoId){
 						interestedProduct.labels.push(product.name);

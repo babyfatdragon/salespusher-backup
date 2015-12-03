@@ -129,6 +129,12 @@ public class DealsController {
 		return this.dealRepository.findByParentId(parentId);
 	}
 	
+	@RequestMapping(value = "/dealsByParentDeal/{parentId}/deals/{id}", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public DealEntity getDealByParentDeal(@PathVariable long id){
+		return this.dealRepository.findOne(id);
+	}
+	
 	@RequestMapping(value = "/dealsByParentDeal/{parentId}/deals/{id}", method = RequestMethod.PUT)
 	@PreAuthorize("isAuthenticated()")
 	public DealEntity updateDealByParentDeal(@PathVariable long id,@RequestBody DealEntity deal){

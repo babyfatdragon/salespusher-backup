@@ -109,10 +109,18 @@
 			<div class="row">
 		 		<div class="col-md-12">
 				 	<fieldset class="form-group">
-			 			<ui-select multiple ng-model="followRequest.inviteeIds" theme="select2" ng-disabled="disabled" style="width: 360px;">
-						    <ui-select-match placeholder="Invite Followers">{{$item.firstname}} {{$item.lastname}}</ui-select-match>
-						    <ui-select-choices repeat="userCopy.id as userCopy in usersCopy | filter:$select.search">
-					      	{{userCopy.firstname}} {{userCopy.lastname}}
+			 			<ui-select multiple ng-model="followRequest.inviteeIds" theme="select2" ng-disabled="false" style="width: 360px;">
+						    <ui-select-match placeholder="Invite Followers">
+						    {{$item.firstname}} {{$item.lastname}} 	
+					      	</ui-select-match>
+						    <ui-select-choices repeat="userCopy.id as userCopy in usersCopy | orderBy:'-helpIndex' | filter:$select.search">
+					      	{{userCopy.firstname}} {{userCopy.lastname}} 
+					      	<span class="label label-warning" ng-show="userCopy.knowCustomer">Customer</span>
+					      	<span class="label label-danger" ng-show="userCopy.knowCompany">Company</span>
+					      	<span class="label label-info" ng-show="userCopy.knowProduct">Product</span>
+
+
+
 						    </ui-select-choices>
 					  	</ui-select>
 		  			</fieldset>
