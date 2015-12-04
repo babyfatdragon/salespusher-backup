@@ -1,6 +1,6 @@
 (function(){
-	angular.module('salespusher.controllers').controller('MonthlyRecordFormCtrl',['$rootScope','$scope','UserMonthlyRecord','monthlyRecord','monthlyRecordAction',
-		function($rootScope,$scope,UserMonthlyRecord,monthlyRecord,monthlyRecordAction){
+	angular.module('salespusher.controllers').controller('MonthlyRecordFormCtrl',['$rootScope','$scope','$stateParams','UserMonthlyRecord','monthlyRecord','monthlyRecordAction',
+		function($rootScope,$scope,$stateParams,UserMonthlyRecord,monthlyRecord,monthlyRecordAction){
 		$scope.monthlyRecord = {};
 		angular.copy(monthlyRecord,$scope.monthlyRecord);
 		$scope.monthlyRecordAction = monthlyRecordAction;

@@ -24,8 +24,8 @@
                 <hr />
                 <h4>Customer Interests</h4>
                 <div class="row">
-                    <div ng-repeat="product in lead.products" class="col-md-12">
-                        <div class="col-md-4" style="margin-left:-50px;margin-right:0px">
+                    <div ng-repeat="product in lead.products" class="col-md-12" style="margin-bottom:50px">
+                        <div class="col-md-3" style="margin-left:-50px;margin-right:0px">
                             <a target="_blank" ui-sref="product({id:product.id,categoryOneId:product.categoryOneId,categoryTwoId:product.categoryTwoId})"><product-card header="product.name" id="product.id"></product-card></a>
                             <div style="margin-left:42px;margin-top:-30px">
                                 <p>Price: <b>{{product.price | currency:"$":0}}</b></p>
@@ -34,17 +34,18 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <h4><span class="label label-info">Suggest Accessory Products</span></h4>
+                            <h4><span>Suggest Accessory Products</span></h4>
                             <p ng-show="product.suggestedProducts.length===0"><b>Not Found</b></p>
-                            <div ng-repeat="suggestedProduct in product.suggestedProducts | orderBy:product.matchedPercent">
+                            <div ng-repeat="suggestedProduct in product.suggestedProducts | orderBy:'-matchedPercent'">
                                 <p>
-                                <b><a target="_blank" ui-sref="product({id:suggestedProduct.id,categoryOneId:suggestedProduct.categoryOneId,categoryTwoId:suggestedProduct.categoryTwoId})">{{suggestedProduct.name}}</a> {{suggestedProduct.price | currency:"$":0}} {{100*suggestedProduct.matchedPercent | number:1}}%</b>
+                                <b><a target="_blank" ui-sref="product({id:suggestedProduct.id,categoryOneId:suggestedProduct.categoryOneId,categoryTwoId:suggestedProduct.categoryTwoId})">{{suggestedProduct.name}}  {{suggestedProduct.price | currency:"$":0}} </a></b>
+                               <span class="label label-default">{{100*suggestedProduct.matchedPercent | number:1}}% sold together</span>
                                 <button class="btn btn-xs btn-warning pull-right" ng-click="addToCart(suggestedProduct)">Add <i class="fa fa-cart-plus"></i></button>
                                 </p>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <h4><span class="label label-info">Similar Products</span></h4>
+                            <h4><span>Similar Products</span></h4>
                             <p ng-show="product.relatedProducts.length===0"><b>Not Found</b></p>
                             <div ng-repeat="relatedProduct in product.relatedProducts">
                                 <p>
@@ -53,9 +54,9 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <h4><span class="label label-danger">Sales Amount</span></h4>
-                            <canvas style="height:200px" id="pie" class="chart chart-pie" chart-data="product.chartData" chart-labels="product.labels" chart-legend="true">
+                        <div class="col-md-3">
+                            <h4><span>Sales Comparison</span></h4>
+                            <canvas id="pie" class="chart chart-pie" chart-data="product.chartData" chart-labels="product.labels" chart-legend="true">
                             </canvas> 
                         </div>
                     </div>
@@ -74,8 +75,8 @@
                    </fieldset>
                 </div>
                <br />
-               <button style="width:120px" ng-show="addListShow" class="btn btn-md btn-success" ng-click="saveList()">Save <i class="fa fa-check"></i></button>
-                <button style="width:120px" ng-hide="addListShow" class="btn btn-md btn-info" ng-click="showList()">Add Interest <i class="fa fa-cart-plus"></i></button>
+               <button style="width:140px" ng-show="addListShow" class="btn btn-md btn-success" ng-click="saveList()">Save <i class="fa fa-check"></i></button>
+                <button style="width:140px" ng-hide="addListShow" class="btn btn-md btn-warning" ng-click="showList()">Add Interest <i class="fa fa-cart-plus"></i></button>
 
                 <hr />
                 <h4>Create Deal</h4>

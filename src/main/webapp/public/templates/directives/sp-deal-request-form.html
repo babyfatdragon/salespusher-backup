@@ -19,7 +19,7 @@
 								    <ui-select-match>
 								        <span ng-bind="$select.selected.userName"></span>
 								    </ui-select-match>
-								    <ui-select-choices repeat="requestee.id as requestee in (requestees | filter: $select.search)">
+								    <ui-select-choices repeat="requestee.userId as requestee in (requestees | filter: $select.search)">
 								        <span ng-bind="requestee.userName"></span>
 								    </ui-select-choices>
 								</ui-select>

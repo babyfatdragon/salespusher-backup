@@ -55,8 +55,8 @@
 			<td st-ratio="10">{{user.email}}</td>
 			<td st-ratio="10">{{user.telephone}}</td>
 			<td st-ratio="10">{{user.role}}</td>
-			<td st-ratio="10">{{user.monthlyAmount}}</td>			
-			<td st-ratio="10">{{user.yearlyAmount}}</td>
+			<td st-ratio="10">{{user.monthlyAmount | currency:"$":0}}</td>			
+			<td st-ratio="10">{{user.yearlyAmount | currency:"$":0}}</td>
 			<td st-ratio="10">{{user.dateCreated | date:'yyyy/MM/dd'}}</td>
 			<td st-ratio="5">
 				<button type="button" class="btn btn-sm btn-primary" ui-sref="users.userShow({id:user.id})" uib-popover="Edit" popover-trigger="mouseenter">

@@ -682,10 +682,11 @@
 		});	
 
 		$scope.$on('DEAL_REQUEST_CREATED',function(events,args){
+			console.log(args.newRequest);
 			var user = $scope.getObjectById($scope.users,args.newRequest.userId);
 			args.newRequest.requesterName = user.firstname+" "+user.lastname;
-			user = $scope.getObjectById($scope.users,args.newRequest.requesteeId);
-			args.newRequest.requesteeName = user.firstname+" "+user.lastname;
+			var requestee = $scope.getObjectById($scope.users,args.newRequest.requesteeId);
+			args.newRequest.requesteeName = requestee.firstname+" "+requestee.lastname;
 			args.newRequest.isCompleteText = "NO";	
 			$scope.dealRequests.push(args.newRequest);
 			$scope.displayDealRequests.push(args.newRequest);
