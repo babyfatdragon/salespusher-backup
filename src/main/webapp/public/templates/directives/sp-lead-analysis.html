@@ -25,7 +25,7 @@
                 <h4>Customer Interests</h4>
                 <div class="row">
                     <div ng-repeat="product in lead.products" class="col-md-12" style="margin-bottom:50px">
-                        <div class="col-md-3" style="margin-left:-50px;margin-right:0px">
+                        <div class="col-md-3" style="margin-left:-25px;margin-right:0px">
                             <a target="_blank" ui-sref="product({id:product.id,categoryOneId:product.categoryOneId,categoryTwoId:product.categoryTwoId})"><product-card header="product.name" id="product.id"></product-card></a>
                             <div style="margin-left:42px;margin-top:-30px">
                                 <p>Price: <b>{{product.price | currency:"$":0}}</b></p>
@@ -47,7 +47,7 @@
                         <div class="col-md-3">
                             <h4><span>Similar Products</span></h4>
                             <p ng-show="product.relatedProducts.length===0"><b>Not Found</b></p>
-                            <div ng-repeat="relatedProduct in product.relatedProducts">
+                            <div ng-repeat="relatedProduct in product.relatedProducts | orderBy:'-salesAmount'">
                                 <p>
                                 <b><a target="_blank" ui-sref="product({id:relatedProduct.id,categoryOneId:relatedProduct.categoryOneId,categoryTwoId:relatedProduct.categoryTwoId})">{{relatedProduct.name}}</a> {{relatedProduct.price | currency:"$":0}}</b>
                                 <button class="btn btn-xs btn-warning pull-right" ng-click="addToCart(relatedProduct)">Add <i class="fa fa-cart-plus"></i></button>

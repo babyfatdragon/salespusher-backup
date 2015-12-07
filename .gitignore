@@ -1,1 +1,30 @@
-/target/
+# build directories
+target/
+build/
+
+# eclipse
+.classpath
+.project
+.checkstyle
+.settings/
+
+# idea
+*.iml
+
+# merge trashes
+*.orig
+
+# Intellij
+*.iml
+.idea
+
+# jrebel
+rebel.xml
+
+
+# Visual Code Typing
+typings/
+.vscode/
+
+# Mac Directory File
+.DS_Store

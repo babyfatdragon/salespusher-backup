@@ -70,6 +70,7 @@
 									quantity+=deal.quantity;
 								}
 							});
+							product.salesAmount = quantity;
 							interestedProduct.chartData.push(quantity);
 							if(product.id!=interestedProduct.id){
 								interestedProduct.relatedProducts.push(product);

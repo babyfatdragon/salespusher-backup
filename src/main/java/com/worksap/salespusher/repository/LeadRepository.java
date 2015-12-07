@@ -10,4 +10,5 @@ public interface LeadRepository extends JpaRepository<LeadEntity,Long>{
 	LeadEntity findById(long id);
 	List<LeadEntity> findByUserId(long userId);
 	List<LeadEntity> findByUserIdAndLeadStatus(long userId,String status);
+	List<LeadEntity> findByLeadStatus(String status);
 }

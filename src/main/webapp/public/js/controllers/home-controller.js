@@ -25,15 +25,6 @@
 		$scope.newLeads = new Array();
 		$scope.contactedLeads = new Array();
 		$scope.qualifiedLeads = new Array();
-		$scope.unqualifiedLeads = new Array();
-		$scope.newLeadLimitTo = 5;
-		$scope.contactedLeadLimitTo = 5;
-		$scope.loadNewLeads = function(){
-			$scope.newLeadLimitTo+=5;
-		};
-		$scope.loadContactedLeads = function(){
-			$scope.contactedLeadLimitTo+=5;
-		}
 
 		 /* edit on eventClick */
 	    var editOnEventClick = function(calEvent, jsEvent, view){
@@ -121,6 +112,7 @@
 				});
 	    	});	
     	};
+    	/** create deal **/
 
     	$scope.addLead = function(){
 			$scope.leadAction = "Create";
@@ -143,11 +135,6 @@
 				});
 	    	});	
 		}     	
-		$scope.$on('DEALS_UPDATED',function(events,args){
-			$state.reload();
-		});
-    	/** create deal **/
-
 		$scope.$on('DEALS_UPDATED',function(events,args){
 			$state.reload();
 		});
@@ -236,8 +223,6 @@
 							$scope.contactedLeads.push(lead);
 						} else if(lead.leadStatus==="QUALIFIED"){
 							$scope.qualifiedLeads.push(lead);
-						} else if(lead.leadStatus==="UNQUALIFIED"){
-							$scope.unqualifiedLeads.push(lead);
 						}
 					});
 				});

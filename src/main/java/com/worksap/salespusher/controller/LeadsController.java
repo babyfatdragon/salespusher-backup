@@ -85,4 +85,10 @@ public class LeadsController {
 		this.leadRepository.delete(id);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/leadsByStatus/{status}/leads", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public List<LeadEntity> getLeadByStatus(@PathVariable String status){
+		return this.leadRepository.findByLeadStatus(status);
+	}
 }	
